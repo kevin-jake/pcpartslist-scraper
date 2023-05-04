@@ -33,7 +33,7 @@ class PchubSpiderSpider(scrapy.Spider):
                 await page.evaluate("window.scrollBy(0, document.body.scrollHeight)")
                 await page.wait_for_selector('#loadMoreBtn', timeout=10000)
                 load_more_btn = await page.query_selector('#loadMoreBtn')
-                time.sleep(random.randint(0, 5))
+                time.sleep(random.randint(0,3))
                 await load_more_btn.click()
             except Exception as e:
                 self.logger.error(e)
@@ -51,7 +51,7 @@ class PchubSpiderSpider(scrapy.Spider):
             #     PageMethods('wait_for_selector',)
             # ]
             errback = self.errback
-        ))
+            ))
 
     async def parse_product(self, response):
         product_item = GPUProduct()
@@ -60,15 +60,17 @@ class PchubSpiderSpider(scrapy.Spider):
         await product_page.wait_for_selector('div.flex.flex-row.items-center:nth-of-type(n) button.bg-blue-primary.text-white.px-3.py-1.rounded.transition:nth-of-type(2)',timeout=1000)
         plus_btn = await product_page.query_selector('div.flex.flex-row.items-center:nth-of-type(n) button.bg-blue-primary.text-white.px-3.py-1.rounded.transition:nth-of-type(2)')
         input_field = await product_page.query_selector('input[x-model="qty"]')
-        await input_field.fill("999")
+        await input_field.fill("998")
         await plus_btn.click()
-        new_value = await input_field.get_attribute("value")
-        print(f"New value: {new_value}")
+        while await product_page.query_selector('p.text-sm.text-red-600.ml-2') is None:
+            await plus_btn.click()
+            time.sleep(random.randint(0,3))
+        new_value = await product_page.input_value('input[x-model="qty"]')
         await product_page.close()
 
         product_info = response.xpath('//div[@x-data="product_info($wire)"]/span')
         raw_name = product_info.css("span.my-1\.5.font-bold.capitalize ::text").get()
-        raw_price = product_info.xpath(".//span/@x-text/text()").get()
+        raw_price = product_info.xpath("//span/@x-text").get()
         if len(raw_name.split(',')) == 0:
             name = raw_name.split('pn')[0].strip()
         else:
