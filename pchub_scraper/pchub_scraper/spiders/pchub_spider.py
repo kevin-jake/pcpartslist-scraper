@@ -11,7 +11,8 @@ class PchubSpiderSpider(scrapy.Spider):
     
     def start_requests(self):
         url = "http://pchubonline.com/browse?product=all&br=true&ct=false&sort=default-asc&y[0]=GPU&y[1]=GPU"
-        yield scrapy.Request(url, meta=dict(
+        yield scrapy.Request(url,
+            meta=dict(
             playwright = True,
             playwright_include_page = True,
             # playwright_page_methods = [
@@ -44,6 +45,7 @@ class PchubSpiderSpider(scrapy.Spider):
         for product in products:
             product_id = product.xpath('.//div[@class="flex flex-row items-center justify-between"]/span[2]/text()').get()
             product_url = 'https://pchubonline.com/product/' + product_id
+            time.sleep(random.randint(1,2))
             yield scrapy.Request(url=product_url, callback=self.parse_product, meta=dict(
             playwright = True,
             playwright_include_page = True,
@@ -57,15 +59,19 @@ class PchubSpiderSpider(scrapy.Spider):
         product_item = GPUProduct()
 
         product_page = response.meta["playwright_page"]
-        await product_page.wait_for_selector('div.flex.flex-row.items-center:nth-of-type(n) button.bg-blue-primary.text-white.px-3.py-1.rounded.transition:nth-of-type(2)',timeout=1000)
-        plus_btn = await product_page.query_selector('div.flex.flex-row.items-center:nth-of-type(n) button.bg-blue-primary.text-white.px-3.py-1.rounded.transition:nth-of-type(2)')
-        input_field = await product_page.query_selector('input[x-model="qty"]')
-        await input_field.fill("998")
-        await plus_btn.click()
-        while await product_page.query_selector('p.text-sm.text-red-600.ml-2') is None:
+        await product_page.wait_for_selector('div[x-data="product_info($wire)"] span',timeout=5000)
+        sold_out = await product_page.query_selector('div.flex.flex-row.items-center span.text-red-500.font-medium')
+        if sold_out is None:
+            plus_btn = await product_page.query_selector('div.flex.flex-row.items-center:nth-of-type(n) button.bg-blue-primary.text-white.px-3.py-1.rounded.transition:nth-of-type(2)')
+            input_field = await product_page.query_selector('input[x-model="qty"]')
+            await input_field.fill("998")
             await plus_btn.click()
-            time.sleep(random.randint(0,3))
-        new_value = await product_page.input_value('input[x-model="qty"]')
+            while await product_page.query_selector('p.text-sm.text-red-600.ml-2') is None:
+                await plus_btn.click()
+                time.sleep(random.randint(0,3))
+            new_value = await product_page.input_value('input[x-model="qty"]')
+        else:
+            new_value = 0
         await product_page.close()
 
         product_info = response.xpath('//div[@x-data="product_info($wire)"]/span')
