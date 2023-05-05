@@ -1,5 +1,4 @@
 import scrapy
-from scrapy_playwright.page import PageMethod
 from pchub_scraper.items import GPUProduct
 import time
 import random
@@ -15,9 +14,6 @@ class PchubSpiderSpider(scrapy.Spider):
             meta=dict(
             playwright = True,
             playwright_include_page = True,
-            # playwright_page_methods = [
-            #     PageMethods('wait_for_selector',)
-            # ]
             errback = self.errback
         ))
 
