@@ -43,10 +43,10 @@ class DynaquestSpiderSpider(scrapy.Spider):
         raw_price = response.css("h2#price-preview.price ::text").get()
         price = raw_price.split('.')[0].replace('₱', '').replace(',','').strip()
         name = response.css("h1.title ::text").get()
-        raw_orig_price =  response.css("del span.money ::text").get()
+        raw_orig_price =  response.css("del ::text").get()
         if raw_orig_price is not None:
             orig_price = raw_orig_price.split('.')[0].replace('₱', '').replace(',','')
-            promo = str((int(orig_price) / int(price))*100) + "\% off"
+            promo = str(round((( int(orig_price) - int(price)) / int(orig_price) )*100)) + "% off"
 
         product_item['url'] = response.url
         product_item['name'] = name
