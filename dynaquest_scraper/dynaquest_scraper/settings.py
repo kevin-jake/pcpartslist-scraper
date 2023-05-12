@@ -13,6 +13,10 @@ SPIDER_MODULES = ["dynaquest_scraper.spiders"]
 NEWSPIDER_MODULE = "dynaquest_scraper.spiders"
 
 
+SCRAPEOPS_API_KEY = '344674a1-91db-4d45-bbfd-45e1a28283ab'
+SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT = 'https://headers.scrapeops.io/v1/user-agents'
+SCRAPEOPS_FAKE_USER_AGENT_ENABLED = True
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "dynaquest_scraper (+http://www.yourdomain.com)"
 
@@ -50,9 +54,10 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
+DOWNLOADER_MIDDLEWARES = {
 #    "dynaquest_scraper.middlewares.DynaquestScraperDownloaderMiddleware": 543,
-#}
+    "dynaquest_scraper.middlewares.ScrapeOpsFakeUserAgentMiddleware": 400,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
