@@ -80,8 +80,7 @@ class PcworthSpiderSpider(scrapy.Spider):
         product_item['brand'] = brand
         product_item['supplier'] = 'PCworth'
         product_item['promo'] = product_info.css("span.text-red-500.text-sm ::text").get()
-        # TODO: Fix the warranty it is getting the GPU memory
-        product_item['warranty'] = response.css('p.MuiBox-root.css-ok3s38 ::text').get().strip()
+        product_item['warranty'] = response.css('div.MuiBox-root.css-i2n2aa div.MuiBox-root.css-w55c3f p::text').get().strip()
         product_item['stocks'] = stocks
         yield product_item
 

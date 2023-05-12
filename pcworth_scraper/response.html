@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" class=" " style="">
 
 <head>
     <meta charset="utf-8">
@@ -17,9 +16,187 @@
         data-href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;900&amp;display=swap">
     <link rel="stylesheet" data-href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="preload" href="/_next/static/css/4824cd614435e5f4.css" as="style">
-    <link rel="stylesheet" href="/_next/static/css/4824cd614435e5f4.css" data-n-g="">
-    <link rel="preload" href="/_next/static/css/567d5be95c9ad14a.css" as="style">
-    <link rel="stylesheet" href="/_next/static/css/567d5be95c9ad14a.css" data-n-p=""><noscript data-n-css=""></noscript>
+    <link rel="stylesheet" href="/_next/static/css/4824cd614435e5f4.css" data-n-g=""><noscript data-n-css=""></noscript>
+    <style data-n-href="/_next/static/css/567d5be95c9ad14a.css">
+        .buttonBack___1mlaL,
+        .buttonFirst___2rhFr,
+        .buttonLast___2yuh0,
+        .buttonNext___2mOCa,
+        .buttonNext___3Lm3s,
+        .dot___3c3SI {
+            cursor: pointer
+        }
+
+        .image___xtQGH {
+            display: block;
+            width: 100%;
+            height: 100%
+        }
+
+        .spinner___27VUp {
+            position: absolute;
+            top: calc(50% - 15px);
+            left: calc(50% - 15px);
+            width: 30px;
+            height: 30px;
+            animation-name: spin___S3UuE;
+            animation-duration: 1s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            border: 4px solid #a9a9a9;
+            border-top-color: #000;
+            border-radius: 30px
+        }
+
+        @keyframes spin___S3UuE {
+            0% {
+                transform: rotate(0deg)
+            }
+
+            to {
+                transform: rotate(1turn)
+            }
+        }
+
+        .container___2O72F {
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            width: 100%
+        }
+
+        .overlay___IV4qY {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            opacity: 0;
+            cursor: zoom-in;
+            transition: opacity .3s, transform .3s
+        }
+
+        .hover___MYy31,
+        .loading___1pvNI,
+        .zoom___3kqYk {
+            opacity: 1
+        }
+
+        .imageLoadingSpinnerContainer___3UIPD {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: #f4f4f4
+        }
+
+        .slide___3-Nqo {
+            position: relative;
+            display: block;
+            box-sizing: border-box;
+            height: 0;
+            margin: 0;
+            list-style-type: none
+        }
+
+        .slide___3-Nqo:focus {
+            outline: none !important
+        }
+
+        .slideHorizontal___1NzNV {
+            float: left
+        }
+
+        [dir=rtl] .slideHorizontal___1NzNV {
+            direction: rtl;
+            transform: scaleX(-1)
+        }
+
+        .slideInner___2mfX9 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%
+        }
+
+        .focusRing___1airF {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            bottom: 5px;
+            left: 5px;
+            pointer-events: none;
+            outline-width: 5px;
+            outline-style: solid;
+            outline-color: Highlight
+        }
+
+        @media (-webkit-min-device-pixel-ratio:0) {
+            .focusRing___1airF {
+                outline-style: auto;
+                outline-color: -webkit-focus-ring-color
+            }
+        }
+
+        .horizontalSlider___281Ls {
+            position: relative;
+            overflow: hidden;
+            touch-action: pan-y pinch-zoom
+        }
+
+        [dir=rtl] .horizontalSlider___281Ls {
+            direction: ltr;
+            transform: scaleX(-1)
+        }
+
+        .horizontalSliderTray___1L-0W {
+            overflow: hidden;
+            width: 100%
+        }
+
+        .verticalSlider___34ZFD {
+            position: relative;
+            overflow: hidden
+        }
+
+        .verticalSliderTray___267D8 {
+            overflow: hidden
+        }
+
+        .verticalTray___12Key {
+            float: left
+        }
+
+        .verticalSlideTrayWrap___2nO7o {
+            overflow: hidden
+        }
+
+        .sliderTray___-vHFQ {
+            display: block;
+            list-style: none;
+            padding: 0;
+            margin: 0
+        }
+
+        .sliderAnimation___300FY {
+            transition: transform .5s;
+            transition-timing-function: cubic-bezier(.645, .045, .355, 1);
+            will-change: transform
+        }
+
+        .masterSpinnerContainer___1Z6hB {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: #f4f4f4
+        }
+
+        /*# sourceMappingURL=567d5be95c9ad14a.css.map*/
+    </style>
     <script id="facebook-jssdk" src="https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js"></script>
     <script defer="" nomodule="" src="/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js"></script>
     <script src="/_next/static/chunks/webpack-1a17dd5592f0717d.js" defer=""></script>
@@ -36,15 +213,13 @@
     <script src="/_next/static/chunks/266-b58cc3c5d3004c77.js" defer=""></script>
     <script src="/_next/static/chunks/8677-6220bfd283b2d334.js" defer=""></script>
     <script src="/_next/static/chunks/9984-19a1c9d9d1117c17.js" defer=""></script>
-    <script src="/_next/static/chunks/5795-c3aa9da54dffdd2f.js" defer=""></script>
-    <script src="/_next/static/chunks/1499-1dd03643c103aba9.js" defer=""></script>
-    <script src="/_next/static/chunks/839-24796978b891a11f.js" defer=""></script>
+    <script src="/_next/static/chunks/8114-4eea5e107ca84072.js" defer=""></script>
     <script src="/_next/static/chunks/8873-35ab501c87ee7ad0.js" defer=""></script>
     <script src="/_next/static/chunks/6717-9cca8039f1f8ebba.js" defer=""></script>
     <script src="/_next/static/chunks/4364-4a8e7d17154794f4.js" defer=""></script>
     <script src="/_next/static/chunks/6936-450edb0115fddf2b.js" defer=""></script>
     <script src="/_next/static/chunks/2501-5b3016450524408b.js" defer=""></script>
-    <script src="/_next/static/chunks/pages/product/%5Bid%5D-5bc5f16584e44e74.js" defer=""></script>
+    <script src="/_next/static/chunks/pages/product/search/%5Bid%5D-278cc50447b69f51.js" defer=""></script>
     <script src="/_next/static/R5PxBCOlYD7l7Oszxkzxn/_buildManifest.js" defer=""></script>
     <script src="/_next/static/R5PxBCOlYD7l7Oszxkzxn/_ssgManifest.js" defer=""></script>
     <link rel="stylesheet"
@@ -121,106 +296,13 @@
             }
         }
     </style>
-    <style type="text/css">
-        .styles-module_wrapper__1I_qj {
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            position: fixed;
-            padding: 0px 60px 0px 60px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: black;
-            box-sizing: border-box;
-        }
-
-        .styles-module_content__2jwZj {
-            margin: auto;
-            padding: 0;
-            width: 90%;
-            height: 100%;
-            max-height: 100%;
-            text-align: center;
-        }
-
-        .styles-module_slide__1zrfk {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .styles-module_image__2hdkJ {
-            max-height: 100%;
-            max-width: 100%;
-            user-select: none;
-            -moz-user-select: none;
-            -webkit-user-select: none;
-        }
-
-        .styles-module_close__2I1sI {
-            color: white;
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 40px;
-            font-weight: bold;
-            opacity: 0.2;
-            cursor: pointer;
-        }
-
-        .styles-module_close__2I1sI:hover {
-            opacity: 1;
-        }
-
-        .styles-module_navigation__1pqAE {
-            height: 80%;
-            color: white;
-            cursor: pointer;
-            position: absolute;
-            font-size: 60px;
-            line-height: 60px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            opacity: 0.2;
-            padding: 0 15px;
-            user-select: none;
-            -moz-user-select: none;
-            -webkit-user-select: none;
-        }
-
-        .styles-module_navigation__1pqAE:hover {
-            opacity: 1;
-        }
-
-        @media (hover: none) {
-            .styles-module_navigation__1pqAE:hover {
-                opacity: 0.2;
-            }
-        }
-
-        .styles-module_prev__KqFRp {
-            left: 0;
-        }
-
-        .styles-module_next__1uQwZ {
-            right: 0;
-        }
-
-        @media (max-width: 900px) {
-            .styles-module_wrapper__1I_qj {
-                padding: 0;
-            }
-        }
-    </style>
+    <script type="module" src="chrome-extension://jdkknkkbebbapilgoeccciglkfbmbnfm/hook.js"></script>
     <script src="/_vercel/insights/script.js" defer=""></script>
     <link as="script" rel="prefetch" href="/_next/static/chunks/6787-734789676f8d0196.js">
     <link as="script" rel="prefetch" href="/_next/static/chunks/9109-fd3a0806fca68a1a.js">
     <link as="script" rel="prefetch" href="/_next/static/chunks/pages/index-bf43ad33c5299672.js">
     <link as="script" rel="prefetch" href="/_next/static/chunks/7d0bf13e-ab424b47c9642a22.js">
+    <link as="script" rel="prefetch" href="/_next/static/chunks/1499-1dd03643c103aba9.js">
     <link as="script" rel="prefetch" href="/_next/static/chunks/2389-ce1a025f88e784a4.js">
     <link as="script" rel="prefetch" href="/_next/static/chunks/7303-e53604a1a90357c8.js">
     <link as="script" rel="prefetch" href="/_next/static/chunks/4803-26417e8876972cfc.js">
@@ -228,15 +310,10 @@
     <link as="script" rel="prefetch" href="/_next/static/chunks/621-eff277d5f3bc9300.js">
     <link as="script" rel="prefetch" href="/_next/static/chunks/1077-3b738e1ec9da5542.js">
     <link as="script" rel="prefetch" href="/_next/static/chunks/pages/pcbuilder-f425da6396af5c33.js">
-    <link as="script" rel="prefetch" href="/_next/static/chunks/8114-4eea5e107ca84072.js">
     <link as="script" rel="prefetch" href="/_next/static/chunks/2111-8a52d8f14341fd10.js">
     <link as="script" rel="prefetch" href="/_next/static/chunks/pages/builds-gallery-e3a99575fd7692e4.js">
     <link as="script" rel="prefetch" href="/_next/static/chunks/7642-6ade425eb9a6f307.js">
     <link as="script" rel="prefetch" href="/_next/static/chunks/pages/pricelist-3111a5ea3877182a.js">
-    <link as="script" rel="prefetch" href="/_next/static/chunks/pages/contact-us-fdf4e4a7499bc0c4.js">
-    <link as="script" rel="prefetch" href="/_next/static/chunks/pages/terms-and-conditions-b821a3e3fb4440b7.js">
-    <link as="script" rel="prefetch" href="/_next/static/chunks/pages/how-to-order-0363612b35ce79cb.js">
-    <link as="script" rel="prefetch" href="/_next/static/chunks/pages/frequently-ask-question-afd0c940bf87dc16.js">
     <style type="text/css"
         data-fbcssmodules="css:fb.css.base css:fb.css.dialog css:fb.css.iframewidget css:fb.css.customer_chat_plugin_iframe">
         .fb_hidden {
@@ -381,7 +458,7 @@
         }
 
         .fb_dialog_close_icon {
-            background: url(https://connect.facebook.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;
+            background: url(https://z-p3-static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;
             cursor: pointer;
             display: block;
             height: 15px;
@@ -405,11 +482,11 @@
         }
 
         .fb_dialog_close_icon:hover {
-            background: url(https://connect.facebook.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent
+            background: url(https://z-p3-static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent
         }
 
         .fb_dialog_close_icon:active {
-            background: url(https://connect.facebook.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent
+            background: url(https://z-p3-static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent
         }
 
         .fb_dialog_iframe {
@@ -426,7 +503,7 @@
         }
 
         .fb_dialog_content .dialog_title>span {
-            background: url(https://connect.facebook.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;
+            background: url(https://z-p3-static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;
             float: left;
             padding: 5px 0 7px 26px
         }
@@ -443,7 +520,7 @@
         }
 
         .fb_dialog.fb_dialog_mobile.loading {
-            background: url(https://connect.facebook.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;
+            background: url(https://z-p3-static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;
             min-height: 100%;
             min-width: 100%;
             overflow: hidden;
@@ -566,7 +643,7 @@
         }
 
         .fb_dialog_content .dialog_content {
-            background: url(https://connect.facebook.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;
+            background: url(https://z-p3-static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;
             border: 1px solid #4a4a4a;
             border-bottom: 0;
             border-top: 0;
@@ -591,7 +668,7 @@
         #fb_dialog_loader_spinner {
             animation: rotateSpinner 1.2s linear infinite;
             background-color: transparent;
-            background-image: url(https://connect.facebook.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);
+            background-image: url(https://z-p3-static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);
             background-position: 50% 50%;
             background-repeat: no-repeat;
             height: 24px;
@@ -890,6 +967,109 @@
             }
         }
     </style>
+    <link as="script" rel="prefetch" href="/_next/static/chunks/5795-c3aa9da54dffdd2f.js">
+    <link as="script" rel="prefetch" href="/_next/static/chunks/839-24796978b891a11f.js">
+    <link as="script" rel="prefetch" href="/_next/static/chunks/pages/product/%5Bid%5D-5bc5f16584e44e74.js">
+    <style type="text/css">
+        .styles-module_wrapper__1I_qj {
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            position: fixed;
+            padding: 0px 60px 0px 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            box-sizing: border-box;
+        }
+
+        .styles-module_content__2jwZj {
+            margin: auto;
+            padding: 0;
+            width: 90%;
+            height: 100%;
+            max-height: 100%;
+            text-align: center;
+        }
+
+        .styles-module_slide__1zrfk {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .styles-module_image__2hdkJ {
+            max-height: 100%;
+            max-width: 100%;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .styles-module_close__2I1sI {
+            color: white;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 40px;
+            font-weight: bold;
+            opacity: 0.2;
+            cursor: pointer;
+        }
+
+        .styles-module_close__2I1sI:hover {
+            opacity: 1;
+        }
+
+        .styles-module_navigation__1pqAE {
+            height: 80%;
+            color: white;
+            cursor: pointer;
+            position: absolute;
+            font-size: 60px;
+            line-height: 60px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            opacity: 0.2;
+            padding: 0 15px;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .styles-module_navigation__1pqAE:hover {
+            opacity: 1;
+        }
+
+        @media (hover: none) {
+            .styles-module_navigation__1pqAE:hover {
+                opacity: 0.2;
+            }
+        }
+
+        .styles-module_prev__KqFRp {
+            left: 0;
+        }
+
+        .styles-module_next__1uQwZ {
+            right: 0;
+        }
+
+        @media (max-width: 900px) {
+            .styles-module_wrapper__1I_qj {
+                padding: 0;
+            }
+        }
+    </style>
+    <link as="script" rel="prefetch" href="/_next/static/chunks/pages/contact-us-fdf4e4a7499bc0c4.js">
+    <link as="script" rel="prefetch" href="/_next/static/chunks/pages/terms-and-conditions-b821a3e3fb4440b7.js">
+    <link as="script" rel="prefetch" href="/_next/static/chunks/pages/how-to-order-0363612b35ce79cb.js">
+    <link as="script" rel="prefetch" href="/_next/static/chunks/pages/frequently-ask-question-afd0c940bf87dc16.js">
+    <link as="script" rel="prefetch" href="/_next/static/chunks/pages/privacy-policy-6deae6690b21d5d1.js">
 </head>
 
 <body data-aos-easing="ease" data-aos-duration="400" data-aos-delay="0">
@@ -899,11 +1079,38 @@
                 <div style="position: absolute; top: -10000px; width: 0px; height: 0px;">
                     <div></div>
                 </div>
+                <div class=" fb_iframe_widget fb_invisible_flow"
+                    fb-iframe-plugin-query="app_id=&amp;attribution=biz_inbox&amp;container_width=1519&amp;current_url=https%3A%2F%2Fwww.pcworth.com%2Fproduct%2Fsearch%2F%2520%3Flimit%3D999%26category%3D21%26id%3D%2B&amp;is_loaded_by_facade=true&amp;local_state=%7B%22v%22%3A1%2C%22path%22%3A2%2C%22chatState%22%3A1%2C%22visibility%22%3A%22hidden%22%2C%22showUpgradePrompt%22%3A%22not_shown%22%2C%22greetingVisibility%22%3A%22hidden%22%2C%22shouldShowLoginPage%22%3Afalse%7D&amp;locale=en_US&amp;log_id=a5cd0cf3-71e3-4e4a-9974-c0c1492b1b34&amp;page_id=100508121746833&amp;request_time=1683856585536&amp;sdk=joey">
+                    <span style="vertical-align: bottom; width: 1000px; height: 0px;"><iframe name="f3facb2032453a8"
+                            width="1000px" height="1000px" data-testid="dialog_iframe" title="" frameborder="0"
+                            allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media"
+                            src="https://web.facebook.com/v15.0/plugins/customerchat.php?app_id=&amp;attribution=biz_inbox&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df92e4c14409b5c%26domain%3Dwww.pcworth.com%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fwww.pcworth.com%252Ff2f77bf5ae70c3%26relation%3Dparent.parent&amp;container_width=1519&amp;current_url=https%3A%2F%2Fwww.pcworth.com%2Fproduct%2Fsearch%2F%2520%3Flimit%3D999%26category%3D21%26id%3D%2B&amp;is_loaded_by_facade=true&amp;local_state=%7B%22v%22%3A1%2C%22path%22%3A2%2C%22chatState%22%3A1%2C%22visibility%22%3A%22hidden%22%2C%22showUpgradePrompt%22%3A%22not_shown%22%2C%22greetingVisibility%22%3A%22hidden%22%2C%22shouldShowLoginPage%22%3Afalse%7D&amp;locale=en_US&amp;log_id=a5cd0cf3-71e3-4e4a-9974-c0c1492b1b34&amp;page_id=100508121746833&amp;request_time=1683856585536&amp;sdk=joey"
+                            style="padding: 0px; position: fixed; z-index: 2147483646; border-radius: 16px; top: auto; background: none; width: 324px; bottom: 60px; max-height: 0px; right: 16px; visibility: visible; height: 293px;"
+                            class=""></iframe></span></div>
+                <div class="fb_dialog  fb_dialog_advanced" alignment="right" desktop_bottom_spacing="24">
+                    <div class="fb_dialog_content"><iframe name="blank_f3facb2032453a8" width="60px" tabindex="-1"
+                            data-testid="bubble_iframe" frameborder="0" allowtransparency="true" allowfullscreen="true"
+                            scrolling="no" allow="encrypted-media"
+                            src="https://web.facebook.com/v15.0/plugins/customer_chat/bubble"
+                            style="background: none; border-radius: 60px; bottom: 24px; display: block; height: 36px; margin: 0px 12px; overflow: visible; padding: 0px; position: fixed; right: 12px; top: auto; width: 95px; z-index: 2147483644; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px 0px;"></iframe><iframe
+                            name="availabilityStatus_f3facb2032453a8" tabindex="-1"
+                            data-testid="availabilityStatus_iframe" frameborder="0" allowtransparency="true"
+                            allowfullscreen="true" scrolling="no" allow="encrypted-media"
+                            src="https://web.facebook.com/v15.0/plugins/customer_chat/bubble"
+                            style="border-radius: 50%; bottom: 21.5px; height: 15px; position: fixed; right: 24px; width: 15px; z-index: 2147483646;"></iframe><iframe
+                            name="unread_f3facb2032453a8" tabindex="-1" data-testid="unread_iframe" frameborder="0"
+                            allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media"
+                            src="https://web.facebook.com/v15.0/plugins/customer_chat/bubble"
+                            style="background: none; border-radius: 4pt; bottom: 44px; height: 24px; position: fixed; right: 22px; width: 20px; z-index: 2147483645;"></iframe><iframe
+                            name="greeting_f3facb2032453a8" tabindex="-1" data-testid="greeting_iframe" frameborder="0"
+                            allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media"
+                            src="https://web.facebook.com/v15.0/plugins/customer_chat/bubble"
+                            style="border: none; max-height: 0px; min-height: 0px;"></iframe></div>
+                </div>
             </div>
-            <div id="fb-customer-chat" class="fb-customerchat" page_id="100508121746833" attribution="biz_inbox"></div>
         </div>
-        <div class="css-wir653">
-            <div class="hold">
+        <div class="css-1vzjn5x">
+            <div class="fixed">
                 <div class="MuiBox-root css-16bziot">
                     <div class="MuiContainer-root MuiContainer-maxWidthLg css-vvnxxg">
                         <div class="topbarRight MuiBox-root css-70qvj9">
@@ -965,7 +1172,7 @@
                                                 placeholder="Search for product(s)" type="text"
                                                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1uifjxg"
                                                 aria-autocomplete="list" aria-expanded="false" autocapitalize="none"
-                                                spellcheck="false" role="combobox" value="" id="mui-2">
+                                                spellcheck="false" role="combobox" value="" id="mui-4">
                                             <div
                                                 class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall css-1nvf7g0">
                                                 <button
@@ -976,7 +1183,8 @@
                                                 </button></div>
                                             <fieldset aria-hidden="true"
                                                 class="MuiOutlinedInput-notchedOutline css-igs3ac">
-                                                <legend class="css-ihdtdm"><span class="notranslate">​</span></legend>
+                                                <legend class="css-ihdtdm"><span
+                                                        class="notranslate">&ZeroWidthSpace;</span></legend>
                                             </fieldset>
                                         </div>
                                     </div>
@@ -1049,55 +1257,28 @@
                                         alt="" aria-hidden="true"
                                         src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27300%27%20height=%27300%27/%3e"
                                         style="display: block; max-width: 100%; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px;"></span><img
-                                    alt="GEFORCE RTX 3060 TI IGAME ULTRA W OC 8GB TRIPLE FAN LHR WHITE_img"
-                                    srcset="/_next/image?url=https%3A%2F%2Fproduction-rdj-web-asset.s3.ap-east-1.amazonaws.com%2Fproducts%2Fgpu%2Fdetails%2F386%2Fimage%2FDWCbjMGl4L1QxLRhT8sTJsriKB4BZTitMQvV1bCS.jpg&amp;w=384&amp;q=75 1x, /_next/image?url=https%3A%2F%2Fproduction-rdj-web-asset.s3.ap-east-1.amazonaws.com%2Fproducts%2Fgpu%2Fdetails%2F386%2Fimage%2FDWCbjMGl4L1QxLRhT8sTJsriKB4BZTitMQvV1bCS.jpg&amp;w=640&amp;q=75 2x"
-                                    src="/_next/image?url=https%3A%2F%2Fproduction-rdj-web-asset.s3.ap-east-1.amazonaws.com%2Fproducts%2Fgpu%2Fdetails%2F386%2Fimage%2FDWCbjMGl4L1QxLRhT8sTJsriKB4BZTitMQvV1bCS.jpg&amp;w=640&amp;q=75"
+                                    alt="GEFORCE RTX 4070 TI GALAX EX GAMER OC 12GB TRIPLE FAN WHITE_img"
+                                    srcset="/_next/image?url=https%3A%2F%2Fproduction-rdj-web-asset.s3.ap-east-1.amazonaws.com%2Fproducts%2Fgpu%2Fdetails%2F1379%2Fimage%2FNJFqqHhhlQUdOqKn5ZBSEZRb28QCPOTJePQJds46.jpg&amp;w=384&amp;q=75 1x, /_next/image?url=https%3A%2F%2Fproduction-rdj-web-asset.s3.ap-east-1.amazonaws.com%2Fproducts%2Fgpu%2Fdetails%2F1379%2Fimage%2FNJFqqHhhlQUdOqKn5ZBSEZRb28QCPOTJePQJds46.jpg&amp;w=640&amp;q=75 2x"
+                                    src="/_next/image?url=https%3A%2F%2Fproduction-rdj-web-asset.s3.ap-east-1.amazonaws.com%2Fproducts%2Fgpu%2Fdetails%2F1379%2Fimage%2FNJFqqHhhlQUdOqKn5ZBSEZRb28QCPOTJePQJds46.jpg&amp;w=640&amp;q=75"
                                     decoding="async" data-nimg="intrinsic" class="css-0"
                                     style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%; object-fit: contain;"></span>
-                        </div>
-                        <div class="MuiBox-root css-ohyvb6">
-                            <div class="MuiBox-root css-1htwtj2" style="cursor: pointer;">
-                                <div class="MuiAvatar-root MuiAvatar-square css-e3vibm" height="40"><img
-                                        src="https://production-rdj-web-asset.s3.ap-east-1.amazonaws.com/products/gpu/details/386/image/DWCbjMGl4L1QxLRhT8sTJsriKB4BZTitMQvV1bCS.jpg"
-                                        class="MuiAvatar-img css-1hy9t21"></div>
-                            </div>
-                            <div class="MuiBox-root css-mht35o" style="cursor: pointer;">
-                                <div class="MuiAvatar-root MuiAvatar-square css-e3vibm" height="40"><img
-                                        src="https://production-rdj-web-asset.s3.ap-east-1.amazonaws.com/products/gpu/ecomm/386/images/3ixbcXeJ8DOQ6EBEgtZJvQBiIcSKrnedzu8NZNh8.jpg"
-                                        class="MuiAvatar-img css-1hy9t21"></div>
-                            </div>
-                            <div class="MuiBox-root css-mht35o" style="cursor: pointer;">
-                                <div class="MuiAvatar-root MuiAvatar-square css-e3vibm" height="40"><img
-                                        src="https://production-rdj-web-asset.s3.ap-east-1.amazonaws.com/products/gpu/ecomm/386/images/z5TXfLa7ft1qIS6O1Ge2hWu14KXYKoF810L0wbg5.jpg"
-                                        class="MuiAvatar-img css-1hy9t21"></div>
-                            </div>
-                            <div class="MuiBox-root css-mht35o" style="cursor: pointer;">
-                                <div class="MuiAvatar-root MuiAvatar-square css-e3vibm" height="40"><img
-                                        src="https://production-rdj-web-asset.s3.ap-east-1.amazonaws.com/products/gpu/ecomm/386/images/ZNgF6UBzoUM2eCQyQtEy92YLAw6FnVp1jjFWq1zy.jpg"
-                                        class="MuiAvatar-img css-1hy9t21"></div>
-                            </div>
-                            <div class="MuiBox-root css-k6uhhn" style="cursor: pointer;">
-                                <div class="MuiAvatar-root MuiAvatar-square css-e3vibm" height="40"><img
-                                        src="https://production-rdj-web-asset.s3.ap-east-1.amazonaws.com/products/gpu/ecomm/386/images/exgQpiBjzaJHKbWM2wN4bNt8QVLPGToZK2dJmLG6.jpg"
-                                        class="MuiAvatar-img css-1hy9t21"></div>
-                            </div>
                         </div>
                     </div>
                     <div class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 css-bshnsv">
                         <div class="MuiBox-root css-1qm1lh">
-                            <h1 class=" MuiBox-root css-1xi2frl">GEFORCE RTX 3060 TI IGAME ULTRA W OC 8GB TRIPLE FAN LHR
+                            <h1 class=" MuiBox-root css-1xi2frl">GEFORCE RTX 4070 TI GALAX EX GAMER OC 12GB TRIPLE FAN
                                 WHITE</h1>
                         </div>
                         <div class="MuiBox-root css-1coeexk"><span
                                 style="box-sizing: border-box; display: inline-block; overflow: hidden; width: 50px; height: 30px; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative;"><img
-                                    src="/_next/image?url=https%3A%2F%2Fproduction-rdj-web-asset.s3.ap-east-1.amazonaws.com%2Fassets%2Fmanufacturers%2Fcolorful.png&amp;w=128&amp;q=75"
+                                    srcset="/_next/image?url=https%3A%2F%2Fproduction-rdj-web-asset.s3.ap-east-1.amazonaws.com%2Fassets%2Fmanufacturers%2Fgalax.png&amp;w=64&amp;q=75 1x, /_next/image?url=https%3A%2F%2Fproduction-rdj-web-asset.s3.ap-east-1.amazonaws.com%2Fassets%2Fmanufacturers%2Fgalax.png&amp;w=128&amp;q=75 2x"
+                                    src="/_next/image?url=https%3A%2F%2Fproduction-rdj-web-asset.s3.ap-east-1.amazonaws.com%2Fassets%2Fmanufacturers%2Fgalax.png&amp;w=128&amp;q=75"
                                     decoding="async" data-nimg="fixed" class="css-0"
-                                    style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%; object-fit: contain;"
-                                    srcset="/_next/image?url=https%3A%2F%2Fproduction-rdj-web-asset.s3.ap-east-1.amazonaws.com%2Fassets%2Fmanufacturers%2Fcolorful.png&amp;w=64&amp;q=75 1x, /_next/image?url=https%3A%2F%2Fproduction-rdj-web-asset.s3.ap-east-1.amazonaws.com%2Fassets%2Fmanufacturers%2Fcolorful.png&amp;w=128&amp;q=75 2x"><noscript></noscript></span>
+                                    style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%; object-fit: contain;"></span>
                         </div>
                         <div class="MuiBox-root css-i3pbo">
-                            <h2 class=" MuiBox-root css-1uu0i36">₱26,500.00</h2>
-                            <h6 class=" MuiBox-root css-17un8x6">₱27,825.00</h6><small
+                            <h2 class=" MuiBox-root css-1uu0i36">₱52,930.00</h2>
+                            <h6 class=" MuiBox-root css-17un8x6">₱55,576.50</h6><small
                                 class=" MuiBox-root css-stn1r0"></small>
                             <div class="MuiBox-root css-1ebprri">
                                 <h6 class=" MuiBox-root css-1lrt8hg">Available</h6>
@@ -1112,12 +1293,12 @@
                                         <path d="M19 13H5v-2h14v2z"></path>
                                     </svg></button>
                                 <h3 class=" MuiBox-root css-pwppwr">1</h3><button
-                                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-19v1dxo"
-                                    tabindex="0" type="button"><svg
+                                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-19v1dxo"
+                                    tabindex="-1" type="button" disabled=""><svg
                                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-18zfaoc" focusable="false"
                                         aria-hidden="true" viewBox="0 0 24 24" data-testid="AddIcon">
                                         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
-                                    </svg><span class="MuiTouchRipple-root css-w0pj6f"></span></button>
+                                    </svg></button>
                             </div>
                         </div><button
                             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1f6b3cn"
@@ -1132,7 +1313,7 @@
                             class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected inner-tab css-mx7vau"
                             tabindex="0" type="button" role="tab" aria-selected="true">Description<span
                                 class="MuiTouchRipple-root css-w0pj6f"></span></button></div><span
-                        class="MuiTabs-indicator css-1hs95d" style="left: 0px; width: 111px;"></span>
+                        class="MuiTabs-indicator css-1hs95d" style="left: 0px; width: 109.638px;"></span>
                 </div>
             </div>
             <div class="MuiBox-root css-8qb8m4">
@@ -1142,35 +1323,39 @@
                         <div class="MuiBox-root css-0">
                             <div class="MuiBox-root css-w55c3f">
                                 <h6 class=" MuiBox-root css-zb7cuk">Memory:</h6>
-                                <p class=" MuiBox-root css-ok3s38">8GB</p>
-                            </div>
-                            <div class="MuiBox-root css-w55c3f">
-                                <h6 class=" MuiBox-root css-zb7cuk">Core_clock:</h6>
-                                <p class=" MuiBox-root css-ok3s38">1410 MHz</p>
-                            </div>
-                            <div class="MuiBox-root css-w55c3f">
-                                <h6 class=" MuiBox-root css-zb7cuk">Boost_clock:</h6>
-                                <p class=" MuiBox-root css-ok3s38">1770 MHz</p>
+                                <p class=" MuiBox-root css-ok3s38">12GB</p>
                             </div>
                             <div class="MuiBox-root css-w55c3f">
                                 <h6 class=" MuiBox-root css-zb7cuk">Interface:</h6>
-                                <p class=" MuiBox-root css-ok3s38">PCIe 4.0 x16</p>
+                                <p class=" MuiBox-root css-ok3s38">PCI EXPRESS 4.0</p>
                             </div>
                             <div class="MuiBox-root css-w55c3f">
-                                <h6 class=" MuiBox-root css-zb7cuk">Length:</h6>
-                                <p class=" MuiBox-root css-ok3s38">310 mm</p>
+                                <h6 class=" MuiBox-root css-zb7cuk">Boost_clock:</h6>
+                                <p class=" MuiBox-root css-ok3s38">2670</p>
                             </div>
                             <div class="MuiBox-root css-w55c3f">
-                                <h6 class=" MuiBox-root css-zb7cuk">Width:</h6>
-                                <p class=" MuiBox-root css-ok3s38">132 mm</p>
+                                <h6 class=" MuiBox-root css-zb7cuk">Memory Speed:</h6>
+                                <p class=" MuiBox-root css-ok3s38">21 Gbps</p>
                             </div>
                             <div class="MuiBox-root css-w55c3f">
-                                <h6 class=" MuiBox-root css-zb7cuk">Height:</h6>
-                                <p class=" MuiBox-root css-ok3s38">56 mm</p>
+                                <h6 class=" MuiBox-root css-zb7cuk">Memory Bandwidth:</h6>
+                                <p class=" MuiBox-root css-ok3s38">504 GB/sec</p>
                             </div>
                             <div class="MuiBox-root css-w55c3f">
-                                <h6 class=" MuiBox-root css-zb7cuk">Recommended Psu:</h6>
-                                <p class=" MuiBox-root css-ok3s38">550W</p>
+                                <h6 class=" MuiBox-root css-zb7cuk">Display Support:</h6>
+                                <p class=" MuiBox-root css-ok3s38">DisplayPort 1.4a x 3, HDMI 2.1 x 1</p>
+                            </div>
+                            <div class="MuiBox-root css-w55c3f">
+                                <h6 class=" MuiBox-root css-zb7cuk">Dimensions(with Bracket):</h6>
+                                <p class=" MuiBox-root css-ok3s38">336 * 146 * 62mm</p>
+                            </div>
+                            <div class="MuiBox-root css-w55c3f">
+                                <h6 class=" MuiBox-root css-zb7cuk">Dimensions(without Bracket):</h6>
+                                <p class=" MuiBox-root css-ok3s38">323 * 131 * 60mm</p>
+                            </div>
+                            <div class="MuiBox-root css-w55c3f">
+                                <h6 class=" MuiBox-root css-zb7cuk">Memory Inter Width:</h6>
+                                <p class=" MuiBox-root css-ok3s38">192-bit GDDR6X</p>
                             </div>
                         </div>
                     </div>
@@ -1180,6 +1365,19 @@
                             <div class="MuiBox-root css-w55c3f">
                                 <h6 class=" MuiBox-root css-zb7cuk">Duration:</h6>
                                 <p class=" MuiBox-root css-ok3s38">1 year</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="MuiBox-root css-i2n2aa">
+                        <h3 class=" MuiBox-root css-1cobyso">References:</h3>
+                        <div class="MuiBox-root css-0">
+                            <div class="MuiBox-root css-w55c3f">
+                                <h6 class=" MuiBox-root css-zb7cuk">•</h6><a
+                                    href="https://www.galax.com/en/graphics-card/geforce-rtx-4070ti-exg-w.html"
+                                    target="_blank" rel="noreferrer noopenner">
+                                    <p class=" MuiBox-root css-al3n1p">
+                                        https://www.galax.com/en/graphics-card/geforce-rtx-4070ti-exg-w.html</p>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -1286,7 +1484,7 @@
         </footer>
     </div>
     <script id="__NEXT_DATA__"
-        type="application/json">{"props":{"pageProps":{}},"page":"/product/[id]","query":{},"buildId":"R5PxBCOlYD7l7Oszxkzxn","runtimeConfig":{"theme":"DEFAULT"},"nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script>
+        type="application/json">{"props":{"pageProps":{}},"page":"/product/search/[id]","query":{},"buildId":"R5PxBCOlYD7l7Oszxkzxn","runtimeConfig":{"theme":"DEFAULT"},"nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script>
     <next-route-announcer>
         <p aria-live="assertive" id="__next-route-announcer__" role="alert"
             style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap; overflow-wrap: normal;">
@@ -1296,6 +1494,7 @@
     <script src="/_next/static/chunks/9109-fd3a0806fca68a1a.js"></script>
     <script src="/_next/static/chunks/pages/index-bf43ad33c5299672.js"></script>
     <script src="/_next/static/chunks/7d0bf13e-ab424b47c9642a22.js"></script>
+    <script src="/_next/static/chunks/1499-1dd03643c103aba9.js"></script>
     <script src="/_next/static/chunks/2389-ce1a025f88e784a4.js"></script>
     <script src="/_next/static/chunks/7303-e53604a1a90357c8.js"></script>
     <script src="/_next/static/chunks/4803-26417e8876972cfc.js"></script>
@@ -1304,14 +1503,9 @@
     <script src="/_next/static/chunks/1077-3b738e1ec9da5542.js"></script>
     <script src="/_next/static/chunks/pages/pcbuilder-f425da6396af5c33.js"></script>
     <script src="/_next/static/chunks/2111-8a52d8f14341fd10.js"></script>
+    <script src="/_next/static/chunks/pages/builds-gallery-e3a99575fd7692e4.js"></script>
     <script src="/_next/static/chunks/7642-6ade425eb9a6f307.js"></script>
     <script src="/_next/static/chunks/pages/pricelist-3111a5ea3877182a.js"></script>
-    <script src="/_next/static/chunks/8114-4eea5e107ca84072.js"></script>
-    <script src="/_next/static/chunks/pages/builds-gallery-e3a99575fd7692e4.js"></script>
-    <script src="/_next/static/chunks/pages/contact-us-fdf4e4a7499bc0c4.js"></script>
-    <script src="/_next/static/chunks/pages/how-to-order-0363612b35ce79cb.js"></script>
-    <script src="/_next/static/chunks/pages/terms-and-conditions-b821a3e3fb4440b7.js"></script>
-    <script src="/_next/static/chunks/pages/frequently-ask-question-afd0c940bf87dc16.js"></script>
     <script data-nscript="lazyOnload">
         var chatbox = document.getElementById('fb-customer-chat');
         chatbox.setAttribute("page_id", "100508121746833");
@@ -1332,6 +1526,14 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
+    <script src="/_next/static/chunks/5795-c3aa9da54dffdd2f.js"></script>
+    <script src="/_next/static/chunks/839-24796978b891a11f.js"></script>
+    <script src="/_next/static/chunks/pages/product/%5Bid%5D-5bc5f16584e44e74.js"></script>
+    <script src="/_next/static/chunks/pages/contact-us-fdf4e4a7499bc0c4.js"></script>
+    <script src="/_next/static/chunks/pages/terms-and-conditions-b821a3e3fb4440b7.js"></script>
+    <script src="/_next/static/chunks/pages/how-to-order-0363612b35ce79cb.js"></script>
+    <script src="/_next/static/chunks/pages/frequently-ask-question-afd0c940bf87dc16.js"></script>
+    <script src="/_next/static/chunks/pages/privacy-policy-6deae6690b21d5d1.js"></script>
 </body>
 
 </html>
