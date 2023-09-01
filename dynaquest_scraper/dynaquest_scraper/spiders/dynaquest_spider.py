@@ -54,4 +54,5 @@ class DynaquestSpiderSpider(scrapy.Spider):
         product_item['brand'] = name.split()[0]
         product_item['supplier'] = 'Dynaquest'
         product_item['promo'] = promo
+        # TODO: Add stocks and warranty
         yield product_item

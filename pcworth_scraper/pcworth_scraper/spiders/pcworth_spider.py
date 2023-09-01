@@ -85,6 +85,7 @@ class PcworthSpiderSpider(scrapy.Spider):
         yield product_item
 
     async def errback(self, error):
-        page = error.request.nmeta("playwright_page")
-        await page.close()
+        page = error.request.meta.get("playwright_page")
+        if page:
+            await page.close()
 
