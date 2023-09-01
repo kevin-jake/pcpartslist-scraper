@@ -5,11 +5,11 @@ import random
 class PchubSpiderSpider(scrapy.Spider):
     name = "pchub_spider"
     allowed_domains = ["pchubonline.com"]
-    start_urls = ["http://pchubonline.com/browse?product=all&br=true&ct=false&sort=default-asc&y[0]=GPU&y[1]=GPU"]
+    start_urls = ["https://pchubonline.com/browse?product=all&br=true&ct=false&sort=default-asc&y[0]=GPU&y[1]=GPU"]
 
     
     def start_requests(self):
-        url = "http://pchubonline.com/browse?product=all&br=true&ct=false&sort=default-asc&y[0]=GPU&y[1]=GPU"
+        url = "https://pchubonline.com/browse?product=all&br=true&ct=false&sort=default-asc&y[0]=GPU&y[1]=GPU"
         yield scrapy.Request(url,
             meta=dict(
             playwright = True,
