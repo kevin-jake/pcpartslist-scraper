@@ -67,7 +67,7 @@ class PcworthSpiderSpider(scrapy.Spider):
 
     async def parse_product(self, response):
         product_item = GPUProduct()
-# TODO: Extrat the product item details using full_url = "https://easypc.com.ph" + url + ".json"
+# TODO: Extract the product item details using full_url = "https://easypc.com.ph" + url + ".json"
         page = response.meta["playwright_page"]
         await page.wait_for_selector('div.product-info')
 
