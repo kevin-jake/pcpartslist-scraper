@@ -1,3 +1,8 @@
+### Start the python env
+```
+source scraper_env/bin/activate
+
+
 ### Create a crawler
 ```
 scrapy startproject <crawler name>
