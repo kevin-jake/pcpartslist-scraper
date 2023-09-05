@@ -24,9 +24,8 @@ with sync_playwright() as p:
     def intercept_request(request):
         global auth_token
         if request.url == "https://www.api.pcworth.com/api/ecomm/products/available/get?limit=999&category=21&keyword=+":
-            auth_token = request.headers['authorization'] 
-            if str(auth_token) != 'Bearer null' or  auth_token != '':
-                print(auth_token)
+            if request.headers['authorization']  != 'Bearer null' or  request.headers['authorization'] != '':
+                auth_token = request.headers['authorization']
 
     # Open the target URL
     page.goto(target_url)
