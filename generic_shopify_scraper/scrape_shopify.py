@@ -65,7 +65,7 @@ if __name__ == "__main__":
         parse_product(result)
         page += 1
 
-    jsonString = json.dumps(product_items, indent=2, separators=(',', ': '),)
+    jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
     jsonFile = open(f'{config["filename_prefix"]}_{args.product}.json', "w")
     jsonFile.write(jsonString)
     jsonFile.close()
