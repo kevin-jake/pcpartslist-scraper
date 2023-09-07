@@ -1,0 +1,13 @@
+dynaquest:
+  site_url: "https://dynaquestpc.com"
+  supplier: 'Dynaquest'
+  handles:
+    GPU: "graphics-card"
+  filename_prefix: "dynaquest"
+
+easypc:
+  site_url: "https://easypc.com.ph"
+  supplier: 'EasyPC'
+  handles:
+    GPU: "graphic-card"
+  filename_prefix: "easypc"
