@@ -1,7 +1,7 @@
 from shopify_scraper import scraper
 import json
 
-url = "https://easypc.com.ph/collections/graphic-card"
+url = "https://dynaquestpc.com/collections/graphics-card"
 result = ['init']
 page = 1
 product_items = []
@@ -12,7 +12,7 @@ def parse_product(result):
         print('----------------------------------------------------')
         print(item)
         print('----------------------------------------------------')
-        product_item['url'] =  "https://easypc.com.ph/collections/graphic-card/products/" + item['handle']
+        product_item['url'] =  "https://dynaquestpc.com/collections/graphics-card/products/" + item['handle']
         product_item['name'] = item['title']
         product_item['price'] = item['variants'][0]['price']
         product_item['brand'] = item['vendor']
@@ -36,7 +36,7 @@ while len(result) != 0:
     page += 1
 
 jsonString = json.dumps(product_items)
-jsonFile = open("easypc.json", "w")
+jsonFile = open("dynaquest.json", "w")
 jsonFile.write(jsonString)
 jsonFile.close()
 
