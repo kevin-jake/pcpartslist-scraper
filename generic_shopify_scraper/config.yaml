@@ -2,20 +2,29 @@
 dynaquest:
   site_url: "https://dynaquestpc.com"
   supplier: 'Dynaquest'
-  handles:
+  slug:
     GPU: "graphics-card"
   filename_prefix: "dynaquest"
 
 easypc:
   site_url: "https://easypc.com.ph"
   supplier: 'EasyPC'
-  handles:
+  slug:
     GPU: "graphic-card"
   filename_prefix: "easypc"
 
 pcx:
-  site_url: "https://pcx.com.ph/"
+  site_url: "https://pcx.com.ph"
   supplier: 'PC Express'
-  handles:
+  slug:
     GPU: "graphics-cards"
   filename_prefix: "pcx"
+
+datablitz:
+  site_url: "https://ecommerce.datablitz.com.ph"
+  supplier: 'Datablitz'
+  slug:
+    GPU: "pc-mac"
+  tags:
+    GPU: "graphics-card"
+  filename_prefix: "datablitz"
