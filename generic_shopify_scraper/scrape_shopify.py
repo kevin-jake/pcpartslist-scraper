@@ -69,6 +69,7 @@ def parse_datablitz_product(result):
             product_item['brand'] = item['vendor']
             product_item['supplier'] = config['supplier']
             promo_price = item['variants'][0]['compare_at_price']
+             # TODO: Add image and scraped_date
 
             if promo_price:
                 compare_price = float(promo_price) - float(product_item['price'])

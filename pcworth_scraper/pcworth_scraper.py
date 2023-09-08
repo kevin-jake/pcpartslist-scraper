@@ -65,6 +65,7 @@ for item in res['data']:
     product_item['supplier'] = 'PCWorth'
     product_item['promo'] = item['with_bundle']
     # product_item['warranty'] = response.css('div.MuiBox-root.css-i2n2aa div.MuiBox-root.css-w55c3f p::text').get().strip()
+    # TODO: Add image and scraped_date
     product_item['stocks'] = item['stocks_left']
     print('----------------------------------------------------')
     print(product_item)
