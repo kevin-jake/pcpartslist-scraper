@@ -13,11 +13,14 @@ SPIDER_MODULES = ["shopee_scraper.spiders"]
 NEWSPIDER_MODULE = "shopee_scraper.spiders"
 
 
+
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "shopee_scraper (+http://www.yourdomain.com)"
+USER_AGENT = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 DOWNLOAD_HANDLERS = {
     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
@@ -59,6 +62,10 @@ DOWNLOAD_HANDLERS = {
 #DOWNLOADER_MIDDLEWARES = {
 #    "shopee_scraper.middlewares.ShopeeScraperDownloaderMiddleware": 543,
 #}
+# DOWNLOADER_MIDDLEWARES = {
+#    "shopee_scraper.middlewares.ScrapeOpsFakeUserAgentMiddleware": 400,
+#    "shopee_scraper.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware": 300,
+# }
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html

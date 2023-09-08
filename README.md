@@ -1,8 +1,7 @@
 ### Start the python env
 ```
 source scraper_env/bin/activate
-
-
+```
 ### Create a crawler
 ```
 scrapy startproject <crawler name>
@@ -29,6 +28,10 @@ scrapy crawl <spider name> -O <output file>
 e.g.
 # This start running the pcworth_spider and output the file to pcworth.json in the directory where you run this.
 scrapy crawl pcworth_spider -O pcworth.json  
+
+# Shopee scraper
+cd shopee_scraper
+scrapy crawl shopee_spider -O shopee.json -a shop=pcworx -a product=GPU
 ```
 
 ### Running scrapy shell using a file
