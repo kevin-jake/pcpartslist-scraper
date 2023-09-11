@@ -7,6 +7,7 @@ selectors:
     name: 'div._44qnta span::text'
     price: 'div.pqTWkA::text'
     brand: 'a.GvvZVe::text'
+    stock: 'label.zquA4o.eqeCX7:contains("Stock") + div::text'
 
 
 facets:

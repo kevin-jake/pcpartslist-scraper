@@ -93,6 +93,7 @@ class ShopeeScraperSpider(scrapy.Spider):
         product_item['name'] = name
         product_item['price'] = price
         product_item['brand'] = response.css(product_selectors['brand']).get()
+        product_item['stocks'] = response.css(product_selectors['stock']).get()
         product_item['supplier'] = shop_config['supplier']
         # product_item['promo'] = promo
         yield product_item
