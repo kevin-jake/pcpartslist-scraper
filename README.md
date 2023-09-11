@@ -43,3 +43,15 @@ e.g.
 scrapy shell file:///home/scraper/response.html
 ```
 
+### Shopify Scraper
+
+Shop name and product is defined at ```generic_shopify_scraper/config.yaml```
+
+```
+cd generic_shopify_scraper
+python3 scrape_shopify.py -s <site or shop name> -p <product>
+
+e.g.
+python3 scrape_shopify.py -s easypc -p GPU
+```
+

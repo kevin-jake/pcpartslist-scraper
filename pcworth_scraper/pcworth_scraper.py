@@ -2,6 +2,8 @@ from playwright.sync_api import sync_playwright
 import json
 import requests
 import re
+from datetime import datetime
+
 
 # URL to open
 target_url = "https://www.pcworth.com/product/search/%20?limit=999&category=21&id=+"
@@ -64,6 +66,8 @@ for item in res['data']:
     product_item['brand'] = brand
     product_item['supplier'] = 'PCWorth'
     product_item['promo'] = item['with_bundle']
+    product_item['image'] = item['img_thumbnail']
+    product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     # product_item['warranty'] = response.css('div.MuiBox-root.css-i2n2aa div.MuiBox-root.css-w55c3f p::text').get().strip()
     # TODO: Add image and scraped_date
     product_item['stocks'] = item['stocks_left']
@@ -72,7 +76,7 @@ for item in res['data']:
     print('----------------------------------------------------')
     product_items.append(product_item)
 
-jsonString = json.dumps(product_items)
+jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
 jsonFile = open("pcworth.json", "w")
 jsonFile.write(jsonString)
 jsonFile.close()

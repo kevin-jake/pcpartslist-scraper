@@ -2,6 +2,7 @@ import scrapy
 from pchub_scraper.items import GPUProduct
 import time
 import random
+from datetime import datetime
 class PchubSpiderSpider(scrapy.Spider):
     name = "pchub_spider"
     allowed_domains = ["pchubonline.com"]
@@ -94,6 +95,8 @@ class PchubSpiderSpider(scrapy.Spider):
         product_item['promo'] = product_info.css("span.text-red-500.text-sm ::text").get()
         product_item['warranty'] = product_info.css('span:contains("Warranty:")::text').get().split(":")[1].strip()
         product_item['stocks'] = new_value
+        product_item['image'] = 'https://assets.pchubonline.com/' + response.url.split('/')[-1].strip() + '.jpg'
+        product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         yield product_item
 
     async def errback(self, error):
