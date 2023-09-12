@@ -16,7 +16,7 @@ parser.add_argument('-p', '--product', metavar='product', required=True, help='t
 args = parser.parse_args()
 
 
-with open("config.yaml", "r") as f:
+with open("../config/shopify_scraper.yaml", "r") as f:
     configuration = yaml.load(f, Loader=yaml.FullLoader)
     config = configuration[args.site]
 
@@ -73,8 +73,6 @@ def parse_datablitz_product(result):
             product_item['brand'] = item['vendor']
             product_item['supplier'] = config['supplier']
             promo_price = item['variants'][0]['compare_at_price']
-             # TODO: Add image and scraped_date
-
             if promo_price:
                 compare_price = float(promo_price) - float(product_item['price'])
                 if compare_price > 0:

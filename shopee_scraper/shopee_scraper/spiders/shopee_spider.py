@@ -3,6 +3,7 @@ from shopee_scraper.items import GPUProduct
 import time
 import random
 import yaml
+from datetime import datetime
 import os 
 
 
@@ -14,7 +15,7 @@ class ShopeeScraperSpider(scrapy.Spider):
 
 
     def start_requests(self):
-        with open(os.path.join(os.path.dirname(__file__),"../config/config.yaml"), "r") as f:
+        with open(os.path.join(os.path.dirname(__file__),"../../../config/shopee_scraper.yaml"), "r") as f:
             configuration = yaml.load(f, Loader=yaml.FullLoader)
             shop_config = configuration['shops'][self.shop]
             selectors = configuration['selectors']
@@ -95,6 +96,8 @@ class ShopeeScraperSpider(scrapy.Spider):
         product_item['brand'] = response.css(product_selectors['brand']).get()
         product_item['stocks'] = response.css(product_selectors['stock']).get()
         product_item['supplier'] = shop_config['supplier']
+        product_item['image'] = response.css(product_selectors['image']).get()
+        product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         # product_item['promo'] = promo
         yield product_item
 

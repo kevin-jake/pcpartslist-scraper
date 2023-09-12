@@ -11,6 +11,7 @@ easypc:
   supplier: 'EasyPC'
   slug:
     GPU: "graphic-card"
+    
   filename_prefix: "easypc"
 
 pcx:

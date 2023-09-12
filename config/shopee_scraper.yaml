@@ -8,6 +8,7 @@ selectors:
     price: 'div.pqTWkA::text'
     brand: 'a.GvvZVe::text'
     stock: 'label.zquA4o.eqeCX7:contains("Stock") + div::text'
+    image: 'img._7D4JtJ::attr(src)'
 
 
 facets:

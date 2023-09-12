@@ -2,15 +2,20 @@ import scrapy
 from pchub_scraper.items import GPUProduct
 import time
 import random
+import yaml
 from datetime import datetime
+import os 
 class PchubSpiderSpider(scrapy.Spider):
     name = "pchub_spider"
     allowed_domains = ["pchubonline.com"]
-    start_urls = ["https://pchubonline.com/browse?product=all&br=true&ct=false&sort=default-asc&y[0]=GPU&y[1]=GPU"]
+    start_urls = ["https://pchubonline.com"]
 
     
     def start_requests(self):
-        url = "https://pchubonline.com/browse?product=all&br=true&ct=false&sort=default-asc&y[0]=GPU&y[1]=GPU"
+        with open(os.path.join(os.path.dirname(__file__),"../../../config/scrapy_scraper.yaml"), "r") as f:
+            configuration = yaml.load(f, Loader=yaml.FullLoader)
+            shop_config = configuration['pchub']
+        url = "https://pchubonline.com/browse?product=all&br=true&ct=false&sort=default-asc&y[0]=" + shop_config['category'][self.product] + "&y[1]=" + shop_config['category'][self.product]
         yield scrapy.Request(url,
             meta=dict(
             playwright = True,
@@ -79,6 +84,8 @@ class PchubSpiderSpider(scrapy.Spider):
         else:
             if "[ Promo ]" in raw_name:
                 name = raw_name.split('[ Promo ]')[1].split(',')[0].strip()
+            if "[ Clearance! ]" in raw_name:
+                name = raw_name.split('[ Clearance! ]')[1].split(',')[0].strip()
             else:
                 name = raw_name.split(',')[0].strip()
         

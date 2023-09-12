@@ -23,11 +23,11 @@ scrapy genspider pcworth_spider pcworth.com
 ### Running a spider with an output
 **NOTE**: ```-O``` will overwrite the output file and ```-o``` will append results into the ouput file
 ```
-scrapy crawl <spider name> -O <output file>
+scrapy crawl <spider name> -O <output file> -a <arguments>
 
 e.g.
-# This start running the pcworth_spider and output the file to pcworth.json in the directory where you run this.
-scrapy crawl pcworth_spider -O pcworth.json  
+# This start running the pchub_spider and output the file to pchub.json in the directory where you run this.
+scrapy crawl pchub_spider -O pchub.json -a product=GPU 
 
 # Shopee scraper
 cd shopee_scraper
