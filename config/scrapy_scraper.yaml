@@ -1,3 +1,4 @@
 pchub:
   category:
     GPU: "GPU"
+    CPU: "Processor"

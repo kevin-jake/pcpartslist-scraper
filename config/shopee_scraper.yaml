@@ -12,6 +12,7 @@ selectors:
 
 
 facets:
+  CPU: "11021164"
   GPU: "11021163"
 
 shops:

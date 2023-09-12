@@ -45,7 +45,7 @@ scrapy shell file:///home/scraper/response.html
 
 ### Shopify Scraper
 
-Shop name and product is defined at ```generic_shopify_scraper/config.yaml```
+Shop name and product is defined at ```config/shopify_scraper.yaml```
 
 ```
 cd generic_shopify_scraper
@@ -53,5 +53,17 @@ python3 scrape_shopify.py -s <site or shop name> -p <product>
 
 e.g.
 python3 scrape_shopify.py -s easypc -p GPU
+```
+
+### API Scraper
+
+Shop name and product is defined at ```config/api_scraper.yaml```
+
+```
+cd api_scraper
+python3 api_scraper.py -s <site or shop name> -p <product>
+
+e.g.
+python3 api_scraper.py -s pcworth -p GPU
 ```
 

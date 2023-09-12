@@ -3,6 +3,7 @@ dynaquest:
   site_url: "https://dynaquestpc.com"
   supplier: 'Dynaquest'
   slug:
+    CPU: "processor"
     GPU: "graphics-card"
   filename_prefix: "dynaquest"
 
@@ -10,14 +11,15 @@ easypc:
   site_url: "https://easypc.com.ph"
   supplier: 'EasyPC'
   slug:
+    CPU: "processor"
     GPU: "graphic-card"
-    
   filename_prefix: "easypc"
 
 pcx:
   site_url: "https://pcx.com.ph"
   supplier: 'PC Express'
   slug:
+    CPU: "processors"
     GPU: "graphics-cards"
   filename_prefix: "pcx"
 
@@ -25,7 +27,9 @@ datablitz:
   site_url: "https://ecommerce.datablitz.com.ph"
   supplier: 'Datablitz'
   slug:
+    CPU: "pc-mac"
     GPU: "pc-mac"
   tags:
+    CPU: "processor"
     GPU: "graphics-card"
   filename_prefix: "datablitz"

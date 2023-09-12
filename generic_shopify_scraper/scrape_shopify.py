@@ -39,7 +39,8 @@ def parse_product(result):
             product_item['price'] = item['variants'][0]['price']
             product_item['brand'] = item['vendor']
             product_item['supplier'] = config['supplier']
-            product_item['image'] = item['images'][0]['src']
+            if len(item['images']) > 0:
+                product_item['image'] = item['images'][0]['src']
             product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             promo_price = item['variants'][0]['compare_at_price']
 
