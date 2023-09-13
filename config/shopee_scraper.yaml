@@ -20,3 +20,4 @@ shops:
     shop_id: "89683872"
     searchKeyword: "pcworx"
     supplier: "PCWorx"
+    id_prefix: "WORX"

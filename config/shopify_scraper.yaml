@@ -6,6 +6,7 @@ dynaquest:
     CPU: "processor"
     GPU: "graphics-card"
   filename_prefix: "dynaquest"
+  id_prefix: "DYNA"
 
 easypc:
   site_url: "https://easypc.com.ph"
@@ -14,6 +15,7 @@ easypc:
     CPU: "processor"
     GPU: "graphic-card"
   filename_prefix: "easypc"
+  id_prefix: "EASY"
 
 pcx:
   site_url: "https://pcx.com.ph"
@@ -22,6 +24,7 @@ pcx:
     CPU: "processors"
     GPU: "graphics-cards"
   filename_prefix: "pcx"
+  id_prefix: "PCEX"
 
 datablitz:
   site_url: "https://ecommerce.datablitz.com.ph"
@@ -33,3 +36,4 @@ datablitz:
     CPU: "processor"
     GPU: "graphics-card"
   filename_prefix: "datablitz"
+  id_prefix: "DBLZ"

@@ -12,6 +12,7 @@ class ShopeeScraperItem(scrapy.Item):
     pass
 
 class GPUProduct(scrapy. Item):
+    id = scrapy.Field()
     url = scrapy.Field()
     name = scrapy.Field()
     price = scrapy.Field()

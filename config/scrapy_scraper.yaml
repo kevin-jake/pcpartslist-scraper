@@ -2,3 +2,4 @@ pchub:
   category:
     GPU: "GPU"
     CPU: "Processor"
+  id_prefix: "PCHB"

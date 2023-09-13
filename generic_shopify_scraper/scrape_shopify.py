@@ -34,6 +34,7 @@ def parse_product(result):
         # print(item)
         # print('----------------------------------------------------')
         if item['variants'][0]['available']:
+            product_item['id'] =  config['id_prefix'] + args.product + "-" + str(item['id'])
             product_item['url'] =  url + "/products/" + item['handle']
             product_item['name'] = item['title']
             product_item['price'] = item['variants'][0]['price']
@@ -68,6 +69,7 @@ def parse_datablitz_product(result):
         # print(item)
         # print('----------------------------------------------------')
         if item['variants'][0]['available'] and tags[args.product] in item['tags']:
+            product_item['id'] =  config['id_prefix'] + args.product + "-" + str(item['id'])
             product_item['url'] =  url + "/products/" + item['handle']
             product_item['name'] = item['title']
             product_item['price'] = item['variants'][0]['price']

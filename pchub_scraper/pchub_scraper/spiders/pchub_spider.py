@@ -19,6 +19,7 @@ class PchubSpiderSpider(scrapy.Spider):
         yield scrapy.Request(url,
             meta=dict(
             playwright = True,
+            config=shop_config,
             playwright_include_page = True,
             errback = self.errback
         ))
@@ -26,6 +27,7 @@ class PchubSpiderSpider(scrapy.Spider):
 
     async def parse(self, response):
         page = response.meta["playwright_page"]
+        config = response.meta["config"]
         await page.evaluate("window.scrollBy(0, document.body.scrollHeight)")
         await page.wait_for_selector('#loadMoreBtn',timeout=10000)
         load_more_btn = await page.query_selector('#loadMoreBtn')
@@ -51,6 +53,7 @@ class PchubSpiderSpider(scrapy.Spider):
             yield scrapy.Request(url=product_url, callback=self.parse_product, meta=dict(
             playwright = True,
             playwright_include_page = True,
+            config=config,
             # playwright_page_methods = [
             #     PageMethods('wait_for_selector',)
             # ]
@@ -61,6 +64,7 @@ class PchubSpiderSpider(scrapy.Spider):
         product_item = GPUProduct()
 
         product_page = response.meta["playwright_page"]
+        config = response.meta["config"]
         await product_page.wait_for_selector('div[x-data="product_info($wire)"] span',timeout=5000)
         sold_out = await product_page.query_selector('div.flex.flex-row.items-center span.text-red-500.font-medium')
         if sold_out is None:
@@ -75,7 +79,7 @@ class PchubSpiderSpider(scrapy.Spider):
         else:
             new_value = 0
         await product_page.close()
-
+        raw_id = response.url.split('/')[-1].strip()
         product_info = response.xpath('//div[@x-data="product_info($wire)"]/span')
         raw_name = product_info.css("span.my-1\.5.font-bold.capitalize ::text").get()
         raw_price = product_info.xpath("//span/@x-text").get()
@@ -93,7 +97,7 @@ class PchubSpiderSpider(scrapy.Spider):
             price = None
         else:
             price = raw_price.split("(")[-1].split(")")[0].strip()
-
+        product_item['id'] = config['id_prefix'] + self.product + "-" + raw_id
         product_item['url'] = response.url
         product_item['name'] = name
         product_item['price'] = price
@@ -102,7 +106,7 @@ class PchubSpiderSpider(scrapy.Spider):
         product_item['promo'] = product_info.css("span.text-red-500.text-sm ::text").get()
         product_item['warranty'] = product_info.css('span:contains("Warranty:")::text').get().split(":")[1].strip()
         product_item['stocks'] = new_value
-        product_item['image'] = 'https://assets.pchubonline.com/' + response.url.split('/')[-1].strip() + '.jpg'
+        product_item['image'] = 'https://assets.pchubonline.com/' + raw_id + '.jpg'
         product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         yield product_item
 

@@ -4,7 +4,7 @@ import time
 import random
 import yaml
 from datetime import datetime
-import os 
+import os
 
 
 
@@ -70,9 +70,9 @@ class ShopeeScraperSpider(scrapy.Spider):
         get_hrefs = fullpage.css(selectors['get_hrefs'])
         for slug in get_hrefs:
             url = slug.css('a::attr(href)').get()
-            print('---------------------------------------------------------------------------------------------')
-            print(url)
-            print('---------------------------------------------------------------------------------------------')
+            # print('---------------------------------------------------------------------------------------------')
+            # print(url)
+            # print('---------------------------------------------------------------------------------------------')
             full_url = "http://shopee.ph" + url
             print('---------------------------------------------------------------------------------------------')
             print(full_url)
@@ -89,7 +89,9 @@ class ShopeeScraperSpider(scrapy.Spider):
         name = response.css(product_selectors['name']).get()
         raw_price = response.css(product_selectors['price']).get()
         price = raw_price.split('.')[0].replace('₱', '').replace(',','').strip()
+        raw_id = response.url.split('.')[-1].split('?')[0]
 
+        product_item['id'] = shop_config['id_prefix'] + self.product + "-" + raw_id
         product_item['url'] = response.url
         product_item['name'] = name
         product_item['price'] = price
