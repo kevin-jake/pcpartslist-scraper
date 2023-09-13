@@ -5,7 +5,6 @@ import re
 import yaml
 import argparse
 from datetime import datetime
-import uuid
 
 
 parser = argparse.ArgumentParser(
@@ -75,7 +74,7 @@ def pcworth_scraper(category):
         else:
             brand = "No brand found"
 
-        product_item['id'] =  config['id_prefix'] + category + "-" + str(uuid.uuid4())
+        product_item['id'] =  config['id_prefix'] + category + "-" + item['img_thumbnail'].split('/')[-1].strip('.jpg')
         product_item['url'] =  "https://www.pcworth.com/product/" + item['slug']
         product_item['name'] = item['product_name']
         product_item['price'] = item['amount']
