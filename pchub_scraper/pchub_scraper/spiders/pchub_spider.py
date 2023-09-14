@@ -1,5 +1,5 @@
 import scrapy
-from pchub_scraper.items import GPUProduct
+from pchub_scraper.items import Product
 import time
 import random
 import yaml
@@ -61,7 +61,7 @@ class PchubSpiderSpider(scrapy.Spider):
             ))
 
     async def parse_product(self, response):
-        product_item = GPUProduct()
+        product_item = Product()
 
         product_page = response.meta["playwright_page"]
         config = response.meta["config"]
@@ -101,6 +101,7 @@ class PchubSpiderSpider(scrapy.Spider):
         product_item['url'] = response.url
         product_item['name'] = name
         product_item['price'] = price
+        product_item['product_type'] = self.product
         product_item['brand'] = response.css("div.flex.flex-row.justify-between.md\:mx-5 > p ::text").get().split('>')[1].strip()
         product_item['supplier'] = 'PCHub'
         product_item['promo'] = product_info.css("span.text-red-500.text-sm ::text").get()

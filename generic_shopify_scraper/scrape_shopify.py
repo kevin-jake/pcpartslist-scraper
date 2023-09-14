@@ -72,7 +72,6 @@ def parse_datablitz_product(result):
             product_item['id'] =  config['id_prefix'] + args.product + "-" + str(item['id'])
             product_item['url'] =  url + "/products/" + item['handle']
             product_item['name'] = item['title']
-            product_item['price'] = item['variants'][0]['price']
             product_item['brand'] = item['vendor']
             product_item['supplier'] = config['supplier']
             promo_price = item['variants'][0]['compare_at_price']
@@ -80,10 +79,13 @@ def parse_datablitz_product(result):
                 compare_price = float(promo_price) - float(product_item['price'])
                 if compare_price > 0:
                     product_item['promo'] = 'Save ' + str(compare_price)
-
+            if len(item['images']) > 0:
+                product_item['image'] = item['images'][0]['src']
+            product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             # TODO: Find way to scrape inventory number in shopify
             # product_item['warranty'] = response.css('div.MuiBox-root.css-i2n2aa div.MuiBox-root.css-w55c3f p::text').get().strip()
             # product_item['stocks'] = item['stocks_left']
+            product_item['price'] = item['variants'][0]['price']
 
             print('----------------------------------------------------')
             print(product_item)

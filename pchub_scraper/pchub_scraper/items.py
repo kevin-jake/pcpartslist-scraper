@@ -11,12 +11,13 @@ class PchubScraperItem(scrapy.Item):
     # name = scrapy.Field()
     pass
 
-class GPUProduct(scrapy. Item):
+class Product(scrapy. Item):
     id = scrapy.Field()
     url = scrapy.Field()
     name = scrapy.Field()
     price = scrapy.Field()
     brand = scrapy.Field()
+    product_type = scrapy.Field()
     supplier = scrapy. Field()
     promo = scrapy. Field(default=None)
     warranty = scrapy. Field(default=None)
