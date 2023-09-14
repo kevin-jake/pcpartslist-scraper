@@ -98,9 +98,11 @@ class ShopeeScraperSpider(scrapy.Spider):
         product_item['brand'] = response.css(product_selectors['brand']).get()
         product_item['stocks'] = response.css(product_selectors['stock']).get()
         product_item['supplier'] = shop_config['supplier']
+        product_item['product_type'] = self.product
         product_item['image'] = response.css(product_selectors['image']).get()
         product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        # product_item['promo'] = promo
+        product_item['promo'] = None
+        product_item['warranty'] = None
         yield product_item
 
 

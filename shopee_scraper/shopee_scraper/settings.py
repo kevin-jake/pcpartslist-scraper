@@ -27,6 +27,7 @@ DOWNLOAD_HANDLERS = {
     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
 }
 
+LOG_LEVEL = "INFO"
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -75,9 +76,11 @@ DOWNLOAD_HANDLERS = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "shopee_scraper.pipelines.ShopeeScraperPipeline": 300,
-#}
+ITEM_PIPELINES = {
+   "shopee_scraper.pipelines.ShopeeScraperPipeline": 300,
+   "shopee_scraper.pipelines.SaveToMySQLPipeline": 400,
+}
+
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
