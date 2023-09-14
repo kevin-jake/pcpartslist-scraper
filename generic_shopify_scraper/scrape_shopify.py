@@ -3,7 +3,9 @@ import json
 import yaml
 import argparse
 from datetime import datetime
-from save_to_db import insertToDatabase
+import os, sys
+sys.path.insert(0, os.path.abspath(".."))
+import modules.save_to_db as database
 
 
 
@@ -115,7 +117,7 @@ if __name__ == "__main__":
             parse_product(result)
         page += 1
 
-    insertToDatabase(product_items)
+    database.insertToDatabase(product_items)
     # jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
     # jsonFile = open(f'{config["filename_prefix"]}_{args.product}.json', "w")
     # jsonFile.write(jsonString)

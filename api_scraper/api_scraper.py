@@ -5,6 +5,9 @@ import re
 import yaml
 import argparse
 from datetime import datetime
+import os, sys
+sys.path.insert(0, os.path.abspath(".."))
+import modules.save_to_db as database
 
 
 parser = argparse.ArgumentParser(
@@ -80,10 +83,12 @@ def pcworth_scraper(category):
         product_item['price'] = item['amount']
         product_item['brand'] = brand
         product_item['supplier'] = 'PCWorth'
+        product_item['product_type'] = args.product
         product_item['promo'] = item['with_bundle']
         product_item['image'] = item['img_thumbnail']
-        product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         product_item['stocks'] = item['stocks_left']
+        product_item['warranty'] = None
+        product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         print('----------------------------------------------------')
         print(product_item)
         print('----------------------------------------------------')
@@ -96,8 +101,10 @@ if __name__ == "__main__":
     print (config)
     if args.site == 'pcworth':
         product_items = pcworth_scraper(args.product)
-    jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
-    jsonFile = open(f'{config["filename_prefix"]}_{args.product}.json', "w")
-    jsonFile.write(jsonString)
-    jsonFile.close()
+    database.insertToDatabase(product_items)
+        
+    # jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
+    # jsonFile = open(f'{config["filename_prefix"]}_{args.product}.json', "w")
+    # jsonFile.write(jsonString)
+    # jsonFile.close()
 
