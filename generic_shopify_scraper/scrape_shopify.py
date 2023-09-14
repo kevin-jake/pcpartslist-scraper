@@ -3,6 +3,7 @@ import json
 import yaml
 import argparse
 from datetime import datetime
+from save_to_db import insertToDatabase
 
 
 
@@ -40,6 +41,7 @@ def parse_product(result):
             product_item['price'] = item['variants'][0]['price']
             product_item['brand'] = item['vendor']
             product_item['supplier'] = config['supplier']
+            product_item['product_type'] = args.product
             if len(item['images']) > 0:
                 product_item['image'] = item['images'][0]['src']
             product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -50,11 +52,13 @@ def parse_product(result):
                 compare_price = float(promo_price) - float(product_item['price'])
                 if compare_price > 0:
                     product_item['promo'] = 'Save ' + str(compare_price)
-
+            else:
+                product_item['promo'] = None
             # TODO: Find way to scrape inventory number in shopify
             # product_item['warranty'] = response.css('div.MuiBox-root.css-i2n2aa div.MuiBox-root.css-w55c3f p::text').get().strip()
             # product_item['stocks'] = item['stocks_left']
-
+            product_item['warranty'] = None
+            product_item['stocks'] = None
             print('----------------------------------------------------')
             print(product_item)
             print('----------------------------------------------------')
@@ -74,17 +78,22 @@ def parse_datablitz_product(result):
             product_item['name'] = item['title']
             product_item['brand'] = item['vendor']
             product_item['supplier'] = config['supplier']
+            product_item['product_type'] = args.product
             promo_price = item['variants'][0]['compare_at_price']
             if promo_price:
                 compare_price = float(promo_price) - float(product_item['price'])
                 if compare_price > 0:
                     product_item['promo'] = 'Save ' + str(compare_price)
+            else:
+                product_item['promo'] = None
             if len(item['images']) > 0:
                 product_item['image'] = item['images'][0]['src']
             product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             # TODO: Find way to scrape inventory number in shopify
             # product_item['warranty'] = response.css('div.MuiBox-root.css-i2n2aa div.MuiBox-root.css-w55c3f p::text').get().strip()
             # product_item['stocks'] = item['stocks_left']
+            product_item['warranty'] = None
+            product_item['stocks'] = None
             product_item['price'] = item['variants'][0]['price']
 
             print('----------------------------------------------------')
@@ -106,7 +115,8 @@ if __name__ == "__main__":
             parse_product(result)
         page += 1
 
-    jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
-    jsonFile = open(f'{config["filename_prefix"]}_{args.product}.json', "w")
-    jsonFile.write(jsonString)
-    jsonFile.close()
+    insertToDatabase(product_items)
+    # jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
+    # jsonFile = open(f'{config["filename_prefix"]}_{args.product}.json', "w")
+    # jsonFile.write(jsonString)
+    # jsonFile.close()
