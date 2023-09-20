@@ -30,7 +30,7 @@ e.g.
 scrapy crawl pchub_spider -O pchub.json -a product=GPU 
 
 # Shopee scraper
-cd shopee_scraper
+cd scrapers/shopee_scraper
 scrapy crawl shopee_spider -O shopee.json -a shop=pcworx -a product=GPU
 ```
 
@@ -48,11 +48,11 @@ scrapy shell file:///home/scraper/response.html
 Shop name and product is defined at ```config/shopify_scraper.yaml```
 
 ```
-cd generic_shopify_scraper
-python3 scrape_shopify.py -s <site or shop name> -p <product>
+cd scrapers/generic_shopify_scraper
+python3 main.py -s <site or shop name> -p <product>
 
 e.g.
-python3 scrape_shopify.py -s easypc -p GPU
+python3 main.py -s easypc -p GPU
 ```
 
 ### API Scraper
@@ -60,10 +60,10 @@ python3 scrape_shopify.py -s easypc -p GPU
 Shop name and product is defined at ```config/api_scraper.yaml```
 
 ```
-cd api_scraper
-python3 api_scraper.py -s <site or shop name> -p <product>
+cd scrapers/api_scraper
+python3 main.py -s <site or shop name> -p <product>
 
 e.g.
-python3 api_scraper.py -s pcworth -p GPU
+python3 main.py -s pcworth -p GPU
 ```
 

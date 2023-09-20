@@ -3,29 +3,27 @@ import json
 import requests
 import re
 import yaml
-import argparse
+# import argparse
 from datetime import datetime
 import os, sys
 sys.path.insert(0, os.path.abspath(".."))
-import modules.save_to_db as database
+# import modules.save_to_db as database
 
 
-parser = argparse.ArgumentParser(
-    description= "This is used for generic API sites scraping"
-)
+# parser = argparse.ArgumentParser(
+#     description= "This is used for generic API sites scraping"
+# )
 
-parser.add_argument('-s', '--site', metavar='site', required=True, help='indicate the website you want to scrape')
-parser.add_argument('-p', '--product', metavar='product', required=True, help='the product on the website you want to scrape')
+# parser.add_argument('-s', '--site', metavar='site', required=True, help='indicate the website you want to scrape')
+# parser.add_argument('-p', '--product', metavar='product', required=True, help='the product on the website you want to scrape')
 
-args = parser.parse_args()
+# args = parser.parse_args()
 auth_token = ''
 
 
-with open("../config/api_scraper.yaml", "r") as f:
-    configuration = yaml.load(f, Loader=yaml.FullLoader)
-    config = configuration[args.site]
 
-def pcworth_scraper(category):
+def pcworth_scraper(category, config):
+    print(category)
     target_url = "https://www.pcworth.com/product/search/%20?limit=999&category=" + config[category]
     # Create a Playwright context (Chromium browser)
     with sync_playwright() as p:
@@ -83,7 +81,7 @@ def pcworth_scraper(category):
         product_item['price'] = item['amount']
         product_item['brand'] = brand
         product_item['supplier'] = 'PCWorth'
-        product_item['product_type'] = args.product
+        product_item['product_type'] = category
         product_item['promo'] = item['with_bundle']
         product_item['image'] = item['img_thumbnail']
         product_item['stocks'] = item['stocks_left']
@@ -97,11 +95,19 @@ def pcworth_scraper(category):
     return product_items
 
 
-if __name__ == "__main__":
-    print (config)
-    if args.site == 'pcworth':
-        product_items = pcworth_scraper(args.product)
-    database.insertToDatabase(product_items)
+def main(site, category):
+    with open("../config/api_scraper.yaml", "r") as f:
+        configuration = yaml.load(f, Loader=yaml.FullLoader)
+        config = configuration[site]
+    if site == 'pcworth':
+        product_items = pcworth_scraper(category, config)
+    return product_items
+
+# if __name__ == "__main__":
+#     print (args)
+#     if args.site == 'pcworth':
+#         product_items = pcworth_scraper(args.product)
+    # database.insertToDatabase(product_items)
         
     # jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
     # jsonFile = open(f'{config["filename_prefix"]}_{args.product}.json', "w")
