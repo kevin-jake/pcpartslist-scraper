@@ -10,3 +10,4 @@ share
 **.py[cod]
 
 .env
+**logs

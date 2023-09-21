@@ -12,7 +12,7 @@ class PchubSpiderSpider(scrapy.Spider):
 
     
     def start_requests(self):
-        with open(os.path.join(os.path.dirname(__file__),"../../../config/scrapy_scraper.yaml"), "r") as f:
+        with open(os.path.join(os.path.dirname(__file__),"../../../../config/scrapy_scraper.yaml"), "r") as f:
             configuration = yaml.load(f, Loader=yaml.FullLoader)
             shop_config = configuration['pchub']
         url = "https://pchubonline.com/browse?product=all&br=true&ct=false&sort=default-asc&y[0]=" + shop_config['category'][self.product] + "&y[1]=" + shop_config['category'][self.product]

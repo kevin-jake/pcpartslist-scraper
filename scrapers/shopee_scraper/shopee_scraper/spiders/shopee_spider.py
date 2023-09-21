@@ -15,7 +15,7 @@ class ShopeeScraperSpider(scrapy.Spider):
 
 
     def start_requests(self):
-        with open(os.path.join(os.path.dirname(__file__),"../../../config/shopee_scraper.yaml"), "r") as f:
+        with open(os.path.join(os.path.dirname(__file__),"../../../../config/shopee_scraper.yaml"), "r") as f:
             configuration = yaml.load(f, Loader=yaml.FullLoader)
             shop_config = configuration['shops'][self.shop]
             selectors = configuration['selectors']
