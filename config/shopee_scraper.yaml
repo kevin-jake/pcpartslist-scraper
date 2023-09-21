@@ -1,3 +1,4 @@
+# Sample url: https://shopee.ph/search?facet=11021163&noCorrection=true&page=0&searchKeyword=pcworx&shop=89683872 
 # This config file is for shopee scraper
 selectors:
   main: 'div[role="main"]'

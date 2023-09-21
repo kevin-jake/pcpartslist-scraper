@@ -17,6 +17,7 @@ def scrape(scraper):
                 'start_requests': True,
                 'crawl_args':json.dumps({'product': product})
             }
+            # TODO: Create dockerfiles to run scrapyrt separately into a container
             response = requests.get('http://localhost:9080/crawl.json', params)
             data = json.loads(response.text)
             return data
@@ -27,6 +28,7 @@ def scrape(scraper):
                 'start_requests': True,
                 'crawl_args':json.dumps({'shop': site, 'product': product})
             }
+            # TODO: Create dockerfiles to run scrapyrt separately into a container
             response = requests.get('http://localhost:9081/crawl.json', params)
             data = json.loads(response.text)
             return data

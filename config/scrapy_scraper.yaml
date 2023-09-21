@@ -1,4 +1,6 @@
+# Sample url: https://pchubonline.com/browse?product=all&br=true&ct=false&sort=default-asc&y[0]=GPU&y[1]=GPU
 pchub:
+# This is the category query from the url
   category:
     GPU: "GPU"
     CPU: "Processor"

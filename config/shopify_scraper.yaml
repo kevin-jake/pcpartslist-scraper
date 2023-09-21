@@ -1,3 +1,4 @@
+# Sample url: https://easypc.com.ph/collections/graphic-card/products.json
 # This config file is where the generic shopify scraper gets the parameters
 dynaquest:
   site_url: "https://dynaquestpc.com"
