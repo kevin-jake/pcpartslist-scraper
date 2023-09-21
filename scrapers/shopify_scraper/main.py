@@ -1,49 +1,38 @@
 from shopify_scraper import scraper
 import json
 import yaml
-import argparse
+# import argparse
 from datetime import datetime
 import os, sys
 sys.path.insert(0, os.path.abspath(".."))
-import modules.save_to_db as database
+# import modules.save_to_db as database
 
 
 
-parser = argparse.ArgumentParser(
-    description= "This is used for generic shopify sites scraping"
-)
+# parser = argparse.ArgumentParser(
+#     description= "This is used for generic shopify sites scraping"
+# )
 
-parser.add_argument('-s', '--site', metavar='site', required=True, help='indicate the website you want to scrape')
-parser.add_argument('-p', '--product', metavar='product', required=True, help='the product on the website you want to scrape')
+# parser.add_argument('-s', '--site', metavar='site', required=True, help='indicate the website you want to scrape')
+# parser.add_argument('-p', '--product', metavar='product', required=True, help='the product on the website you want to scrape')
 
-args = parser.parse_args()
-
-
-with open("../config/shopify_scraper.yaml", "r") as f:
-    configuration = yaml.load(f, Loader=yaml.FullLoader)
-    config = configuration[args.site]
-
-
-
-url = config['site_url'] + '/collections/' + config['slug'][args.product]
-result = ['init']
-page = 1
+# args = parser.parse_args()
 product_items = []
 
-def parse_product(result):
+def parse_product(url, product, result, config):
     for item in result:
         product_item = {}
         # print('----------------------------------------------------')
         # print(item)
         # print('----------------------------------------------------')
         if item['variants'][0]['available']:
-            product_item['id'] =  config['id_prefix'] + args.product + "-" + str(item['id'])
+            product_item['id'] =  config['id_prefix'] + product + "-" + str(item['id'])
             product_item['url'] =  url + "/products/" + item['handle']
             product_item['name'] = item['title']
             product_item['price'] = item['variants'][0]['price']
             product_item['brand'] = item['vendor']
             product_item['supplier'] = config['supplier']
-            product_item['product_type'] = args.product
+            product_item['product_type'] = product
             if len(item['images']) > 0:
                 product_item['image'] = item['images'][0]['src']
             product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -67,20 +56,20 @@ def parse_product(result):
             product_items.append(product_item)
     return product_items
 
-def parse_datablitz_product(result):
+def parse_datablitz_product(url, product,result, config):
     for item in result:
         tags = config['tags']
         product_item = {}
         # print('----------------------------------------------------')
         # print(item)
         # print('----------------------------------------------------')
-        if item['variants'][0]['available'] and tags[args.product] in item['tags']:
-            product_item['id'] =  config['id_prefix'] + args.product + "-" + str(item['id'])
+        if item['variants'][0]['available'] and tags[product] in item['tags']:
+            product_item['id'] =  config['id_prefix'] + product + "-" + str(item['id'])
             product_item['url'] =  url + "/products/" + item['handle']
             product_item['name'] = item['title']
             product_item['brand'] = item['vendor']
             product_item['supplier'] = config['supplier']
-            product_item['product_type'] = args.product
+            product_item['product_type'] = product
             promo_price = item['variants'][0]['compare_at_price']
             if promo_price:
                 compare_price = float(promo_price) - float(product_item['price'])
@@ -106,19 +95,26 @@ def parse_datablitz_product(result):
 
  
 
-if __name__ == "__main__":
-    print (config)
+# if __name__ == "__main__":
+def main(site, product):
+    with open("../config/shopify_scraper.yaml", "r") as f:
+        configuration = yaml.load(f, Loader=yaml.FullLoader)
+        config = configuration[site]
+    result = ['init']
+    page = 1
+    url = config['site_url'] + '/collections/' + config['slug'][product]
     while len(result) != 0:
         data = scraper.get_json(url,page)
         result = json.loads(data)['products']
-        if args.site == 'datablitz':
-            parse_datablitz_product(result)
+        if site == 'datablitz':
+            parse_datablitz_product(url, product, result, config)
         else:
-            parse_product(result)
+            parse_product(url, product, result, config)
         page += 1
+    return product_items
 
-    database.insertToDatabase(product_items)
+    # database.insertToDatabase(product_items)
     # jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
-    # jsonFile = open(f'{config["filename_prefix"]}_{args.product}.json', "w")
+    # jsonFile = open(f'{config["filename_prefix"]}_{product}.json', "w")
     # jsonFile.write(jsonString)
     # jsonFile.close()
