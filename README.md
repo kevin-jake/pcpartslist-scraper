@@ -2,6 +2,13 @@
 ```
 source scraper_env/bin/activate
 ```
+
+### Running flask app
+```
+cd server
+flask --app api run 
+```
+
 ### Create a crawler
 ```
 scrapy startproject <crawler name>

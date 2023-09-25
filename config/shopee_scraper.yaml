@@ -15,6 +15,17 @@ selectors:
 facets:
   CPU: "11021164"
   GPU: "11021163"
+  CPU: "11021164"
+  MOBO: "11021166"
+  RAM: "11021165"
+  SSD: "11021148"
+  HDD: "11021150"
+  # TODO: Need to add psu search keyword
+  PSU: "11021191"
+  # TODO: Need to add case search keyword
+  CASE: "11021167"
+  # TODO: Need to add cooler search keyword
+  COOLER: "11021167"  
 
 shops:
   pcworx:

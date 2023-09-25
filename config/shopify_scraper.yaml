@@ -4,8 +4,16 @@ dynaquest:
   site_url: "https://dynaquestpc.com"
   supplier: 'Dynaquest'
   slug:
-    CPU: "processor"
     GPU: "graphics-card"
+    CPU: "processor"
+    MOBO: "motherboard"
+    RAM: "memory"
+    # TODO: Add ssd-m-2 into SSD category
+    SSD: "hard-drive-ssd"
+    HDD: "desktop-3-5"
+    PSU: "power-supply"
+    CASE: "chassis"
+    COOLER: "cooling-solutions"  
   filename_prefix: "dynaquest"
   id_prefix: "DYNA"
 
@@ -15,6 +23,14 @@ easypc:
   slug:
     CPU: "processor"
     GPU: "graphic-card"
+    MOBO: "motherboard"
+    RAM: "memory"
+    SSD: "solid-state-drive"
+    HDD: "hard-disk"
+    PSU: "power-supply"
+    CASE: "pc-case"
+    # TODO: Add chasis-fan into COOLER category
+    COOLER: "cpu-cooling"  
   filename_prefix: "easypc"
   id_prefix: "EASY"
 
@@ -24,17 +40,41 @@ pcx:
   slug:
     CPU: "processors"
     GPU: "graphics-cards"
+    MOBO: "motherboards"
+    RAM: "memory-modules"
+    # TODO: Filter SSD and HDD
+    SSD: "internal-storages"
+    HDD: "internal-storages"
+    PSU: "power-supplies"
+    CASE: "pc-tower-cases"
+    COOLER: "cooling" 
   filename_prefix: "pcx"
   id_prefix: "PCEX"
 
 datablitz:
   site_url: "https://ecommerce.datablitz.com.ph"
   supplier: 'Datablitz'
+  # TODO: Optimize
   slug:
     CPU: "pc-mac"
     GPU: "pc-mac"
+    MOBO: "pc-mac"
+    RAM: "pc-mac"
+    SSD: "pc-mac"
+    HDD: "pc-mac"
+    PSU: "pc-mac"
+    CASE: "pc-mac"
+    COOLER: "pc-mac"
+# datablitz product sorting is based from tags
   tags:
     CPU: "processor"
     GPU: "graphics-card"
+    MOBO: "motherboard"
+    RAM: "Desktop RAM"
+    SSD: "SSD"
+    HDD: "HDD"
+    PSU: "power-supply"
+    CASE: "PC Case"
+    COOLER: "cooling fan" 
   filename_prefix: "datablitz"
   id_prefix: "DBLZ"

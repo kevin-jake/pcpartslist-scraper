@@ -4,4 +4,12 @@ pchub:
   category:
     GPU: "GPU"
     CPU: "Processor"
+    MOBO: "Motherboard"
+    RAM: "RAM"
+    SSD: "SSD"
+    HDD: "HDD"
+    PSU: "PSU"
+    CASE: "Case"
+    # TODO: Do a looping in COOLER category there are CPU+Cooler and Cooling category
+    COOLER: "CPU+Cooler"  
   id_prefix: "PCHB"
