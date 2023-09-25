@@ -1,5 +1,4 @@
 from playwright.sync_api import sync_playwright
-import json
 import requests
 import re
 import yaml
@@ -24,7 +23,7 @@ auth_token = ''
 
 def pcworth_scraper(category, config):
     print(category)
-    target_url = "https://www.pcworth.com/product/search/%20?limit=999&category=" + config[category]
+    target_url = "https://www.pcworth.com/product/search/%20?limit=999&category=" + config['category'][category]
     # Create a Playwright context (Chromium browser)
     with sync_playwright() as p:
         browser = p.chromium.launch()
@@ -58,14 +57,14 @@ def pcworth_scraper(category, config):
 
     headers = {'Authorization': auth_token}
     print(headers)
-    response = requests.get("https://www.api.pcworth.com/api/ecomm/products/available/get?limit=999&category=" + config[category], headers=headers)
+    response = requests.get("https://www.api.pcworth.com/api/ecomm/products/available/get?limit=999&category=" + config['category'][category], headers=headers)
     res = response.json()
     for item in res['data']:
         product_item = {}
         brand = ''
-        print('----------------------------------------------------')
-        print(item)
-        print('----------------------------------------------------')
+        # print('----------------------------------------------------')
+        # print(item)
+        # print('----------------------------------------------------')
         brand_picture =  item['mfr_logo'].split("/")[-1]
         result = re.search(r"(.+?)\.png", brand_picture)
 
@@ -87,9 +86,9 @@ def pcworth_scraper(category, config):
         product_item['stocks'] = item['stocks_left']
         product_item['warranty'] = None
         product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        print('----------------------------------------------------')
-        print(product_item)
-        print('----------------------------------------------------')
+        # print('----------------------------------------------------')
+        # print(product_item)
+        # print('----------------------------------------------------')
         product_items.append(product_item)
 
     return product_items

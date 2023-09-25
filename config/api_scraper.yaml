@@ -1,15 +1,16 @@
 # Sample url: https://www.pcworth.com/product/search/?limit=48&category=21&id=+
 # API URL: ttps://www.api.pcworth.com/api/ecomm/products/available/get?limit=999&category=21
 pcworth:
-  GPU: "21"
-  CPU: "16"
-  MOBO: "17"
-  RAM: "13"
-  SSD: "14"
-  HDD: "15"
-  PSU: "18"
-  CASE: "20"
-  # TODO: Do a looping in COOLER category there are cpu coolers and fan
-  COOLER: "26"
+  category:
+    GPU: "21"
+    CPU: "16"
+    MOBO: "17"
+    RAM: "13"
+    SSD: "14"
+    HDD: "15"
+    PSU: "18"
+    CASE: "20"
+    # TODO: Do a looping in COOLER category there are cpu coolers and fan
+    COOLER: "26"
   filename_prefix: "pcworth"
   id_prefix: "PCWT"

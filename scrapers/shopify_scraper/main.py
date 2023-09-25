@@ -50,9 +50,9 @@ def parse_product(url, product, result, config):
             # product_item['stocks'] = item['stocks_left']
             product_item['warranty'] = None
             product_item['stocks'] = None
-            print('----------------------------------------------------')
-            print(product_item)
-            print('----------------------------------------------------')
+            # print('----------------------------------------------------')
+            # print(product_item)
+            # print('----------------------------------------------------')
             product_items.append(product_item)
     return product_items
 
@@ -87,9 +87,9 @@ def parse_datablitz_product(url, product,result, config):
             product_item['stocks'] = None
             product_item['price'] = item['variants'][0]['price']
 
-            print('----------------------------------------------------')
-            print(product_item)
-            print('----------------------------------------------------')
+            # print('----------------------------------------------------')
+            # print(product_item)
+            # print('----------------------------------------------------')
             product_items.append(product_item)
     return product_items
 
