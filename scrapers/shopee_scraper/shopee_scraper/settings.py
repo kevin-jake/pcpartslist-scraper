@@ -78,7 +78,7 @@ LOG_LEVEL = "INFO"
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    "shopee_scraper.pipelines.ShopeeScraperPipeline": 300,
-#    "shopee_scraper.pipelines.SaveToMySQLPipeline": 400,
+   "shopee_scraper.pipelines.SaveToMySQLPipeline": 400,
 }
 
 

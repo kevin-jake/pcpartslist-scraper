@@ -6,7 +6,7 @@ import yaml
 from datetime import datetime
 import os, sys
 sys.path.insert(0, os.path.abspath(".."))
-# import modules.save_to_db as database
+import scrapers.modules.save_to_db as database
 
 
 # parser = argparse.ArgumentParser(
@@ -94,13 +94,14 @@ def pcworth_scraper(category, config):
     return product_items
 
 
-def main(site, category):
+def main(site, category, db_save=0):
     with open("../config/api_scraper.yaml", "r") as f:
         configuration = yaml.load(f, Loader=yaml.FullLoader)
         config = configuration[site]
     if site == 'pcworth':
         product_items = pcworth_scraper(category, config)
-    return product_items
+        if db_save > 0: database.insertToDatabase(product_items)
+        return product_items
 
 # if __name__ == "__main__":
 #     print (args)

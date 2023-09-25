@@ -5,7 +5,7 @@ import yaml
 from datetime import datetime
 import os, sys
 sys.path.insert(0, os.path.abspath(".."))
-# import modules.save_to_db as database
+import scrapers.modules.save_to_db as database
 
 
 
@@ -96,7 +96,7 @@ def parse_datablitz_product(url, product,result, config):
  
 
 # if __name__ == "__main__":
-def main(site, product):
+def main(site, product, db_save=0):
     with open("../config/shopify_scraper.yaml", "r") as f:
         configuration = yaml.load(f, Loader=yaml.FullLoader)
         config = configuration[site]
@@ -111,9 +111,9 @@ def main(site, product):
         else:
             parse_product(url, product, result, config)
         page += 1
+    if db_save > 0: database.insertToDatabase(product_items) 
     return product_items
 
-    # database.insertToDatabase(product_items)
     # jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
     # jsonFile = open(f'{config["filename_prefix"]}_{product}.json', "w")
     # jsonFile.write(jsonString)
