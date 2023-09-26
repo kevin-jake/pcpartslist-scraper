@@ -22,7 +22,7 @@ auth_token = ''
 
 
 def pcworth_scraper(category, config):
-    print(category)
+    # print(category)
     target_url = "https://www.pcworth.com/product/search/%20?limit=999&category=" + config['category'][category]
     # Create a Playwright context (Chromium browser)
     with sync_playwright() as p:
@@ -41,7 +41,7 @@ def pcworth_scraper(category, config):
             if request.url == "https://www.api.pcworth.com/api/ecomm/category/get":
                 if request.headers['authorization']  != 'Bearer null' or  request.headers['authorization'] != '':
                     auth_token = request.headers['authorization']
-        print(auth_token)
+        # print(auth_token)
 
         # Open the target URL
         page.goto(target_url)
@@ -56,7 +56,7 @@ def pcworth_scraper(category, config):
 
 
     headers = {'Authorization': auth_token}
-    print(headers)
+    # print(headers)
     response = requests.get("https://www.api.pcworth.com/api/ecomm/products/available/get?limit=999&category=" + config['category'][category], headers=headers)
     res = response.json()
     for item in res['data']:

@@ -62,7 +62,7 @@ def insertToDatabase(products):
         cursor.executemany(insert_price, price_to_insert)
 
         connection.commit()
-        print(cursor.rowcount, "Record inserted successfully into PC_PARTS table")
+        # print(cursor.rowcount, "Record inserted successfully into PC_PARTS table")
 
     except MySQLdb.Error as error:
         print("Failed to insert record into MySQL table {}".format(error))
