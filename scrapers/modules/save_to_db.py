@@ -17,27 +17,26 @@ connection = MySQLdb.connect(
 
 
 def insertToDatabase(products):
-    product_to_insert = [(d["id"], d["url"], d["name"], d["product_type"], d["brand"], d["supplier"], d["promo"], d["warranty"], d["stocks"], d["image"], d["date_scraped"]) for d in products]
-    price_to_insert = [(d["id"], d["price"], d["date_scraped"]) for d in products]
-
+    product_to_insert = [(d["id"], d["url"], d["name"], d["category_id"], d["brand"], d["supplier"], d["promo"], d["warranty"], d["stocks"], d["image"], d["createdAt"]) for d in products if d]
+    price_to_insert = [(d["id"], d["price"], d["createdAt"]) for d in products if d]
     try:
-        insert_product = """insert into PC_PARTS (
-            pc_parts_id_pk, 
+        insert_product = """insert into Products (
+            id, 
             url, 
             name, 
-            product_type, 
+            category_id, 
             brand,
             supplier,
             promo,
             warranty,
             stocks,
             img_url,
-            date_scraped
+            createdAt
             ) values (
                 %s,
                 %s,
                 %s,
-                %s,
+                (select id from Category where name = %s LIMIT 1),
                 %s,
                 %s,
                 %s,
@@ -45,12 +44,19 @@ def insertToDatabase(products):
                 %s,
                 %s,
                 %s
-                )"""
+                ) ON DUPLICATE KEY UPDATE
+                url = VALUES(url),
+                name = VALUES(name),
+                promo = VALUES(promo),
+                warranty = VALUES(warranty),
+                stocks = VALUES(stocks),
+                img_url = VALUES(img_url),
+                updatedAt = VALUES(createdAt)"""
         
-        insert_price = """insert into PRICE (
-            pc_parts_id_fk, 
+        insert_price = """insert into Price (
+            pc_parts_id, 
             price,
-            date_scraped
+            createdAt
             ) values (
                 %s,
                 %s,
@@ -62,10 +68,16 @@ def insertToDatabase(products):
         cursor.executemany(insert_price, price_to_insert)
 
         connection.commit()
-        # print(cursor.rowcount, "Record inserted successfully into PC_PARTS table")
+        # print(cursor.rowcount, "Record inserted successfully into Products table")
 
     except MySQLdb.Error as error:
         print("Failed to insert record into MySQL table {}".format(error))
 
     finally:
-        connection.close()
+        # Close the cursor
+        if 'cursor' in locals() and cursor is not None:
+            cursor.close()
+
+        # Close the connection
+        if 'connection' in locals() and connection is not None:
+            connection.close()

@@ -101,14 +101,14 @@ class PchubSpiderSpider(scrapy.Spider):
         product_item['url'] = response.url
         product_item['name'] = name
         product_item['price'] = price
-        product_item['product_type'] = self.product
+        product_item['category_id'] = self.product
         product_item['brand'] = response.css("div.flex.flex-row.justify-between.md\:mx-5 > p ::text").get().split('>')[1].strip()
         product_item['supplier'] = 'PCHub'
         product_item['promo'] = product_info.css("span.text-red-500.text-sm ::text").get()
         product_item['warranty'] = product_info.css('span:contains("Warranty:")::text').get().split(":")[1].strip()
         product_item['stocks'] = new_value
         product_item['image'] = 'https://assets.pchubonline.com/' + raw_id + '.jpg'
-        product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        product_item['createdAt'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         # print('---------------------------------------------------------------------------------------------')
         # print(product_item)
         # print('---------------------------------------------------------------------------------------------')

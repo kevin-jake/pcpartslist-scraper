@@ -80,12 +80,12 @@ def pcworth_scraper(category, config):
         product_item['price'] = item['amount']
         product_item['brand'] = brand
         product_item['supplier'] = 'PCWorth'
-        product_item['product_type'] = category
+        product_item['category_id'] = category
         product_item['promo'] = item['with_bundle']
         product_item['image'] = item['img_thumbnail']
         product_item['stocks'] = item['stocks_left']
         product_item['warranty'] = None
-        product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        product_item['createdAt'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         # print('----------------------------------------------------')
         # print(product_item)
         # print('----------------------------------------------------')
@@ -100,7 +100,7 @@ def main(site, category, db_save=0):
         config = configuration[site]
     if site == 'pcworth':
         product_items = pcworth_scraper(category, config)
-        if db_save > 0: database.insertToDatabase(product_items)
+        if db_save == 1: database.insertToDatabase(product_items)
         return product_items
 
 # if __name__ == "__main__":

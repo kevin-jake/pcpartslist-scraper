@@ -39,53 +39,66 @@ class SaveToMySQLPipeline:
 
         # Create books table if none exists
         self.cur.execute("""
-        CREATE TABLE IF NOT EXISTS PC_PARTS(
-            pc_parts_id_pk VARCHAR(255) NOT NULL, 
-            url VARCHAR(255),
-            name text,
-            product_type VARCHAR(255),
-            brand VARCHAR(255),
-            supplier VARCHAR(255),
-            promo VARCHAR(255),
-            warranty VARCHAR(255),
-            stocks VARCHAR(255),
-            img_url VARCHAR(255),
-            date_scraped DATE,
-            PRIMARY KEY (pc_parts_id_pk)
-        )
+            CREATE TABLE `Products` (
+                `id` varchar(255) NOT NULL,
+                `url` varchar(255),
+                `name` text,
+                `brand` varchar(255),
+                `supplier` varchar(255),
+                `promo` varchar(255),
+                `warranty` varchar(255),
+                `stocks` varchar(255),
+                `img_url` varchar(255),
+                `createdAt` datetime(3) DEFAULT current_timestamp(3),
+                `updatedAt` datetime(3),
+                `category_id` int,
+                PRIMARY KEY (`id`),
+                KEY `Products_category_id_idx` (`category_id`)
+            )
         """)
 
         self.cur.execute("""
-        CREATE TABLE IF NOT EXISTS PRICE(
-            price_id_pk int NOT NULL auto_increment, 
-            price DECIMAL,
-            date_scraped DATE,
-            pc_parts_id_fk VARCHAR(255),
-            PRIMARY KEY (price_id_pk),
-            KEY pc_parts_id_idx (pc_parts_id_fk)
-        )
+            CREATE TABLE `Price` (
+                `id` int NOT NULL AUTO_INCREMENT,
+                `price` decimal(10,0),
+                `createdAt` datetime(3) DEFAULT current_timestamp(3),
+                `updatedAt` datetime(3),
+                `pc_parts_id` varchar(255) NOT NULL,
+                PRIMARY KEY (`id`),
+                KEY `Price_pc_parts_id_idx` (`pc_parts_id`)
+            )
+        """)
+
+        self.cur.execute("""
+            CREATE TABLE `Category` (
+                `id` int NOT NULL AUTO_INCREMENT,
+                `name` varchar(255) NOT NULL,
+                `description` varchar(255),
+                `createdAt` datetime(3) DEFAULT current_timestamp(3),
+                `updatedAt` datetime(3),
+                PRIMARY KEY (`id`)
+            )
         """)
 
     def process_item(self, item, spider):
         if spider.db_save == '1':
-            # Define insert statement
-            self.cur.execute(""" INSERT IGNORE into PC_PARTS (
-                pc_parts_id_pk, 
+            self.cur.execute(""" INSERT into Products (
+                id, 
                 url, 
                 name, 
-                product_type, 
+                category_id, 
                 brand,
                 supplier,
                 promo,
                 warranty,
                 stocks,
                 img_url,
-                date_scraped
+                createdAt
                 ) values (
                     %s,
                     %s,
                     %s,
-                    %s,
+                    (select id from Category where name = %s LIMIT 1),
                     %s,
                     %s,
                     %s,
@@ -93,25 +106,32 @@ class SaveToMySQLPipeline:
                     %s,
                     %s,
                     %s
-                    )""", (
+                    ) ON DUPLICATE KEY UPDATE
+                url = VALUES(url),
+                name = VALUES(name),
+                promo = VALUES(promo),
+                warranty = VALUES(warranty),
+                stocks = VALUES(stocks),
+                img_url = VALUES(img_url),
+                updatedAt = VALUES(createdAt)""", (
                 item["id"],
                 item["url"],
                 item["name"],
-                item["product_type"],
+                item["category_id"],
                 item["brand"],
                 item["supplier"],
                 item["promo"],
                 item["warranty"],
                 item["stocks"],
                 item["image"],
-                item["date_scraped"],
+                item["createdAt"],
             ))
 
             # Define insert statement
-            self.cur.execute(""" INSERT IGNORE into PRICE (
-                pc_parts_id_fk, 
+            self.cur.execute(""" INSERT into Price (
+                pc_parts_id, 
                 price,
-                date_scraped
+                createdAt
                 ) values (
                     %s,
                     %s,
@@ -119,7 +139,7 @@ class SaveToMySQLPipeline:
                     )""", (
                 item["id"],
                 item["price"],
-                item["date_scraped"],
+                item["createdAt"],
             ))
 
             # ## Execute insert of data into database

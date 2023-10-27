@@ -30,12 +30,12 @@ def parse_product(url, product, item, config):
         product_item['price'] = item['variants'][0]['price']
         product_item['brand'] = item['vendor']
         product_item['supplier'] = config['supplier']
-        product_item['product_type'] = product
+        product_item['category_id'] = product
         if len(item['images']) > 0:
             product_item['image'] = item['images'][0]['src']
         else:
             product_item['image'] = None
-        product_item['date_scraped'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        product_item['createdAt'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         promo_price = item['variants'][0]['compare_at_price']
 
 
@@ -43,6 +43,8 @@ def parse_product(url, product, item, config):
             compare_price = float(promo_price) - float(product_item['price'])
             if compare_price > 0:
                 product_item['promo'] = 'Save ' + str(compare_price)
+            else:
+                product_item['promo'] = None
         else:
             product_item['promo'] = None
         # TODO: Find way to scrape inventory number in shopify
@@ -74,15 +76,15 @@ def main(site, product, db_save=0):
             pass
         if data:
             result = json.loads(data)['products']
-            tags = config['tags']
             for item in result:
                 if site == 'datablitz':
+                    tags = config['tags']
                     if item['variants'][0]['available'] and tags[product] in item['tags']:
                         product_items.append(parse_product(url, product, item, config))
                 else:
                     product_items.append(parse_product(url, product, item, config))
         page += 1
-    if db_save > 0: database.insertToDatabase(product_items)
+    if db_save == 1: database.insertToDatabase(product_items)
     return product_items
 
     # jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
