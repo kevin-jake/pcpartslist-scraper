@@ -31,6 +31,7 @@ def parse_product(url, product, item, config):
         product_item['brand'] = item['vendor']
         product_item['supplier'] = config['supplier']
         product_item['category_id'] = product
+        # TODO: Fix image loading on datablitz sites and make images an array of images.
         if len(item['images']) > 0:
             product_item['image'] = item['images'][0]['src']
         else:
