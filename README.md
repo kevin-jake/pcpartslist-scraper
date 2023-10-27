@@ -74,3 +74,11 @@ e.g.
 python3 main.py -s pcworth -p GPU
 ```
 
+### Running the scrapyrt
+
+Port number default is 9080 (currently in use of pchub scraper)
+
+```
+scrapyrt -p <port number>
+
+```
