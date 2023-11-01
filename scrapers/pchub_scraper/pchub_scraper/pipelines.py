@@ -43,7 +43,7 @@ class SaveToMySQLPipeline:
 
         # Create books table if none exists
         self.cur.execute("""
-            CREATE TABLE `Products` (
+            CREATE TABLE IF NOT EXISTS `Products` (
                 `id` varchar(255) NOT NULL,
                 `url` varchar(255),
                 `name` text,
@@ -62,7 +62,7 @@ class SaveToMySQLPipeline:
         """)
 
         self.cur.execute("""
-            CREATE TABLE `Price` (
+            CREATE TABLE IF NOT EXISTS `Price` (
                 `id` int NOT NULL AUTO_INCREMENT,
                 `price` decimal(10,0),
                 `createdAt` datetime(3) DEFAULT current_timestamp(3),
@@ -74,7 +74,7 @@ class SaveToMySQLPipeline:
         """)
 
         self.cur.execute("""
-            CREATE TABLE `Category` (
+            CREATE TABLE IF NOT EXISTS `Category` (
                 `id` int NOT NULL AUTO_INCREMENT,
                 `name` varchar(255) NOT NULL,
                 `description` varchar(255),

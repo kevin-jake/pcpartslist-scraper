@@ -8,16 +8,17 @@ import yaml
 app = Flask(__name__)
 
 def scrape(scraper,**kwargs):
-    site = kwargs.get('site', [])
-    product = kwargs.get('product', [])
-    db_save = kwargs.get('db_save', 0)
-    test_limit = kwargs.get('test_limit', None)
+    args = kwargs.get('args')
+    site = args.get('site', [])
+    product = args.get('product', [])
+    db_save = args.get('db_save', 0)
+    test_limit = args.get('test_limit', None)
     app.logger.info('Now scraping using: %s, shop: %s, product: %s', scraper, site, product)
     if scraper == 'pchub_scraper':
         params = {
             'spider_name': 'pchub_spider',
             'start_requests': True,
-            'crawl_args':json.dumps({'product': product, 'db_save': int(db_save)})
+            'crawl_args':json.dumps({'product': product, 'db_save': int(db_save), 'test_limit': int(test_limit)})
         }
         # TODO: Create dockerfiles to run scrapyrt separately into a container. Make url  an environment variable
         response = requests.get('http://localhost:9080/crawl.json', params)
@@ -28,7 +29,7 @@ def scrape(scraper,**kwargs):
         params = {
             'spider_name': 'shopee_spider',
             'start_requests': True,
-            'crawl_args':json.dumps({'shop': site, 'product': product, 'db_save': int(db_save)})
+            'crawl_args':json.dumps({'shop': site, 'product': product, 'db_save': int(db_save), 'test_limit': int(test_limit)})
         }
         # TODO: Create dockerfiles to run scrapyrt separately into a container. Make url  an environment variable
         response = requests.get('http://localhost:9081/crawl.json', params)
@@ -37,7 +38,7 @@ def scrape(scraper,**kwargs):
         return data
     else:
         scraper_module = importlib.import_module(f'scrapers.{scraper}.main')
-        product_items = scraper_module.main(site, product, test_limit, int(db_save))
+        product_items = scraper_module.main(site, product, int(test_limit), int(db_save))
         app.logger.info('Scraped: %s of %s from %s', len(product_items), product, site)
         return product_items
 
@@ -60,9 +61,9 @@ def scrape_all(scraper, site, products, db_save):
     return results
 
 @app.route("/scrape/<scraper>")
-def scraping(scraper):    
+def scraping(scraper):
     try:
-        return jsonify(scrape(scraper, request.args))
+        return jsonify(scrape(scraper, args=request.args))
     except ModuleNotFoundError as e:
         return f'scraper "{scraper}" not found! {e}'
     except Exception as e:
