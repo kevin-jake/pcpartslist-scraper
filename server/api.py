@@ -11,6 +11,7 @@ def scrape(scraper,**kwargs):
     site = kwargs.get('site', [])
     product = kwargs.get('product', [])
     db_save = kwargs.get('db_save', 0)
+    test_limit = kwargs.get('test_limit', None)
     app.logger.info('Now scraping using: %s, shop: %s, product: %s', scraper, site, product)
     if scraper == 'pchub_scraper':
         params = {
@@ -36,7 +37,7 @@ def scrape(scraper,**kwargs):
         return data
     else:
         scraper_module = importlib.import_module(f'scrapers.{scraper}.main')
-        product_items = scraper_module.main(site, product, int(db_save))
+        product_items = scraper_module.main(site, product, test_limit, int(db_save))
         app.logger.info('Scraped: %s of %s from %s', len(product_items), product, site)
         return product_items
 
@@ -59,12 +60,9 @@ def scrape_all(scraper, site, products, db_save):
     return results
 
 @app.route("/scrape/<scraper>")
-def scraping(scraper):
-    site = request.args.get('site', [])
-    product = request.args.get('product', [])
-    db_save = request.args.get('db_save', 0)
+def scraping(scraper):    
     try:
-        return jsonify(scrape(scraper, site=site, product=product, db_save=db_save))
+        return jsonify(scrape(scraper, request.args))
     except ModuleNotFoundError as e:
         return f'scraper "{scraper}" not found! {e}'
     except Exception as e:

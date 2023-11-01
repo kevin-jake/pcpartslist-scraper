@@ -21,7 +21,7 @@ auth_token = ''
 
 
 
-def pcworth_scraper(category, config):
+def pcworth_scraper(category, config, test_limit):
     # print(category)
     target_url = "https://www.pcworth.com/product/search/%20?limit=999&category=" + config['category'][category]
     # Create a Playwright context (Chromium browser)
@@ -59,7 +59,7 @@ def pcworth_scraper(category, config):
     # print(headers)
     response = requests.get("https://www.api.pcworth.com/api/ecomm/products/available/get?limit=999&category=" + config['category'][category], headers=headers)
     res = response.json()
-    for item in res['data']:
+    for idx,item in enumerate(res['data']):
         product_item = {}
         brand = ''
         # print('----------------------------------------------------')
@@ -79,7 +79,7 @@ def pcworth_scraper(category, config):
         product_item['name'] = item['product_name']
         product_item['price'] = item['amount']
         product_item['brand'] = brand
-        product_item['supplier'] = 'PCWorth'
+        product_item['vendor'] = 'PCWorth'
         product_item['category_id'] = category
         product_item['promo'] = item['with_bundle']
         product_item['image'] = item['img_thumbnail']
@@ -90,16 +90,18 @@ def pcworth_scraper(category, config):
         # print(product_item)
         # print('----------------------------------------------------')
         product_items.append(product_item)
+        if idx == test_limit:
+            break
 
     return product_items
 
 
-def main(site, category, db_save=0):
+def main(site, category,test_limit, db_save=0):
     with open("../config/api_scraper.yaml", "r") as f:
         configuration = yaml.load(f, Loader=yaml.FullLoader)
         config = configuration[site]
     if site == 'pcworth':
-        product_items = pcworth_scraper(category, config)
+        product_items = pcworth_scraper(category, config, int(test_limit))
         if db_save == 1: database.insertToDatabase(product_items)
         return product_items
 

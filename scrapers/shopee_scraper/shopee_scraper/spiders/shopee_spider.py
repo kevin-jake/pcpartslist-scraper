@@ -97,7 +97,7 @@ class ShopeeScraperSpider(scrapy.Spider):
         product_item['price'] = price
         product_item['brand'] = response.css(product_selectors['brand']).get()
         product_item['stocks'] = response.css(product_selectors['stock']).get()
-        product_item['supplier'] = shop_config['supplier']
+        product_item['vendor'] = shop_config['vendor']
         product_item['category_id'] = self.product
         product_item['image'] = response.css(product_selectors['image']).get()
         product_item['createdAt'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

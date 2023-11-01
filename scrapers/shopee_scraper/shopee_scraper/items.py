@@ -17,7 +17,7 @@ class GPUProduct(scrapy. Item):
     name = scrapy.Field()
     price = scrapy.Field()
     brand = scrapy.Field()
-    supplier = scrapy. Field()
+    vendor = scrapy. Field()
     category_id= scrapy.Field()
     promo = scrapy. Field(default=None)
     warranty = scrapy. Field(default=None)

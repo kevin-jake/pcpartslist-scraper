@@ -17,7 +17,7 @@ connection = MySQLdb.connect(
 
 
 def insertToDatabase(products):
-    product_to_insert = [(d["id"], d["url"], d["name"], d["category_id"], d["brand"], d["supplier"], d["promo"], d["warranty"], d["stocks"], d["image"], d["createdAt"]) for d in products if d]
+    product_to_insert = [(d["id"], d["url"], d["name"], d["category_id"], d["brand"], d["vendor"], d["promo"], d["warranty"], d["stocks"], d["image"], d["createdAt"]) for d in products if d]
     price_to_insert = [(d["id"], d["price"], d["createdAt"]) for d in products if d]
     try:
         insert_product = """insert into Products (
@@ -26,7 +26,7 @@ def insertToDatabase(products):
             name, 
             category_id, 
             brand,
-            supplier,
+            vendor,
             promo,
             warranty,
             stocks,
@@ -68,7 +68,6 @@ def insertToDatabase(products):
         cursor.executemany(insert_price, price_to_insert)
 
         connection.commit()
-        # print(cursor.rowcount, "Record inserted successfully into Products table")
 
     except MySQLdb.Error as error:
         print("Failed to insert record into MySQL table {}".format(error))

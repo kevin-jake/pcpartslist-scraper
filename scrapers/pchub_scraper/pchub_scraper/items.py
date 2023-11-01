@@ -18,7 +18,7 @@ class Product(scrapy. Item):
     price = scrapy.Field()
     brand = scrapy.Field()
     category_id = scrapy.Field()
-    supplier = scrapy. Field()
+    vendor = scrapy. Field()
     promo = scrapy. Field(default=None)
     warranty = scrapy. Field(default=None)
     stocks = scrapy.Field(default=None)

@@ -103,7 +103,7 @@ class PchubSpiderSpider(scrapy.Spider):
         product_item['price'] = price
         product_item['category_id'] = self.product
         product_item['brand'] = response.css("div.flex.flex-row.justify-between.md\:mx-5 > p ::text").get().split('>')[1].strip()
-        product_item['supplier'] = 'PCHub'
+        product_item['vendor'] = 'PCHub'
         product_item['promo'] = product_info.css("span.text-red-500.text-sm ::text").get()
         product_item['warranty'] = product_info.css('span:contains("Warranty:")::text').get().split(":")[1].strip()
         product_item['stocks'] = new_value

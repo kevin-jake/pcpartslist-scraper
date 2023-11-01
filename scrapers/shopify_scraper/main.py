@@ -29,7 +29,7 @@ def parse_product(url, product, item, config):
         product_item['name'] = item['title']
         product_item['price'] = item['variants'][0]['price']
         product_item['brand'] = item['vendor']
-        product_item['supplier'] = config['supplier']
+        product_item['vendor'] = config['vendor']
         product_item['category_id'] = product
         # TODO: Fix image loading on datablitz sites and make images an array of images.
         if len(item['images']) > 0:
@@ -61,7 +61,7 @@ def parse_product(url, product, item, config):
  
 
 # if __name__ == "__main__":
-def main(site, product, db_save=0):
+def main(site, product, test_limit, db_save=0):
     product_items = []
     with open("../config/shopify_scraper.yaml", "r") as f:
         configuration = yaml.load(f, Loader=yaml.FullLoader)
@@ -85,6 +85,8 @@ def main(site, product, db_save=0):
                 else:
                     product_items.append(parse_product(url, product, item, config))
         page += 1
+        if len(product_items) == test_limit:
+            break
     if db_save == 1: database.insertToDatabase(product_items)
     return product_items
 

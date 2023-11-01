@@ -31,10 +31,10 @@ shops:
   pcworx:
     shop_id: "89683872"
     searchKeyword: "pcworx"
-    supplier: "PCWorx"
+    vendor: "PCWorx"
     id_prefix: "WORX"
   itworld:
     shop_id: "89762129"
     searchKeyword: "itwitw"
-    supplier: "ITWorld"
+    vendor: "ITWorld"
     id_prefix: "ITW"
