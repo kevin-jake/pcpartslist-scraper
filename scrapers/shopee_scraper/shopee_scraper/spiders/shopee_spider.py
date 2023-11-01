@@ -46,9 +46,6 @@ class ShopeeScraperSpider(scrapy.Spider):
 
         for page_number in range(0,total_page):
             if page_number != total_page:
-                print('---------------------------------------------------------------------------------------------')
-                print(total_page)
-                print('---------------------------------------------------------------------------------------------')
                 full_url = "https://shopee.ph/search?facet=" + configuration['facets'][self.product] + "&noCorrection=true&page=" + str(page_number) + "&searchKeyword=" + shop_config['searchKeyword'] + "&shop=" + shop_config['shop_id']
                 time.sleep(random.randint(1,2))
                 yield scrapy.Request(url=full_url, callback=self.parse_page, dont_filter=True, meta=dict(

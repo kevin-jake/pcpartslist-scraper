@@ -3,7 +3,7 @@
 selectors:
   main: 'div[role="main"]'
   total_page: 'span.shopee-mini-page-controller__total::text'
-  get_hrefs: 'div.shopee-search-item-result__item'
+  get_hrefs: 'li.shopee-search-item-result__item'
   product:
     name: 'div._44qnta span::text'
     price: 'div.pqTWkA::text'

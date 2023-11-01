@@ -18,7 +18,7 @@ def scrape(scraper,**kwargs):
         params = {
             'spider_name': 'pchub_spider',
             'start_requests': True,
-            'crawl_args':json.dumps({'product': product, 'db_save': int(db_save), 'test_limit': int(test_limit)})
+            'crawl_args':json.dumps({'product': product, 'db_save': int(db_save)})
         }
         # TODO: Create dockerfiles to run scrapyrt separately into a container. Make url  an environment variable
         response = requests.get('http://localhost:9080/crawl.json', params)
@@ -29,7 +29,7 @@ def scrape(scraper,**kwargs):
         params = {
             'spider_name': 'shopee_spider',
             'start_requests': True,
-            'crawl_args':json.dumps({'shop': site, 'product': product, 'db_save': int(db_save), 'test_limit': int(test_limit)})
+            'crawl_args':json.dumps({'shop': site, 'product': product, 'db_save': int(db_save)})
         }
         # TODO: Create dockerfiles to run scrapyrt separately into a container. Make url  an environment variable
         response = requests.get('http://localhost:9081/crawl.json', params)
