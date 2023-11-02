@@ -1,15 +1,22 @@
+amqp==5.1.1
 appdirs==1.4.4
 attrs==23.1.0
 Automat==22.10.0
+backports.zoneinfo==0.2.1
 beautifulsoup4==4.9.3
+billiard==4.1.0
 black==23.7.0
 blinker==1.6.2
 bs4==0.0.1
+celery==5.3.4
 certifi==2022.12.7
 cffi==1.15.1
 chardet==3.0.4
 charset-normalizer==3.1.0
 click==8.1.6
+click-didyoumean==0.3.0
+click-plugins==1.1.1
+click-repl==0.3.0
 colorama==0.4.4
 constantly==15.1.0
 cryptography==40.0.2
@@ -24,7 +31,6 @@ greenlet==2.0.2
 h11==0.14.0
 hyperlink==21.0.0
 idna==3.4
-importlib==1.0.4
 importlib-metadata==6.8.0
 incremental==22.10.0
 isort==5.12.0
@@ -33,6 +39,7 @@ itemloaders==1.1.0
 itsdangerous==2.1.2
 Jinja2==3.1.2
 jmespath==1.0.1
+kombu==5.3.2
 loguru==0.5.3
 lxml==4.9.2
 MarkupSafe==2.1.3
@@ -47,6 +54,7 @@ parsel==1.8.1
 pathspec==0.11.1
 platformdirs==3.9.1
 playwright==1.37.0
+prompt-toolkit==3.0.39
 Protego==0.2.1
 psycopg2-binary==2.9.6
 pyasn1==0.5.0
@@ -72,7 +80,7 @@ scrapy-playwright==0.0.32
 scrapyrt==0.15.0
 selenium==4.9.1
 service-identity==21.1.0
-ShopifyScraper==0.2
+ShopifyScraper @ git+https://github.com/practical-data-science/ShopifyScraper@master
 six==1.16.0
 sniffio==1.3.0
 sortedcontainers==2.4.0
@@ -88,7 +96,9 @@ typing-extensions==4.5.0
 tzdata==2023.3
 undetected-chromedriver==3.5.0
 urllib3==1.26.15
+vine==5.0.0
 w3lib==2.1.1
+wcwidth==0.2.9
 websockets==11.0.3
 werkzeug==2.3.7
 win32-setctime==1.0.3

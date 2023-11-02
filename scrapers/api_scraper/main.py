@@ -4,8 +4,6 @@ import re
 import yaml
 # import argparse
 from datetime import datetime
-import os, sys
-sys.path.insert(0, os.path.abspath(".."))
 import scrapers.modules.save_to_db as database
 
 
@@ -90,14 +88,14 @@ def pcworth_scraper(category, config, test_limit):
         # print(product_item)
         # print('----------------------------------------------------')
         product_items.append(product_item)
-        if idx == test_limit:
+        if idx == test_limit and test_limit != 0:
             break
 
     return product_items
 
 
 def main(site, category,test_limit, db_save=0):
-    with open("../config/api_scraper.yaml", "r") as f:
+    with open("./config/api_scraper.yaml", "r") as f:
         configuration = yaml.load(f, Loader=yaml.FullLoader)
         config = configuration[site]
     if site == 'pcworth':

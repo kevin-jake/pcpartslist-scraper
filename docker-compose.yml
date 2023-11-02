@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+
+  flask_api:
+    build: "./server"
+    ports:
+      - "5000:5000"
+    depends_on:
+      - rabbit
+
+  rabbit:
+    hostname: rabbit
+    image: "rabbitmq:3-management"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS:  admin
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+
+  pchub_scrapyrt:
+    image: "scrapinghub/scrapyrt"
+    working_dir: /app
+    ports:
+      - "9080:9080"
+    volumes:
+      - ./scrapers/pchub_scraper:/app
+
+  shopee_scrapyrt:
+    image: "scrapinghub/scrapyrt"
+    working_dir: /app
+    ports:
+      - "9081:9081"
+    volumes:
+      - ./scrapers/shopee_scraper:/app
+
+  worker:
+    build: "."
+    user: nobody
+    depends_on:
+      - rabbit
+      - flask_api

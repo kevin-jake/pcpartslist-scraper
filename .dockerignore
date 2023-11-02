@@ -1,0 +1,5 @@
+.git
+.docker-secrets
+scraper_venv/
+__pycache__
+logs

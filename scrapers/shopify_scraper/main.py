@@ -3,8 +3,6 @@ import json
 import yaml
 # import argparse
 from datetime import datetime
-import os, sys
-sys.path.insert(0, os.path.abspath(".."))
 import scrapers.modules.save_to_db as database
 
 
@@ -63,7 +61,7 @@ def parse_product(url, product, item, config):
 # if __name__ == "__main__":
 def main(site, product, test_limit, db_save=0):
     product_items = []
-    with open("../config/shopify_scraper.yaml", "r") as f:
+    with open("./config/shopify_scraper.yaml", "r") as f:
         configuration = yaml.load(f, Loader=yaml.FullLoader)
         config = configuration[site]
     result = ['init']
@@ -84,10 +82,10 @@ def main(site, product, test_limit, db_save=0):
                         product_items.append(parse_product(url, product, item, config))
                 else:
                     product_items.append(parse_product(url, product, item, config))
-                if len(product_items) == test_limit:
+                if len(product_items) == test_limit and test_limit != 0:
                     break
         page += 1
-        if len(product_items) == test_limit:
+        if len(product_items) == test_limit and test_limit != 0:
             break
     if db_save == 1: database.insertToDatabase(product_items)
     return product_items
