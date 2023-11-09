@@ -84,10 +84,10 @@ def main(site, product, test_limit, db_save=0):
                         product_items.append(parse_product(url, product, item, config))
                 else:
                     product_items.append(parse_product(url, product, item, config))
-                if len(product_items) == test_limit:
+                if len(product_items) == test_limit and test_limit != 0:
                     break
         page += 1
-        if len(product_items) == test_limit:
+        if len(product_items) == test_limit and test_limit != 0:
             break
     if db_save == 1: database.insertToDatabase(product_items)
     return product_items
