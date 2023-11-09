@@ -29,7 +29,7 @@ def scrape(**kwargs):
             'start_requests': True,
             'crawl_args':json.dumps({'product': product, 'db_save': int(db_save)})
         }
-        response = requests.get('http://localhost:9080/crawl.json', params)
+        response = requests.get(f'http://{os.environ.get("PCHUB_SCRAPER")}:9080/crawl.json', params)
         data = json.loads(response.text)
         # app.logger.info('Scraped: %s of %s product from %s', data['stats']['item_scraped_count'], product, site)
         return data
@@ -39,7 +39,7 @@ def scrape(**kwargs):
             'start_requests': True,
             'crawl_args':json.dumps({'shop': site, 'product': product, 'db_save': int(db_save)})
         }
-        response = requests.get('http://localhost:9081/crawl.json', params)
+        response = requests.get(f'http://{os.environ.get("SHOPEE_SCRAPER")}:9081/crawl.json', params)
         data = json.loads(response.text)
         # app.logger.info('Scraped: %s of %s product from %s', data['stats']['item_scraped_count'], product, site)
         return data
