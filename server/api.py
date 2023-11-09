@@ -20,7 +20,6 @@ def scrape(scraper,**kwargs):
             'start_requests': True,
             'crawl_args':json.dumps({'product': product, 'db_save': int(db_save)})
         }
-        # TODO: Create dockerfiles to run scrapyrt separately into a container. Make url  an environment variable
         response = requests.get('http://localhost:9080/crawl.json', params)
         data = json.loads(response.text)
         app.logger.info('Scraped: %s of %s product from %s', data['stats']['item_scraped_count'], product, site)
@@ -31,7 +30,6 @@ def scrape(scraper,**kwargs):
             'start_requests': True,
             'crawl_args':json.dumps({'shop': site, 'product': product, 'db_save': int(db_save)})
         }
-        # TODO: Create dockerfiles to run scrapyrt separately into a container. Make url  an environment variable
         response = requests.get('http://localhost:9081/crawl.json', params)
         data = json.loads(response.text)
         app.logger.info('Scraped: %s of %s product from %s', data['stats']['item_scraped_count'], product, site)

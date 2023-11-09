@@ -1,18 +1,13 @@
 from dotenv import load_dotenv
 load_dotenv()
 import os
-import MySQLdb
+from mysql.connector import connect, Error
 
-connection = MySQLdb.connect(
+connection = connect(
             host= os.getenv("DB_HOST"),
             user=os.getenv("DB_USERNAME"),
-            passwd= os.getenv("DB_PASSWORD"),
-            db= os.getenv("DB_NAME"),
-            autocommit = True,
-            ssl_mode = "VERIFY_IDENTITY",
-            ssl      = {
-                "ca": "/etc/ssl/certs/ca-certificates.crt"
-            }
+            password= os.getenv("DB_PASSWORD"),
+            database= os.getenv("DB_NAME"),
         )
 
 
@@ -26,7 +21,7 @@ def insertToDatabase(products):
             name, 
             category_id, 
             brand,
-            vendor,
+            supplier,
             promo,
             warranty,
             stocks,
@@ -69,7 +64,7 @@ def insertToDatabase(products):
 
         connection.commit()
 
-    except MySQLdb.Error as error:
+    except Error as error:
         print("Failed to insert record into MySQL table {}".format(error))
 
     finally:

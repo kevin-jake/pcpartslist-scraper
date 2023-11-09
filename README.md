@@ -1,6 +1,11 @@
 ### Start the python env
 ```
-source scraper_env/bin/activate
+source venv/bin/activate
+```
+
+### Create python env
+```
+python3 -m venv venv
 ```
 
 ### Running flask app

@@ -9,7 +9,8 @@ from itemadapter import ItemAdapter
 from dotenv import load_dotenv
 load_dotenv()
 import os
-import MySQLdb
+from mysql.connector import connect
+
 
 class ShopeeScraperPipeline:
     def process_item(self, item, spider):
@@ -22,63 +23,15 @@ class ShopeeScraperPipeline:
 class SaveToMySQLPipeline:
 
     def __init__(self):
-        self.conn = MySQLdb.connect(
+        self.conn = connect(
             host= os.getenv("DB_HOST"),
             user=os.getenv("DB_USERNAME"),
-            passwd= os.getenv("DB_PASSWORD"),
-            db= os.getenv("DB_NAME"),
-            autocommit = True,
-            ssl_mode = "VERIFY_IDENTITY",
-            ssl      = {
-                "ca": "/etc/ssl/certs/ca-certificates.crt"
-            }
+            password= os.getenv("DB_PASSWORD"),
+            database= os.getenv("DB_NAME"),
         )
 
         # Create cursor, used to execute commands
         self.cur = self.conn.cursor()
-
-        # Create books table if none exists
-        self.cur.execute("""
-            CREATE TABLE IF NOT EXISTS `Products` (
-                `id` varchar(255) NOT NULL,
-                `url` varchar(255),
-                `name` text,
-                `brand` varchar(255),
-                `vendor` varchar(255),
-                `promo` varchar(255),
-                `warranty` varchar(255),
-                `stocks` varchar(255),
-                `img_url` varchar(255),
-                `createdAt` datetime(3) DEFAULT current_timestamp(3),
-                `updatedAt` datetime(3),
-                `category_id` int,
-                PRIMARY KEY (`id`),
-                KEY `Products_category_id_idx` (`category_id`)
-            )
-        """)
-
-        self.cur.execute("""
-            CREATE TABLE IF NOT EXISTS `Price` (
-                `id` int NOT NULL AUTO_INCREMENT,
-                `price` decimal(10,0),
-                `createdAt` datetime(3) DEFAULT current_timestamp(3),
-                `updatedAt` datetime(3),
-                `pc_parts_id` varchar(255) NOT NULL,
-                PRIMARY KEY (`id`),
-                KEY `Price_pc_parts_id_idx` (`pc_parts_id`)
-            )
-        """)
-
-        self.cur.execute("""
-            CREATE TABLE IF NOT EXISTS `Category` (
-                `id` int NOT NULL AUTO_INCREMENT,
-                `name` varchar(255) NOT NULL,
-                `description` varchar(255),
-                `createdAt` datetime(3) DEFAULT current_timestamp(3),
-                `updatedAt` datetime(3),
-                PRIMARY KEY (`id`)
-            )
-        """)
 
     def process_item(self, item, spider):
         if spider.db_save == '1':
@@ -88,7 +41,7 @@ class SaveToMySQLPipeline:
                 name, 
                 category_id, 
                 brand,
-                vendor,
+                supplier,
                 promo,
                 warranty,
                 stocks,
@@ -117,7 +70,7 @@ class SaveToMySQLPipeline:
                 item["id"],
                 item["url"],
                 item["name"],
-                item["category_id"],
+                str(item["category_id"]),
                 item["brand"],
                 item["vendor"],
                 item["promo"],
