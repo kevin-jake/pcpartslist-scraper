@@ -1,0 +1,3 @@
+runtime: python39
+service: task-generator
+entrypoint: gunicorn -b :$PORT task_generator.app:app

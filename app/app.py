@@ -40,23 +40,23 @@ def scrape(scraper,**kwargs):
         app.logger.info('Scraped: %s of %s from %s', len(product_items), product, site)
         return product_items
 
-def scrape_all(scraper, site, products, db_save):
-    results = {}
-    for product in products:
-        results[product] = {}
-        try:
-            response = scrape(scraper, site=site, product=product, db_save=int(db_save))
-            if scraper == 'pchub_scraper' or scraper == 'shopee_scraper':
-                if db_save == 0: results[product]['products'] = response['items']
-                results[product]['scraped'] = response['stats']['item_scraped_count']
-            else:
-                if db_save == 0: results[product]['products'] = response
-                results[product]['scraped'] = len(response)
-        except Exception as e:
-            results[product]['error'] = repr(e)
-            app.logger.error(repr(e))
-            pass 
-    return results
+# def scrape_all(scraper, site, products, db_save):
+#     results = {}
+#     for product in products:
+#         results[product] = {}
+#         try:
+#             response = scrape(scraper, site=site, product=product, db_save=int(db_save))
+#             if scraper == 'pchub_scraper' or scraper == 'shopee_scraper':
+#                 if db_save == 0: results[product]['products'] = response['items']
+#                 results[product]['scraped'] = response['stats']['item_scraped_count']
+#             else:
+#                 if db_save == 0: results[product]['products'] = response
+#                 results[product]['scraped'] = len(response)
+#         except Exception as e:
+#             results[product]['error'] = repr(e)
+#             app.logger.error(repr(e))
+#             pass 
+#     return results
 
 @app.route("/scrape/<scraper>")
 def scraping(scraper):
@@ -67,28 +67,28 @@ def scraping(scraper):
     except Exception as e:
         return f'{e}', 400
 
-@app.route("/scrape/all")
-def scraping_all():
-    scrapers_list = [".".join(f.split(".")[:-1]) for f in os.listdir("../config")]
-    results = {}
-    db_save = request.args.get('db_save', 0)
-    for scraper in scrapers_list:
-        with open(f"../config/{scraper}.yaml", "r") as f:
-            configuration = yaml.load(f, Loader=yaml.FullLoader)
-        if scraper == 'pchub_scraper':
-            site = 'pchub'
-            products = configuration[site]['category']
-            results[scraper] = scrape_all(scraper, site, products, db_save)
-        elif scraper == 'shopee_scraper':
-            for site in configuration['shops']:
-                products = configuration['facets']
-                results[scraper] = scrape_all(scraper, site, products, db_save)
-        elif scraper == 'api_scraper':
-            for site in configuration.keys():
-                products = configuration[site]['category']
-                results[scraper] = scrape_all(scraper, site, products, db_save)
-        elif scraper == 'shopify_scraper':
-            for site in configuration.keys():
-                products = configuration[site]['slug']
-                results[scraper] = scrape_all(scraper, site, products, db_save)
-    return jsonify(results)
+# @app.route("/scrape/all")
+# def scraping_all():
+#     scrapers_list = [".".join(f.split(".")[:-1]) for f in os.listdir("../config")]
+#     results = {}
+#     db_save = request.args.get('db_save', 0)
+#     for scraper in scrapers_list:
+#         with open(f"../config/{scraper}.yaml", "r") as f:
+#             configuration = yaml.load(f, Loader=yaml.FullLoader)
+#         if scraper == 'pchub_scraper':
+#             site = 'pchub'
+#             products = configuration[site]['category']
+#             results[scraper] = scrape_all(scraper, site, products, db_save)
+#         elif scraper == 'shopee_scraper':
+#             for site in configuration['shops']:
+#                 products = configuration['facets']
+#                 results[scraper] = scrape_all(scraper, site, products, db_save)
+#         elif scraper == 'api_scraper':
+#             for site in configuration.keys():
+#                 products = configuration[site]['category']
+#                 results[scraper] = scrape_all(scraper, site, products, db_save)
+#         elif scraper == 'shopify_scraper':
+#             for site in configuration.keys():
+#                 products = configuration[site]['slug']
+#                 results[scraper] = scrape_all(scraper, site, products, db_save)
+#     return jsonify(results)

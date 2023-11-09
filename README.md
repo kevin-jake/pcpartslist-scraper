@@ -93,3 +93,15 @@ scrapyrt -p <port number>
 ```
 docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
 ```
+
+Reference: 
+- https://www.youtube.com/watch?v=Q_airdHCuV8
+- https://github.com/GoogleCloudPlatform/python-docs-samples/blob/main/appengine/flexible_python37_and_earlier/tasks/create_app_engine_queue_task.py
+- https://github.com/googlecodelabs/migrate-python2-appengine/blob/master/mod9-py3dstasks/main.py
+
+TODO:
+- config yaml is returning an error on the app
+- seperate each scraper and create task queues for each scraper
+- make request a post method??
+- make each scraper route??
+- use env variable for google cloud variables

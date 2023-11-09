@@ -90,14 +90,14 @@ def pcworth_scraper(category, config, test_limit):
         # print(product_item)
         # print('----------------------------------------------------')
         product_items.append(product_item)
-        if idx == test_limit:
+        if idx == test_limit and test_limit != 0:
             break
 
     return product_items
 
 
 def main(site, category,test_limit, db_save=0):
-    with open("../config/api_scraper.yaml", "r") as f:
+    with open("/workspace/config/api_scraper.yaml", "r") as f:
         configuration = yaml.load(f, Loader=yaml.FullLoader)
         config = configuration[site]
     if site == 'pcworth':
