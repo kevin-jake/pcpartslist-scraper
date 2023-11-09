@@ -90,7 +90,7 @@ def pcworth_scraper(category, config, test_limit):
         # print(product_item)
         # print('----------------------------------------------------')
         product_items.append(product_item)
-        if idx == test_limit and test_limit != 0:
+        if idx == test_limit:
             break
 
     return product_items
