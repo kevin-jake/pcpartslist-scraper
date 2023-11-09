@@ -4,7 +4,7 @@ services:
   flask_api:
     container_name: flask_api
     env_file:
-      - .env
+      - .env.docker
     build: .
     working_dir: /app/app
     command: python -m flask run -h 0.0.0.0
@@ -49,7 +49,7 @@ services:
     container_name: celery_worker
     build: .
     env_file:
-      - .env
+      - .env.docker
     working_dir: /app/celery_worker
     command: celery -A tasks worker --loglevel=info
     depends_on:
