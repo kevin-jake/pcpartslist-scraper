@@ -2,12 +2,13 @@
 from datetime import datetime
 import json
 import time
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, request
 import google.auth
 from google.cloud import tasks
 
 app = Flask(__name__)
 ts_client = tasks.CloudTasksClient()
+
 
 _, PROJECT_ID = google.auth.default()
 REGION_ID = 'asia-southeast1'    # replace w/your own
@@ -29,7 +30,7 @@ def generate_tasks(scraper, site, product, db_save ):
 @app.route('/scrape_request/<scraper>')
 def scrape_request(scraper):
     response = generate_tasks(scraper, request.args['site'], request.args['product'], request.args['db_save'] )
-    return response.name   # need to return SOME string w/200
+    return str(response) # need to return SOME string w/200
 
 @app.route('/')
 def root():

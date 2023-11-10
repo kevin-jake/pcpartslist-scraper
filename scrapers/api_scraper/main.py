@@ -2,6 +2,7 @@ from playwright.sync_api import sync_playwright
 import requests
 import re
 import yaml
+import time
 # import argparse
 from datetime import datetime
 import os, sys
@@ -103,6 +104,7 @@ def main(site, category,test_limit, db_save=0):
     if site == 'pcworth':
         product_items = pcworth_scraper(category, config, int(test_limit))
         if db_save == 1: database.insertToDatabase(product_items)
+        time.sleep(30)
         return product_items
 
 # if __name__ == "__main__":

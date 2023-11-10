@@ -37,8 +37,7 @@ def scrape(scraper,**kwargs):
     else:
         scraper_module = importlib.import_module(f'scrapers.{scraper}.main')
         product_items = scraper_module.main(site, product, int(test_limit), int(db_save))
-        app.logger.info('Scraped: %s of %s from %s', len(product_items), product, site)
-        return product_items
+        return {"results": f'Scraped: {len(product_items)} of {product} from {site}'}
 
 # def scrape_all(scraper, site, products, db_save):
 #     results = {}
