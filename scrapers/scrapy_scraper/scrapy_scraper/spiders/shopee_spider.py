@@ -2,9 +2,8 @@ import scrapy
 from scrapy_scraper.items import Product
 import time
 import random
-import yaml
+from config import shopee_scraper_config
 from datetime import datetime
-import os
 
 
 
@@ -15,11 +14,10 @@ class ShopeeScraperSpider(scrapy.Spider):
 
 
     def start_requests(self):
-        with open(os.path.join(os.path.dirname(__file__),"../../../../config/scrapy_scraper.yaml"), "r") as f:
-            configuration = yaml.load(f, Loader=yaml.FullLoader)
-            shop_config = configuration['shopee']['shops'][self.shop]
-            selectors = configuration['shopee']['selectors']
-        url = "https://shopee.ph/search?facet=" + configuration['shopee']['facets'][self.product] + "&noCorrection=true&page=0&searchKeyword=" + shop_config['searchKeyword'] + "&shop=" + shop_config['shop_id'] 
+        configuration = shopee_scraper_config
+        shop_config = configuration['shops'][self.shop]
+        selectors = configuration['selectors']
+        url = "https://shopee.ph/search?facet=" + configuration['facets'][self.product] + "&noCorrection=true&page=0&searchKeyword=" + shop_config['searchKeyword'] + "&shop=" + shop_config['shop_id'] 
         print('---------------------------------------------------------------------------------------------')
         print(url)
         print('---------------------------------------------------------------------------------------------')
@@ -46,7 +44,7 @@ class ShopeeScraperSpider(scrapy.Spider):
 
         for page_number in range(0,total_page):
             if page_number != total_page:
-                full_url = "https://shopee.ph/search?facet=" + configuration['shopee']['facets'][self.product] + "&noCorrection=true&page=" + str(page_number) + "&searchKeyword=" + shop_config['searchKeyword'] + "&shop=" + shop_config['shop_id']
+                full_url = "https://shopee.ph/search?facet=" + configuration['facets'][self.product] + "&noCorrection=true&page=" + str(page_number) + "&searchKeyword=" + shop_config['searchKeyword'] + "&shop=" + shop_config['shop_id']
                 time.sleep(random.randint(1,2))
                 yield scrapy.Request(url=full_url, callback=self.parse_page, dont_filter=True, meta=dict(
                 playwright = True,

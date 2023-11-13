@@ -1,10 +1,8 @@
 from shopify_scraper import scraper
 import json
-import yaml
 # import argparse
 from datetime import datetime
-import os, sys
-sys.path.insert(0, os.path.abspath(".."))
+from config import shopify_scraper_config
 import scrapers.modules.save_to_db as database
 
 
@@ -63,9 +61,7 @@ def parse_product(url, product, item, config):
 # if __name__ == "__main__":
 def main(site, product, test_limit, db_save=0):
     product_items = []
-    with open("../config/shopify_scraper.yaml", "r") as f:
-        configuration = yaml.load(f, Loader=yaml.FullLoader)
-        config = configuration[site]
+    config = shopify_scraper_config
     result = ['init']
     page = 1
     url = config['site_url'] + '/collections/' + config['slug'][product]

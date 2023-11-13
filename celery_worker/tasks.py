@@ -1,12 +1,9 @@
 import os
-import time
 from celery import Celery
 import importlib
+from scrapers import *
 import requests
 import json
-import os, sys
-sys.path.insert(0, os.path.abspath(".."))
-import yaml
 
 CELERY_BROKER = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
 CELERY_BACKEND = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')

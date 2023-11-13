@@ -1,11 +1,9 @@
 from playwright.sync_api import sync_playwright
 import requests
 import re
-import yaml
 # import argparse
 from datetime import datetime
-import os, sys
-sys.path.insert(0, os.path.abspath(".."))
+from config import api_scraper_config
 import scrapers.modules.save_to_db as database
 
 
@@ -97,9 +95,7 @@ def pcworth_scraper(category, config, test_limit):
 
 
 def main(site, category,test_limit, db_save=0):
-    with open("../config/api_scraper.yaml", "r") as f:
-        configuration = yaml.load(f, Loader=yaml.FullLoader)
-        config = configuration[site]
+    config = api_scraper_config
     if site == 'pcworth':
         product_items = pcworth_scraper(category, config, int(test_limit))
         if db_save == 1: database.insertToDatabase(product_items)
