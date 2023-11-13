@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from worker import celery
+from .worker import celery
 
 app = Flask(__name__)
 

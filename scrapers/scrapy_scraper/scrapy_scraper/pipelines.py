@@ -15,7 +15,7 @@ from mysql.connector import connect
 
 
 
-class PchubScraperPipeline:
+class ScrapyScraperPipeline:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         adapter['price'] = float(adapter['price'])

@@ -1,4 +1,4 @@
-# Scrapy settings for pchub_scraper project
+# Scrapy settings for scrapy_scraper project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,14 +7,15 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "pchub_scraper"
+BOT_NAME = "scrapy_scraper"
 
-SPIDER_MODULES = ["pchub_scraper.spiders"]
-NEWSPIDER_MODULE = "pchub_scraper.spiders"
+SPIDER_MODULES = ["scrapy_scraper.spiders"]
+NEWSPIDER_MODULE = "scrapy_scraper.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "pchub_scraper (+http://www.yourdomain.com)"
+#USER_AGENT = "scrapy_scraper (+http://www.yourdomain.com)"
+USER_AGENT = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -54,13 +55,13 @@ LOG_LEVEL = "INFO"
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "pchub_scraper.middlewares.PchubScraperSpiderMiddleware": 543,
+#    "scrapy_scraper.middlewares.ScrapyScraperSpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "pchub_scraper.middlewares.PchubScraperDownloaderMiddleware": 543,
+#    "scrapy_scraper.middlewares.ScrapyScraperDownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -72,8 +73,8 @@ LOG_LEVEL = "INFO"
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   "pchub_scraper.pipelines.PchubScraperPipeline": 300,
-   "pchub_scraper.pipelines.SaveToMySQLPipeline": 400,
+   "scrapy_scraper.pipelines.ScrapyScraperPipeline": 300,
+   "scrapy_scraper.pipelines.SaveToMySQLPipeline": 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

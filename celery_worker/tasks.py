@@ -23,7 +23,7 @@ def scrape(**kwargs):
     db_save = args.get('db_save', 0)
     test_limit = args.get('test_limit', None)
     # app.logger.info('Now scraping using: %s, shop: %s, product: %s', scraper, site, product)
-    if scraper == 'pchub_scraper':
+    if scraper == 'scrapy_scraper':
         params = {
             'spider_name': 'pchub_spider',
             'start_requests': True,
