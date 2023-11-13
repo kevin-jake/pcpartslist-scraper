@@ -41,8 +41,8 @@ e.g.
 # This start running the pchub_spider and output the file to pchub.json in the directory where you run this.
 scrapy crawl pchub_spider -O pchub.json -a product=GPU 
 
-# Shopee scraper
-cd scrapers/shopee_scraper
+# Scrapy scraper
+cd scrapers/scrapy_scraper
 scrapy crawl shopee_spider -O shopee.json -a shop=pcworx -a product=GPU
 ```
 
@@ -60,7 +60,7 @@ scrapy shell file:///home/scraper/response.html
 Shop name and product is defined at ```config/shopify_scraper.yaml```
 
 ```
-cd scrapers/generic_shopify_scraper
+cd scrapers/shopify_scraper
 python3 main.py -s <site or shop name> -p <product>
 
 e.g.
