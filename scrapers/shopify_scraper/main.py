@@ -61,7 +61,7 @@ def parse_product(url, product, item, config):
 # if __name__ == "__main__":
 def main(site, product, test_limit, db_save=0):
     product_items = []
-    config = shopify_scraper_config
+    config = shopify_scraper_config[site]
     result = ['init']
     page = 1
     url = config['site_url'] + '/collections/' + config['slug'][product]

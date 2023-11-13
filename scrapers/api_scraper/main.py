@@ -95,7 +95,7 @@ def pcworth_scraper(category, config, test_limit):
 
 
 def main(site, category,test_limit, db_save=0):
-    config = api_scraper_config
+    config = api_scraper_config[site]
     if site == 'pcworth':
         product_items = pcworth_scraper(category, config, int(test_limit))
         if db_save == 1: database.insertToDatabase(product_items)
