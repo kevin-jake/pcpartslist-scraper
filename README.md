@@ -98,8 +98,7 @@ docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:lat
 
 #### Build
 ```
-cd scrapers/scrapy_scraper
-docker build -t pcpartslist-scraper-scrapyrt:latest .
+docker build -t pcpartslist-scraper-scrapyrt:latest scrapers/scrapy_scraper/.
 ```
 #### Run
 ```
