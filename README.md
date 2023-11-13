@@ -88,8 +88,22 @@ scrapyrt -p <port number>
 
 ```
 
-### Running Redis
+### Running Redis container
 
 ```
 docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
+```
+
+### Building and Running Scrapyrt container
+
+#### Build
+```
+cd scrapers/scrapy_scraper
+docker build -t pcpartslist-scraper-scrapyrt:latest .
+```
+#### Run
+```
+docker run -d --name scrapyrt -p 9080:9080 \
+--env-file .env \
+pcpartslist-scraper-scrapyrt:latest
 ```

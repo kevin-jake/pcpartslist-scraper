@@ -21,9 +21,9 @@ services:
 
   scrapyrt:
     container_name: scrapyrt
-    image: "scrapinghub/scrapyrt"
+    env_file:
+      - .env.docker
+    build: ./scrapers/scrapy_scraper
     working_dir: /app
     ports:
       - "9080:9080"
-    volumes:
-      - ./scrapers/scrapy_scraper:/app

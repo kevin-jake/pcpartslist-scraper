@@ -22,12 +22,18 @@ def scrape(**kwargs):
     test_limit = args.get('test_limit', None)
     # app.logger.info('Now scraping using: %s, shop: %s, product: %s', scraper, site, product)
     if scraper == 'scrapy_scraper':
+        shop = site
+        spider = site
+        fullsite = site.split('-')
+        if len(fullsite) > 1:
+            spider = fullsite[0]
+            shop = fullsite[1]
         params = {
-            'spider_name': f'{site}_spider',
+            'spider_name': f'{spider}_spider',
             'start_requests': True,
-            'crawl_args':json.dumps({'shop': site, 'product': product, 'db_save': int(db_save)})
+            'crawl_args':json.dumps({ 'shop': shop, 'product': product, 'db_save': int(db_save)})
         }
-        response = requests.get(f'http://{os.environ.get("SCRAPY_SCRAPER")}:9080/crawl.json', params)
+        response = requests.get(f'http://{os.environ.get("SCRAPY_SCRAPER", "localhost")}:9080/crawl.json', params)
         data = json.loads(response.text)
         # app.logger.info('Scraped: %s of %s product from %s', data['stats']['item_scraped_count'], product, site)
         return data
