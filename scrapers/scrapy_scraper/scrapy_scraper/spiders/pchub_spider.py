@@ -112,5 +112,5 @@ class PchubSpiderSpider(scrapy.Spider):
         yield product_item
 
     async def errback(self, error):
-        page = error.request.nmeta("playwright_page")
+        page = error.request.meta("playwright_page")
         await page.close()
