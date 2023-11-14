@@ -33,4 +33,4 @@ COPY . /app
 
 WORKDIR /app
 
-CMD ["scrapyrt", "-i", "0.0.0.0", "-s", "LOG_FILE=None"]
+CMD ["scrapyrt", "-i", "0.0.0.0"]

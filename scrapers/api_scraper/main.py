@@ -30,7 +30,7 @@ def pcworth_scraper(category, config, test_limit):
         # Enable network interception
         page.on(
         "request", lambda request: intercept_request(request)
-    )
+         )
 
         product_items = []
         
@@ -46,7 +46,7 @@ def pcworth_scraper(category, config, test_limit):
 
         # Wait for some time or perform other actions as needed
         # For example, you can wait for specific elements to load
-        page.wait_for_selector('div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-6.MuiGrid-grid-sm-3.css-657qkj')
+        page.wait_for_selector('div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-6.MuiGrid-grid-sm-3.css-657qkj', timeout=6000)
 
         # Close the browser
         browser.close()

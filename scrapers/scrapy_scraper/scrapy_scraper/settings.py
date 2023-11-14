@@ -27,7 +27,7 @@ DOWNLOAD_HANDLERS = {
 
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
-LOG_LEVEL = "ERROR"
+LOG_LEVEL = "INFO"
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
