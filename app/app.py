@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from .worker import celery
+import time
 
 app = Flask(__name__)
 
@@ -23,12 +24,16 @@ app = Flask(__name__)
 #             pass 
 #     return results
 
+@app.route('/', methods=['GET'])
+def health_check():
+    return jsonify({'scraper-status': 'OK'})
+
 @app.route('/scrape/<scraper>', methods=['GET'])
 def scrape(scraper):
     running = celery.send_task('scrape', kwargs={'scraper': scraper, "args": request.args})
+    time.sleep(1)
     res = celery.AsyncResult(running.id)
     if res.status != 'PENDING':
-        print(res.result)
         return jsonify({"task_id": running.id, "status": res.status, "result": res.result})
     return jsonify({"task_id": running.id, "status": res.status})
 

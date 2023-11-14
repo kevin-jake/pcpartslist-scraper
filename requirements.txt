@@ -58,7 +58,6 @@ Scrapy==2.11.0
 scrapy-playwright==0.0.33
 scrapyrt==0.15.0
 service-identity==23.1.0
-ShopifyScraper @ git+https://github.com/practical-data-science/ShopifyScraper@master
 six==1.16.0
 tldextract==5.1.0
 Twisted==22.10.0

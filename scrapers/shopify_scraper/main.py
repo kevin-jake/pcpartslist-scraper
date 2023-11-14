@@ -1,5 +1,5 @@
-from shopify_scraper import scraper
 import json
+import requests
 # import argparse
 from datetime import datetime
 from config import shopify_scraper_config
@@ -15,6 +15,37 @@ import scrapers.modules.save_to_db as database
 # parser.add_argument('-p', '--product', metavar='product', required=True, help='the product on the website you want to scrape')
 
 # args = parser.parse_args()
+
+
+def get_json(url, page):
+    """
+    Get Shopify products.json from a store URL.
+
+    Args:
+        url (str): URL of the store.
+        page (int): Page number of the products.json.
+    Returns:
+        products_json: Products.json from the store.
+    """
+
+    try:
+        response = requests.get(f'{url}/products.json?limit=250&page={page}', timeout=5)
+        products_json = response.text
+        response.raise_for_status()
+        return products_json
+
+    except requests.exceptions.HTTPError as error_http:
+        print("HTTP Error:", error_http)
+
+    except requests.exceptions.ConnectionError as error_connection:
+        print("Connection Error:", error_connection)
+
+    except requests.exceptions.Timeout as error_timeout:
+        print("Timeout Error:", error_timeout)
+
+    except requests.exceptions.RequestException as error:
+        print("Error: ", error)
+
 
 def parse_product(url, product, item, config):
     product_item = {}
@@ -67,7 +98,7 @@ def main(site, product, test_limit, db_save=0):
     url = config['site_url'] + '/collections/' + config['slug'][product]
     while len(result) != 0:
         try:
-            data = scraper.get_json(url,page)
+            data = get_json(url,page)
         except Exception as e:
             print(e)
             pass

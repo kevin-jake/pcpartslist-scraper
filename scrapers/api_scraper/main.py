@@ -22,34 +22,37 @@ auth_token = ''
 def pcworth_scraper(category, config, test_limit):
     # print(category)
     target_url = "https://www.pcworth.com/product/search/%20?limit=999&category=" + config['category'][category]
-    # Create a Playwright context (Chromium browser)
-    with sync_playwright() as p:
-        browser = p.chromium.launch()
-        page = browser.new_page()
+    try:
+        # Create a Playwright context (Chromium browser)
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page()
 
-        # Enable network interception
-        page.on(
-        "request", lambda request: intercept_request(request)
-         )
+            # Enable network interception
+            page.on(
+            "request", lambda request: intercept_request(request)
+            )
 
-        product_items = []
-        
-        def intercept_request(request):
-            global auth_token
-            if request.url == "https://www.api.pcworth.com/api/ecomm/category/get":
-                if request.headers['authorization']  != 'Bearer null' or  request.headers['authorization'] != '':
-                    auth_token = request.headers['authorization']
-        # print(auth_token)
+            product_items = []
+            
+            def intercept_request(request):
+                global auth_token
+                if request.url == "https://www.api.pcworth.com/api/ecomm/category/get":
+                    if request.headers['authorization']  != 'Bearer null' or  request.headers['authorization'] != '':
+                        auth_token = request.headers['authorization']
+            # print(auth_token)
 
-        # Open the target URL
-        page.goto(target_url,timeout=60000)
+            # Open the target URL
+            page.goto(target_url,timeout=60000)
 
-        # Wait for some time or perform other actions as needed
-        # For example, you can wait for specific elements to load
-        page.wait_for_selector('div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-6.MuiGrid-grid-sm-3.css-657qkj')
+            # Wait for some time or perform other actions as needed
+            # For example, you can wait for specific elements to load
+            page.wait_for_selector('div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-6.MuiGrid-grid-sm-3.css-657qkj')
 
-        # Close the browser
-        browser.close()
+            # Close the browser
+            browser.close()
+    except TimeoutError as e:
+        return f"Timeout error! at {e}"
 
 
 
