@@ -33,7 +33,7 @@ def scrape(**kwargs):
             'start_requests': True,
             'crawl_args':json.dumps({ 'shop': shop, 'product': product, 'db_save': int(db_save)})
         }
-        response = requests.get(f'http://{os.environ.get("SCRAPY_SCRAPER", "localhost")}:9080/crawl.json', params)
+        response = requests.get(f'{os.environ.get("SCRAPY_SCRAPER", "http://localhost:9080/")}crawl.json', params)
         data = json.loads(response.text)
         # app.logger.info('Scraped: %s of %s product from %s', data['stats']['item_scraped_count'], product, site)
         return data
