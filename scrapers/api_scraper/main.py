@@ -42,11 +42,11 @@ def pcworth_scraper(category, config, test_limit):
         # print(auth_token)
 
         # Open the target URL
-        page.goto(target_url)
+        page.goto(target_url,timeout=60000)
 
         # Wait for some time or perform other actions as needed
         # For example, you can wait for specific elements to load
-        page.wait_for_selector('div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-6.MuiGrid-grid-sm-3.css-657qkj', timeout=6000)
+        page.wait_for_selector('div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-6.MuiGrid-grid-sm-3.css-657qkj')
 
         # Close the browser
         browser.close()
