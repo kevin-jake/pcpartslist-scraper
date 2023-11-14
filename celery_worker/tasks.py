@@ -20,7 +20,8 @@ def scrape(**kwargs):
     product = args.get('product', [])
     db_save = args.get('db_save', 0)
     test_limit = args.get('test_limit', None)
-    # app.logger.info('Now scraping using: %s, shop: %s, product: %s', scraper, site, product)
+    result = args.get('result', 'simple')
+
     if scraper == 'scrapy_scraper':
         shop = site
         spider = site
@@ -36,14 +37,20 @@ def scrape(**kwargs):
         response = requests.get(f'{os.environ.get("SCRAPY_SCRAPER", "http://localhost:9080/")}crawl.json', params)
         data = json.loads(response.text)
         # app.logger.info('Scraped: %s of %s product from %s', data['stats']['item_scraped_count'], product, site)
+        if result == 'simple':
+            return {'shop': site, 'product': product, 'items_scraped_count': data['stats']['item_scraped_count']}
         return data
     else:
         try:
             scraper_module = importlib.import_module(f'scrapers.{scraper}.main')
             product_items = scraper_module.main(site, product, int(test_limit or 0), int(db_save))
+            if result == 'simple':
+                product_items = {'shop': site, 'product': product, 'items_scraped_count': len(product_items)}
             # app.logger.info('Scraped: %s of %s from %s', len(product_items), product, site)
         except KeyError as e:
             product_items = f'{site} not found on {scraper}'
+        except ModuleNotFoundError as e:
+            product_items = f'{scraper} not found on this project'
         finally:
             return product_items
                         
