@@ -17,6 +17,8 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r /app/requirements.txt
+RUN playwright install
+RUN playwright install-deps
 
 # Copy your application files into the container
 COPY . /app
