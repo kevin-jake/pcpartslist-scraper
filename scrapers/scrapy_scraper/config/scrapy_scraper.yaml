@@ -20,10 +20,11 @@ shopee:
   selectors:
     main: 'div[role="main"]'
     total_page: 'span.shopee-mini-page-controller__total::text'
-    get_hrefs: 'li.shopee-search-item-result__item'
+    get_hrefs: 'div.shopee-search-item-result__item'
     product:
       main: 'div[role="main"]'
       name: 'div._44qnta span::text'
+      description: 'div.f7AU53'
       price: 'div.pqTWkA::text'
       brand: 'a.GvvZVe::text'
       stock: 'label.zquA4o.eqeCX7:contains("Stock") + div::text'

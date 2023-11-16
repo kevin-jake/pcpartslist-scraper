@@ -7,19 +7,26 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 from dotenv import load_dotenv
-load_dotenv()
 import os
 from mysql.connector import connect
+from bs4 import BeautifulSoup
 
-
-
-
+load_dotenv()
 
 class ScrapyScraperPipeline:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         adapter['price'] = float(adapter['price'])
-
+        
+        # Convert HTML content to string if it exists
+        description = adapter.get('description')
+        if description:
+            # Remove class attributes using BeautifulSoup
+            soup = BeautifulSoup(description, 'html.parser')
+            for tag in soup.find_all(True):
+                tag.attrs = {}
+            adapter['description'] = str(soup)
+        
         return item
 
 
@@ -42,7 +49,8 @@ class SaveToMySQLPipeline:
                 id, 
                 url, 
                 name, 
-                category_id, 
+                category_id,
+                description,
                 brand,
                 supplier,
                 promo,
@@ -61,10 +69,12 @@ class SaveToMySQLPipeline:
                     %s,
                     %s,
                     %s,
+                    %s,
                     %s
                     ) ON DUPLICATE KEY UPDATE
                 url = VALUES(url),
                 name = VALUES(name),
+                description = VALUES(description),
                 promo = VALUES(promo),
                 warranty = VALUES(warranty),
                 stocks = VALUES(stocks),
@@ -74,6 +84,7 @@ class SaveToMySQLPipeline:
                 item["url"],
                 item["name"],
                 item["category_id"],
+                item["description"],
                 item["brand"],
                 item["vendor"],
                 item["promo"],

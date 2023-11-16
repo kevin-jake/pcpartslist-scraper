@@ -91,6 +91,7 @@ class ShopeeScraperSpider(scrapy.Spider):
         product_item['name'] = name
         product_item['price'] = price
         product_item['brand'] = response.css(product_selectors['brand']).get()
+        product_item['description'] = response.css(product_selectors['description']).extract_first()
         product_item['stocks'] = response.css(product_selectors['stock']).get()
         product_item['vendor'] = shop_config['vendor']
         product_item['category_id'] = self.product

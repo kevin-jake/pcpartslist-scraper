@@ -14,18 +14,17 @@ import uuid
 from redis import StrictRedis
 from redis_cache import Cache
 from redlock import RedLock
-import time
 
+rds = StrictRedis('localhost', decode_responses=True, charset="utf-8")
+rds_cache = StrictRedis('localhost', decode_responses=False, charset="utf-8")
+redis_cache = Cache(redis_client=rds_cache, prefix="rc", serializer=pkl.dumps, deserializer=pkl.loads)
+dlm = RedLock([{"host": 'localhost'}])
 
 CELERY_BROKER = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
 CELERY_BACKEND = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
 
 logger = get_task_logger(__name__)
 
-rds = StrictRedis('localhost', decode_responses=True, charset="utf-8")
-rds_cache = StrictRedis('localhost', decode_responses=False, charset="utf-8")
-redis_cache = Cache(redis_client=rds_cache, prefix="rc", serializer=pkl.dumps, deserializer=pkl.loads)
-dlm = RedLock([{"host": 'localhost'}])
 
 DEFAULT_CACHE_EXPIRATION = 24 * 60 * 60  # by default keep cached values around 1 day
 
@@ -94,8 +93,7 @@ def scrape(**kwargs):
     product = args.get('product', [])
     db_save = args.get('db_save', 0)
     test_limit = args.get('test_limit', None)
-    result = args.get('result', 'simple')
-    time.sleep(120)
+    format = args.get('format', 'simple')
 
     if scraper == 'scrapy_scraper':
         
@@ -113,14 +111,14 @@ def scrape(**kwargs):
         response = requests.get(f'{os.environ.get("SCRAPY_SCRAPER", "http://localhost:9080/")}crawl.json', params)
         data = json.loads(response.text)
         # app.logger.info('Scraped: %s of %s product from %s', data['stats']['item_scraped_count'], product, site)
-        if result == 'simple':
+        if format == 'simple':
             return {'shop': site, 'product': product, 'items_scraped_count': data['stats']['item_scraped_count']}
         return data
     else:
         try:
             scraper_module = importlib.import_module(f'scrapers.{scraper}.main')
             product_items = scraper_module.main(site, product, int(test_limit or 0), int(db_save))
-            if result == 'simple':
+            if format == 'simple':
                 product_items = {'shop': site, 'product': product, 'items_scraped_count': len(product_items)}
             # app.logger.info('Scraped: %s of %s from %s', len(product_items), product, site)
         except KeyError as e:

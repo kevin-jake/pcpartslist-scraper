@@ -96,6 +96,7 @@ class PchubSpiderSpider(scrapy.Spider):
             price = raw_price.split("(")[-1].split(")")[0].strip()
         product_item['id'] = config['id_prefix'] + self.product + "-" + raw_id
         product_item['url'] = response.url
+        product_item['description'] = str(response.url)
         product_item['name'] = name
         product_item['price'] = price
         product_item['category_id'] = self.product

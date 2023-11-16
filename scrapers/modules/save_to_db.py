@@ -12,7 +12,7 @@ connection = connect(
 
 
 def insertToDatabase(products):
-    product_to_insert = [(d["id"], d["url"], d["name"], d["category_id"], d["brand"], d["vendor"], d["promo"], d["warranty"], d["stocks"], d["image"], d["createdAt"]) for d in products if d]
+    product_to_insert = [(d["id"], d["url"], d["name"], d["category_id"], d['description'], d["brand"], d["vendor"], d["promo"], d["warranty"], d["stocks"], d["image"], d["createdAt"]) for d in products if d]
     price_to_insert = [(d["id"], d["price"], d["createdAt"]) for d in products if d]
     try:
         insert_product = """insert into Products (
@@ -20,6 +20,7 @@ def insertToDatabase(products):
             url, 
             name, 
             category_id, 
+            description,
             brand,
             supplier,
             promo,
@@ -38,10 +39,12 @@ def insertToDatabase(products):
                 %s,
                 %s,
                 %s,
+                %s,
                 %s
                 ) ON DUPLICATE KEY UPDATE
                 url = VALUES(url),
                 name = VALUES(name),
+                description = VALUES(description),
                 promo = VALUES(promo),
                 warranty = VALUES(warranty),
                 stocks = VALUES(stocks),

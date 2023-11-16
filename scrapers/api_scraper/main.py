@@ -17,7 +17,20 @@ import scrapers.modules.save_to_db as database
 # args = parser.parse_args()
 auth_token = ''
 
+def json_to_html(json_data):
+    html = '<ul>'
 
+    for key, value in json_data.items():
+        # Skip keys with value of null and specific keys to exclude
+        if value is not None and key not in ["image_url", "image_thumbnail_url"]:
+            # Make keys human-readable
+            human_readable_key = key.replace('_', ' ').title()
+
+            # Add the key-value pair to the HTML string
+            html += f'<li><strong>{human_readable_key}:</strong> {value}</li>'
+
+    html += '</ul>'
+    return html
 
 def pcworth_scraper(category, config, test_limit):
     # print(category)
@@ -55,7 +68,6 @@ def pcworth_scraper(category, config, test_limit):
         return f"Timeout error! at {e}"
 
 
-
     headers = {'Authorization': auth_token}
     # print(headers)
     response = requests.get("https://www.api.pcworth.com/api/ecomm/products/available/get?limit=999&category=" + config['category'][category], headers=headers)
@@ -69,7 +81,11 @@ def pcworth_scraper(category, config, test_limit):
         brand_picture =  item['mfr_logo'].split("/")[-1]
         result = re.search(r"(.+?)\.png", brand_picture)
 
-
+        parts_details = requests.get("https://www.api.pcworth.com/api/ecomm/product/details/" + item['slug'], headers=headers)
+        parts_details = parts_details.json()
+        
+        product_item['description'] = json_to_html(parts_details['data']['parts_details']) if 'parts_details' in parts_details.get('data', {}) else None
+        print(product_item['description'])
         if result:
             brand = result.group(0).capitalize().replace('.png', '')
         else:

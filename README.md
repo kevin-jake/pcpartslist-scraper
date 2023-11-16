@@ -106,3 +106,7 @@ docker run -d --name scrapyrt -p 9080:9080 \
 --env-file .env \
 pcpartslist-scraper-scrapyrt:latest
 ```
+
+Reference:
+
+Task locking - https://stackoverflow.com/questions/53950548/flask-celery-task-locking
