@@ -49,15 +49,15 @@ def get_json(url, page):
 
 def parse_product(url, product, item, config):
     product_item = {}
-    print('----------------------------------------------------')
-    print(item)
-    print('----------------------------------------------------')
+    # print('----------------------------------------------------')
+    # print(item)
+    # print('----------------------------------------------------')
     if item['variants'][0]['id']:
         product_item['id'] =  config['id_prefix'] + product + "-" + str(item['id'])
         product_item['url'] =  url + "/products/" + item['handle']
         product_item['name'] = item['title']
         product_item['price'] = item['variants'][0]['price']
-        product_item['brand'] = item['vendor']
+        product_item['brand'] = str(item['vendor']).upper()
         product_item['vendor'] = config['vendor']
         product_item['category_id'] = product
         product_item['description'] = str(item['body_html']).replace("\n", "")

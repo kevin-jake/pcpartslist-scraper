@@ -85,12 +85,13 @@ class ShopeeScraperSpider(scrapy.Spider):
         raw_price = response.css(product_selectors['price']).get()
         price = raw_price.split('.')[0].replace('₱', '').replace(',','').strip()
         raw_id = response.url.split('.')[-1].split('?')[0]
+        raw_brand = response.css(product_selectors['brand']).get()
 
         product_item['id'] = shop_config['id_prefix'] + self.product + "-" + raw_id
         product_item['url'] = response.url
         product_item['name'] = name
         product_item['price'] = price
-        product_item['brand'] = response.css(product_selectors['brand']).get()
+        product_item['brand'] = str(raw_brand).upper()
         product_item['description'] = response.css(product_selectors['description']).extract_first()
         product_item['stocks'] = response.css(product_selectors['stock']).get()
         product_item['vendor'] = shop_config['vendor']

@@ -94,13 +94,16 @@ class PchubSpiderSpider(scrapy.Spider):
             price = None
         else:
             price = raw_price.split("(")[-1].split(")")[0].strip()
+
+        raw_brand = response.css("div.flex.flex-row.justify-between.md\:mx-5 > p ::text").get().split('>')[1].strip()
+
         product_item['id'] = config['id_prefix'] + self.product + "-" + raw_id
         product_item['url'] = response.url
         product_item['description'] = str(response.url)
         product_item['name'] = name
         product_item['price'] = price
         product_item['category_id'] = self.product
-        product_item['brand'] = response.css("div.flex.flex-row.justify-between.md\:mx-5 > p ::text").get().split('>')[1].strip()
+        product_item['brand'] = str(raw_brand).upper()
         product_item['vendor'] = 'PCHub'
         product_item['promo'] = product_info.css("span.text-red-500.text-sm ::text").get()
         product_item['warranty'] = product_info.css('span:contains("Warranty:")::text').get().split(":")[1].strip()

@@ -88,6 +88,7 @@ def pcworth_scraper(category, config, test_limit):
         print(product_item['description'])
         if result:
             brand = result.group(0).capitalize().replace('.png', '')
+            brand_lower = brand.upper()
         else:
             brand = "No brand found"
 
