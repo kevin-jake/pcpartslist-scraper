@@ -2,6 +2,7 @@ import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from celery import Celery, current_task
 from celery.utils.log import get_task_logger
+from urllib.parse import urlsplit
 import importlib
 from scrapers import *
 import requests
@@ -15,10 +16,10 @@ from redis import StrictRedis
 from redis_cache import Cache
 from redlock import RedLock
 
-rds = StrictRedis('localhost', decode_responses=True, charset="utf-8")
-rds_cache = StrictRedis('localhost', decode_responses=False, charset="utf-8")
+rds = StrictRedis(urlsplit(os.environ.get('REDIS_URL', 'redis://localhost:6379')).hostname, decode_responses=True, charset="utf-8")
+rds_cache = StrictRedis(urlsplit(os.environ.get('REDIS_URL', 'redis://localhost:6379')), decode_responses=False, charset="utf-8")
 redis_cache = Cache(redis_client=rds_cache, prefix="rc", serializer=pkl.dumps, deserializer=pkl.loads)
-dlm = RedLock([{"host": 'localhost'}])
+dlm = RedLock([{"host": urlsplit(os.environ.get('REDIS_URL', 'redis://localhost:6379'))}])
 
 CELERY_BROKER = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
 CELERY_BACKEND = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
