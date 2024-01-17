@@ -12,6 +12,8 @@ import base64
 from contextlib import contextmanager
 import pickle as pkl
 import uuid
+from datetime import datetime, timezone, timedelta
+import scrapers.modules.save_to_db as database
 
 from redis import StrictRedis
 from redis_cache import Cache
@@ -51,6 +53,7 @@ def redis_lock(lock_name, expires=60):
     print(f'Lock acquired? {lock_name} for {expires} - {lock_acquired}')
 
     current_task.request.lock_name = lock_name
+    
 
     yield lock_acquired
 
@@ -89,6 +92,14 @@ def unpack_redis_json(key: str):
     if result is not None:
         return json.loads(result)
 
+def elapsed_time(start_time, end_time):
+    elapsed_time = end_time - start_time
+    days, seconds = divmod(elapsed_time.total_seconds(), 24 * 3600)
+    hours, seconds = divmod(seconds, 3600)
+    minutes, seconds = divmod(seconds, 60)
+    return f"{int(days)} days, {int(hours)} hours, {int(minutes)} minutes, {int(seconds)} seconds"
+
+
 @task_failure.connect
 def on_task_failure(sender, task_id, exception, args, kwargs, traceback, einfo, **other):
     # Extract the lock_id from kwargs
@@ -101,6 +112,7 @@ def on_task_failure(sender, task_id, exception, args, kwargs, traceback, einfo, 
 @celery.task(name='scrape', trail=True)
 @task_lock(main_key="scrape")
 def scrape(**kwargs):
+    task_id = current_task.request.id
     scraper = kwargs.get('scraper')
     args = kwargs.get('args')
     site = args.get('site', [])
@@ -109,6 +121,10 @@ def scrape(**kwargs):
     test_limit = args.get('test_limit', None)
     format = args.get('format', 'simple')
     product_items = []
+    results = {}
+    start_time_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
+    start_time = start_time_utc + timedelta(hours=8)
+    database.insertToScrapeHistory(task_id,product,site,"PENDING",start_time)
 
     if scraper == 'scrapy_scraper':
         
@@ -123,24 +139,48 @@ def scrape(**kwargs):
             'start_requests': True,
             'crawl_args':json.dumps({ 'shop': shop, 'product': product, 'db_save': int(db_save)})
         }
-        response = requests.get(f'{os.environ.get("SCRAPY_SCRAPER", "http://localhost:9080/")}crawl.json', params)
-        data = json.loads(response.text)
-        if format == 'simple':
-            return {'shop': site, 'product': product, 'items_scraped_count': data['stats']['item_scraped_count'], 'duplicates': data['stats']['duplicates'], 'updated': data['stats']['updated'], 'new_items': data['stats']['new_items']}
-        return data
+        try:
+            response = requests.get(f'{os.environ.get("SCRAPY_SCRAPER", "http://localhost:9080/")}crawl.json', params)
+            data = json.loads(response.text)
+            end_time_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
+            end_time = end_time_utc + timedelta(hours=8)
+            if format == 'simple' and int(db_save) == 1:
+                results = {'shop': site, 'product': product, 'items_scraped_count': data['stats']['item_scraped_count'], 'duplicates': data['stats']['duplicates'], 'updated': data['stats']['updated'], 'new_items': data['stats']['new_items']}
+                database.insertToScrapeHistory(task_id,product,site,"SUCCESS",start_time,end_time,elapsed_time(start_time_utc, end_time_utc), json.dumps(results))
+                return results
+            elif format == 'simple':
+                return {'shop': site, 'product': product, 'items_scraped_count': data['stats']['item_scraped_count']}
+            return data
+        except Exception as e:
+            end_time_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
+            end_time = end_time_utc + timedelta(hours=8)
+            database.insertToScrapeHistory(task_id,product,site,"FAILURE",start_time, end_time,elapsed_time(start_time_utc, end_time_utc),str(e))
+            raise e
     else:
         try:
             scraper_module = importlib.import_module(f'scrapers.{scraper}.main')
             product_items = scraper_module.main(site, product, int(test_limit or 0), int(db_save))
-            if format == 'simple' and db_save == 1:
-                return {'shop': site, 'product': product, 'items_scraped_count': len(product_items), 'duplicates': product_items['duplicates'], 'updated': product_items['updated'], 'new_items': product_items['new_items']}
+            end_time_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
+            end_time = end_time_utc + timedelta(hours=8)
+            if format == 'simple' and int(db_save) == 1:
+                results = {'shop': site, 'product': product, 'items_scraped_count': product_items['count'], 'duplicates': product_items['duplicates'], 'updated': product_items['updated'], 'new_items': product_items['new_items']}
+                database.insertToScrapeHistory(task_id,product,site,"SUCCESS",start_time,end_time,elapsed_time(start_time_utc, end_time_utc), json.dumps(results))
             elif format == 'simple':
-                return {'shop': site, 'product': product, 'items_scraped_count': len(product_items)}
-            else:
-                return product_items
+                return {'shop': site, 'product': product, 'items_scraped_count': product_items['count'], 'start_time': start_time, 'end_time': end_time, 'elapsed_time': elapsed_time(start_time_utc, end_time_utc)}
+            return product_items
         except KeyError as e:
+            end_time_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
+            end_time = end_time_utc + timedelta(hours=8)
+            database.insertToScrapeHistory(task_id,product,site,"FAILURE",start_time, end_time,elapsed_time(start_time_utc, end_time_utc),str(e))
             raise e
         except ModuleNotFoundError as e:
+            end_time_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
+            end_time = end_time_utc + timedelta(hours=8)
+            database.insertToScrapeHistory(task_id,product,site,"FAILURE",start_time, end_time,elapsed_time(start_time_utc, end_time_utc),str(e))
             raise e
         except Exception as e:
+            end_time_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
+            end_time = end_time_utc + timedelta(hours=8)
+            database.insertToScrapeHistory(task_id,product,site,"FAILURE",start_time, end_time,elapsed_time(start_time_utc, end_time_utc),str(e))
             raise e
+            

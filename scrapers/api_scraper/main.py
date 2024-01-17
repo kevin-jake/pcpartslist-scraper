@@ -85,10 +85,9 @@ def pcworth_scraper(category, config, test_limit):
         parts_details = parts_details.json()
         
         product_item['description'] = json_to_html(parts_details['data']['parts_details']) if 'parts_details' in parts_details.get('data', {}) else None
-        print(product_item['description'])
+        # print(product_item['description'])
         if result:
             brand = result.group(0).capitalize().replace('.png', '')
-            brand_lower = brand.upper()
         else:
             brand = "No brand found"
 
@@ -96,7 +95,7 @@ def pcworth_scraper(category, config, test_limit):
         product_item['url'] =  "https://www.pcworth.com/product/" + item['slug']
         product_item['name'] = item['product_name']
         product_item['price'] = item['amount']
-        product_item['brand'] = brand
+        product_item['brand'] = brand.upper()
         product_item['vendor'] = 'PCWorth'
         product_item['category_id'] = category
         product_item['promo'] = item['with_bundle']
@@ -119,8 +118,8 @@ def main(site, category,test_limit, db_save=0):
     if site == 'pcworth':
         product_items = pcworth_scraper(category, config, int(test_limit))
         if db_save == 1: 
-            duplicate_count, updated_count, new_inserted_count = database.insertToDatabase(product_items)
-            return {'items': product_items, 'duplicates': duplicate_count, 'updated': updated_count, 'new_items': new_inserted_count }
+            duplicate_count, updated_count, new_inserted_count, item_count = database.insertToDatabase(product_items)
+            return {'items': product_items, 'duplicates': duplicate_count, 'updated': updated_count, 'new_items': new_inserted_count, 'count': item_count }
         return product_items
 
 # if __name__ == "__main__":

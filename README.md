@@ -1,20 +1,24 @@
 ### Start the python env
+
 ```
 source venv/bin/activate
 ```
 
 ### Create python env
+
 ```
 python3 -m venv venv
 ```
 
 ### Running flask app
+
 ```
 cd server
-flask --app api run 
+flask --app app.app run
 ```
 
 ### Create a crawler
+
 ```
 scrapy startproject <crawler name>
 
@@ -24,8 +28,9 @@ scrapy startproject pcworth_scraper
 ```
 
 ### Creating a spider
+
 ```
-scrapy genspider <name_of_spider> <website> 
+scrapy genspider <name_of_spider> <website>
 
 e.g.
 # This will create a spider that will crawl pcworth.com.
@@ -33,13 +38,15 @@ scrapy genspider pcworth_spider pcworth.com
 ```
 
 ### Running a spider with an output
-**NOTE**: ```-O``` will overwrite the output file and ```-o``` will append results into the ouput file
+
+**NOTE**: `-O` will overwrite the output file and `-o` will append results into the ouput file
+
 ```
 scrapy crawl <spider name> -O <output file> -a <arguments>
 
 e.g.
 # This start running the pchub_spider and output the file to pchub.json in the directory where you run this.
-scrapy crawl pchub_spider -O pchub.json -a product=GPU 
+scrapy crawl pchub_spider -O pchub.json -a product=GPU
 
 # Scrapy scraper
 cd scrapers/scrapy_scraper
@@ -47,6 +54,7 @@ scrapy crawl shopee_spider -O shopee.json -a shop=pcworx -a product=GPU
 ```
 
 ### Running scrapy shell using a file
+
 ```
 scrapy shell file://<file path>
 
@@ -57,7 +65,7 @@ scrapy shell file:///home/scraper/response.html
 
 ### Shopify Scraper
 
-Shop name and product is defined at ```config/shopify_scraper.yaml```
+Shop name and product is defined at `config/shopify_scraper.yaml`
 
 ```
 cd scrapers/shopify_scraper
@@ -69,7 +77,7 @@ python3 main.py -s easypc -p GPU
 
 ### API Scraper
 
-Shop name and product is defined at ```config/api_scraper.yaml```
+Shop name and product is defined at `config/api_scraper.yaml`
 
 ```
 cd scrapers/api_scraper
@@ -94,13 +102,22 @@ scrapyrt -p <port number>
 docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
 ```
 
+### Running celery worker
+
+```
+celery -A celery_worker.tasks worker --loglevel=INFO
+```
+
 ### Building and Running Scrapyrt container
 
 #### Build
+
 ```
 docker build -t pcpartslist-scraper-scrapyrt:latest scrapers/scrapy_scraper/.
 ```
+
 #### Run
+
 ```
 docker run -d --name scrapyrt -p 9080:9080 \
 --env-file .env \

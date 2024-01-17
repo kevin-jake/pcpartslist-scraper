@@ -34,7 +34,7 @@ def scrape(scraper):
     time.sleep(1)
     res = celery.AsyncResult(running.id)
     if res.status != 'PENDING':
-        if isinstance(res.result, dict) and res.status == 'FAILURE':
+        if isinstance(res.result, dict) and res.result['task_id']:
                 task_id = res.result['task_id']
                 realTask = celery.AsyncResult(task_id)
                 return jsonify({"task_id": task_id, "status": realTask.status})

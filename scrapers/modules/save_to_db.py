@@ -15,6 +15,7 @@ def insertToDatabase(products):
     duplicate_count = 0
     updated_count = 0
     new_inserted_count = 0
+    item_count = 0
 
     product_to_insert = [
         (
@@ -114,7 +115,7 @@ def insertToDatabase(products):
                             ),
                 )
                 new_inserted_count += 1
-
+            item_count += 1
             # Insert price
             cursor.execute(
                 "INSERT INTO Price (pc_parts_id, price, createdAt) VALUES (%s, %s, %s)",
@@ -134,4 +135,68 @@ def insertToDatabase(products):
         if 'connection' in locals() and connection is not None:
             connection.close()
 
-    return duplicate_count, updated_count, new_inserted_count
+    return duplicate_count, updated_count, new_inserted_count, item_count
+
+def insertToScrapeHistory(task_id, category, shop, status, scrape_start=None, scrape_end=None, elapsed_time=None, results=None ):
+    try:
+        cursor = connection.cursor()
+        cursor.execute(
+                "SELECT * FROM Scrape_history WHERE id = %s", (task_id,)
+            )  # Check if product exists
+
+        existing_record = cursor.fetchone()
+
+        if existing_record:
+            # Update existing product
+            cursor.execute(
+                """UPDATE Scrape_history
+                    SET status = %s,
+                        scrape_start = %s,
+                        scrape_end = %s,
+                        elapsed_time = %s,
+                        results = %s
+                    WHERE id = %s""",
+                (
+                    status,
+                    scrape_start,
+                    scrape_end,
+                    elapsed_time,
+                    results,
+                    task_id
+                ),
+            )
+        else:
+            cursor.execute(
+                """INSERT INTO Scrape_history (
+                        id,
+                        category_id,
+                        shop,
+                        status,
+                        scrape_start
+                    ) VALUES (
+                        %s, 
+                        (SELECT id FROM Category WHERE name = %s LIMIT 1), 
+                        %s,
+                        %s,
+                        %s
+                    )""",
+                
+            (   task_id,
+                category,        
+                shop,
+                status,
+                scrape_start,
+                        ),
+            )
+        connection.commit()
+
+    except Error as error:
+        print("Failed to insert records into MySQL table: {}".format(error))
+    finally:
+        # Close the cursor
+        if 'cursor' in locals() and cursor is not None:
+            cursor.close()
+
+        # Close the connection
+        if 'connection' in locals() and connection is not None:
+            connection.close()
