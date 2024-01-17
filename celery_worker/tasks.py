@@ -1,6 +1,7 @@
 import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from celery import Celery, current_task
+from celery.signals import task_failure
 from celery.utils.log import get_task_logger
 from urllib.parse import urlsplit
 import importlib
@@ -49,7 +50,11 @@ def redis_lock(lock_name, expires=60):
     )
     print(f'Lock acquired? {lock_name} for {expires} - {lock_acquired}')
 
+    current_task.request.lock_name = lock_name
+
     yield lock_acquired
+
+
 
     if lock_acquired:
         # if lock was acquired, then try to release it BUT ONLY if we are the owner
@@ -72,8 +77,7 @@ def task_lock(func=None, main_key="", timeout=DEFAULT_CACHE_EXPIRATION):
                 if not acquired:
                     return {
                         "message": "Task execution skipped -- another task already has the lock",
-                        "task_id": rds.get(lock_id),
-                        "skipped": True,
+                        "task_id": rds.get(lock_id)
                     }
                 return run_func(*args, **kwargs)
         return _caller
@@ -84,6 +88,14 @@ def unpack_redis_json(key: str):
     result = rds.get(key)
     if result is not None:
         return json.loads(result)
+
+@task_failure.connect
+def on_task_failure(sender, task_id, exception, args, kwargs, traceback, einfo, **other):
+    # Extract the lock_id from kwargs
+    lock_name = getattr(current_task.request, 'lock_name', None)
+    if lock_name:
+        print(f'Releasing lock {lock_name} due to task failure')
+        rds.eval(REMOVE_ONLY_IF_OWNER_SCRIPT, 1, lock_name, task_id)
 
 
 @celery.task(name='scrape', trail=True)
@@ -96,6 +108,7 @@ def scrape(**kwargs):
     db_save = args.get('db_save', 0)
     test_limit = args.get('test_limit', None)
     format = args.get('format', 'simple')
+    product_items = []
 
     if scraper == 'scrapy_scraper':
         
@@ -119,12 +132,15 @@ def scrape(**kwargs):
         try:
             scraper_module = importlib.import_module(f'scrapers.{scraper}.main')
             product_items = scraper_module.main(site, product, int(test_limit or 0), int(db_save))
-            if format == 'simple':
-                product_items = {'shop': site, 'product': product, 'items_scraped_count': len(product_items), 'duplicates': product_items['duplicates'], 'updated': product_items['updated'], 'new_items': product_items['new_items']}
+            if format == 'simple' and db_save == 1:
+                return {'shop': site, 'product': product, 'items_scraped_count': len(product_items), 'duplicates': product_items['duplicates'], 'updated': product_items['updated'], 'new_items': product_items['new_items']}
+            elif format == 'simple':
+                return {'shop': site, 'product': product, 'items_scraped_count': len(product_items)}
+            else:
+                return product_items
         except KeyError as e:
-            product_items = f'{site} not found on {scraper}'
+            raise e
         except ModuleNotFoundError as e:
-            product_items = f'{scraper} not found on this project'
-        finally:
-            return product_items
-                        
+            raise e
+        except Exception as e:
+            raise e

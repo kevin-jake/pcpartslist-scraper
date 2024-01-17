@@ -34,10 +34,10 @@ def scrape(scraper):
     time.sleep(1)
     res = celery.AsyncResult(running.id)
     if res.status != 'PENDING':
-        if res.skipped:
-            task_id = res.task_id
-            realTask = celery.AsyncResult(task_id)
-            return jsonify({"task_id": task_id, "status": realTask.status})
+        if isinstance(res.result, dict) and res.status == 'FAILURE':
+                task_id = res.result['task_id']
+                realTask = celery.AsyncResult(task_id)
+                return jsonify({"task_id": task_id, "status": realTask.status})
         return jsonify({"task_id": running.id, "status": res.status, "result": res.result})
     return jsonify({"task_id": running.id, "status": res.status})
 
@@ -48,6 +48,11 @@ def getStatus(task_id):
         print(res.result)
         return jsonify({"task_id": task_id, "status": res.status, "result": res.result})
     return jsonify({"task_id": task_id, "status": res.status})
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    app.logger.error(repr(e))
+    return jsonify(error=str(e)), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
