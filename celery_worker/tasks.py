@@ -113,14 +113,14 @@ def scrape(**kwargs):
         data = json.loads(response.text)
         # app.logger.info('Scraped: %s of %s product from %s', data['stats']['item_scraped_count'], product, site)
         if format == 'simple':
-            return {'shop': site, 'product': product, 'items_scraped_count': data['stats']['item_scraped_count']}
+            return {'shop': site, 'product': product, 'items_scraped_count': data['stats']['item_scraped_count'], 'duplicates': data['stats']['duplicates'], 'updated': data['stats']['updated'], 'new_items': data['stats']['new_items']}
         return data
     else:
         try:
             scraper_module = importlib.import_module(f'scrapers.{scraper}.main')
             product_items = scraper_module.main(site, product, int(test_limit or 0), int(db_save))
             if format == 'simple':
-                product_items = {'shop': site, 'product': product, 'items_scraped_count': len(product_items)}
+                product_items = {'shop': site, 'product': product, 'items_scraped_count': len(product_items), 'duplicates': product_items['duplicates'], 'updated': product_items['updated'], 'new_items': product_items['new_items']}
             # app.logger.info('Scraped: %s of %s from %s', len(product_items), product, site)
         except KeyError as e:
             product_items = f'{site} not found on {scraper}'

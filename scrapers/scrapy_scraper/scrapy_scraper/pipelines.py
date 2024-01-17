@@ -8,8 +8,11 @@
 from itemadapter import ItemAdapter
 from dotenv import load_dotenv
 import os
-from mysql.connector import connect
+from mysql.connector import connect, Error
 from bs4 import BeautifulSoup
+from scrapy import signals
+from scrapy.signalmanager import dispatcher
+
 
 load_dotenv()
 
@@ -33,87 +36,134 @@ class ScrapyScraperPipeline:
 class SaveToMySQLPipeline:
 
     def __init__(self):
-        self.conn = connect(
-            host= os.getenv("DB_HOST"),
-            user=os.getenv("DB_USERNAME"),
-            password= os.getenv("DB_PASSWORD"),
-            database= os.getenv("DB_NAME"),
-        )
+        self.products_to_insert = []
 
-        # Create cursor, used to execute commands
+        self.conn = connect(
+            host=os.getenv("DB_HOST"),
+            user=os.getenv("DB_USERNAME"),
+            password=os.getenv("DB_PASSWORD"),
+            database=os.getenv("DB_NAME"),
+        )
         self.cur = self.conn.cursor()
+
+        # Connect the spider_closed signal to the close_spider method
+        dispatcher.connect(self.close_spider, signal=signals.spider_closed)
 
     def process_item(self, item, spider):
         if spider.db_save == '1':
-            self.cur.execute(""" INSERT into Products (
-                id, 
-                url, 
-                name, 
-                category_id,
-                description,
-                brand,
-                supplier,
-                promo,
-                warranty,
-                stocks,
-                img_url,
-                createdAt
-                ) values (
-                    %s,
-                    %s,
-                    %s,
-                    (select id from Category where name = %s LIMIT 1),
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s
-                    ) ON DUPLICATE KEY UPDATE
-                url = VALUES(url),
-                name = VALUES(name),
-                description = VALUES(description),
-                promo = VALUES(promo),
-                warranty = VALUES(warranty),
-                stocks = VALUES(stocks),
-                img_url = VALUES(img_url),
-                updatedAt = VALUES(createdAt)""", (
-                item["id"],
-                item["url"],
-                item["name"],
-                item["category_id"],
-                item["description"],
-                item["brand"],
-                item["vendor"],
-                item["promo"],
-                item["warranty"],
-                item["stocks"],
-                item["image"],
-                item["createdAt"],
-            ))
+            self.products_to_insert.append(item)
 
-            # Define insert statement
-            self.cur.execute(""" INSERT into Price (
-                pc_parts_id, 
-                price,
-                createdAt
-                ) values (
-                    %s,
-                    %s,
-                    %s
-                    )""", (
-                item["id"],
-                item["price"],
-                item["createdAt"],
-            ))
-
-            # ## Execute insert of data into database
-            self.conn.commit()
         return item
 
     def close_spider(self, spider):
-        # Close cursor & connection to database
+        duplicate_count, updated_count, new_inserted_count = self.insertToDatabase(self.products_to_insert)
+
+        # Store the counts in the Scrapy stats
+        spider.crawler.stats.set_value('duplicates', duplicate_count)
+        spider.crawler.stats.set_value('updated', updated_count)
+        spider.crawler.stats.set_value('new_items', new_inserted_count)
+
+        print(
+            f"Number of duplicate products: {duplicate_count}\n"
+            f"Number of updated products: {updated_count}\n"
+            f"Number of newly inserted products: {new_inserted_count}"
+        )
+
+        # Close cursor & connection to the database
         self.cur.close()
         self.conn.close()
+
+    def insertToDatabase(self, products):
+        duplicate_count = 0
+        updated_count = 0
+        new_inserted_count = 0
+
+        product_to_insert = [
+            (
+                d["id"],
+                d["url"],
+                d["name"],
+                d["category_id"],
+                d["description"],
+                d["brand"],
+                d["vendor"],
+                d["promo"],
+                d["warranty"],
+                d["stocks"],
+                d["image"],
+                d["createdAt"],
+            )
+            for d in products
+            if d
+        ]
+
+        try:
+            for product in product_to_insert:
+                self.cur.execute(
+                    "SELECT * FROM Products WHERE id = %s", (product[0],)
+                )
+                existing_product = self.cur.fetchone()
+
+                if existing_product:
+                    if existing_product[1:-1] == product[1:-1]:
+                        duplicate_count += 1
+                    else:
+                        self.cur.execute(
+                            """UPDATE Products
+                               SET url = %s,
+                                   name = %s,
+                                   description = %s,
+                                   promo = %s,
+                                   warranty = %s,
+                                   stocks = %s,
+                                   img_url = %s,
+                                   updatedAt = %s
+                               WHERE id = %s""",
+                            (
+                                product[1],
+                                product[2],
+                                product[4],
+                                product[7],
+                                product[8],
+                                product[9],
+                                product[10],
+                                product[11],
+                                product[0],
+                            ),
+                        )
+                        updated_count += 1
+                else:
+                    self.cur.execute(
+                        """INSERT INTO Products (
+                               id,
+                               url,
+                               name,
+                               category_id,
+                               description,
+                               brand,
+                               supplier,
+                               promo,
+                               warranty,
+                               stocks,
+                               img_url,
+                               createdAt
+                            ) VALUES (
+                               %s, %s, %s,
+                               (SELECT id FROM Category WHERE name = %s LIMIT 1),
+                               %s, %s, %s, %s, %s, %s, %s, %s
+                            )""",
+                        product,
+                    )
+                    new_inserted_count += 1
+
+                self.cur.execute(
+                    "INSERT INTO Price (pc_parts_id, price, createdAt) VALUES (%s, %s, %s)",
+                    (product[0], product[3], product[11]),
+                )
+
+            self.conn.commit()
+
+        except Error as error:
+            print("Failed to insert records into MySQL table: {}".format(error))
+
+        return duplicate_count, updated_count, new_inserted_count

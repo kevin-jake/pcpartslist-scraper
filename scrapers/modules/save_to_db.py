@@ -4,72 +4,114 @@ import os
 from mysql.connector import connect, Error
 
 connection = connect(
-            host= os.getenv("DB_HOST"),
-            user=os.getenv("DB_USERNAME"),
-            password= os.getenv("DB_PASSWORD"),
-            database= os.getenv("DB_NAME"),
-        )
+    host=os.getenv("DB_HOST"),
+    user=os.getenv("DB_USERNAME"),
+    password=os.getenv("DB_PASSWORD"),
+    database=os.getenv("DB_NAME"),
+)
 
 
 def insertToDatabase(products):
-    product_to_insert = [(d["id"], d["url"], d["name"], d["category_id"], d['description'], d["brand"], d["vendor"], d["promo"], d["warranty"], d["stocks"], d["image"], d["createdAt"]) for d in products if d]
-    price_to_insert = [(d["id"], d["price"], d["createdAt"]) for d in products if d]
-    try:
-        insert_product = """insert into Products (
-            id, 
-            url, 
-            name, 
-            category_id, 
-            description,
-            brand,
-            supplier,
-            promo,
-            warranty,
-            stocks,
-            img_url,
-            createdAt
-            ) values (
-                %s,
-                %s,
-                %s,
-                (select id from Category where name = %s LIMIT 1),
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s
-                ) ON DUPLICATE KEY UPDATE
-                url = VALUES(url),
-                name = VALUES(name),
-                description = VALUES(description),
-                promo = VALUES(promo),
-                warranty = VALUES(warranty),
-                stocks = VALUES(stocks),
-                img_url = VALUES(img_url),
-                updatedAt = VALUES(createdAt)"""
-        
-        insert_price = """insert into Price (
-            pc_parts_id, 
-            price,
-            createdAt
-            ) values (
-                %s,
-                %s,
-                %s
-                )"""
+    duplicate_count = 0
+    updated_count = 0
+    new_inserted_count = 0
 
+    product_to_insert = [
+        (
+            d["id"],
+            d["url"],
+            d["name"],
+            d["category_id"],
+            d["description"],
+            d["brand"],
+            d["vendor"],
+            d["promo"],
+            d["warranty"],
+            d["stocks"],
+            d["image"],
+            d["createdAt"],
+        )
+        for d in products
+        if d
+    ]
+
+    try:
         cursor = connection.cursor()
-        cursor.executemany(insert_product, product_to_insert)
-        cursor.executemany(insert_price, price_to_insert)
+
+        for product in product_to_insert:
+            cursor.execute(
+                "SELECT * FROM Products WHERE id = %s", (product[0],)
+            )  # Check if product exists
+
+            existing_product = cursor.fetchone()
+
+            if existing_product:
+                # Check if properties match except id and createdAt
+                if (
+                    existing_product[1:-1] == product[1:-1]
+                ):  # Skipping id and createdAt for comparison
+                    duplicate_count += 1
+                else:
+                    # Update existing product
+                    cursor.execute(
+                        """UPDATE Products
+                           SET url = %s,
+                               name = %s,
+                               description = %s,
+                               promo = %s,
+                               warranty = %s,
+                               stocks = %s,
+                               img_url = %s,
+                               updatedAt = %s
+                           WHERE id = %s""",
+                        (
+                            product[1],
+                            product[2],
+                            product[4],
+                            product[7],
+                            product[8],
+                            product[9],
+                            product[10],
+                            product[11],
+                            product[0],
+                        ),
+                    )
+                    updated_count += 1
+            else:
+                # Insert new product
+                cursor.execute(
+                    """INSERT INTO Products (
+                           id,
+                           url,
+                           name,
+                           category_id,
+                           description,
+                           brand,
+                           supplier,
+                           promo,
+                           warranty,
+                           stocks,
+                           img_url,
+                           createdAt
+                        ) VALUES (
+                           %s, %s, %s,
+                           (SELECT id FROM Category WHERE name = %s LIMIT 1),
+                           %s, %s, %s, %s, %s, %s, %s, %s
+                        )""",
+                    product,
+                )
+                new_inserted_count += 1
+
+            # Insert price
+            cursor.execute(
+                "INSERT INTO Price (pc_parts_id, price, createdAt) VALUES (%s, %s, %s)",
+                (product[0], product[3], product[11]),
+            )
 
         connection.commit()
 
     except Error as error:
-        print("Failed to insert record into MySQL table {}".format(error))
-
+        print("Failed to insert records into MySQL table: {}".format(error))
     finally:
         # Close the cursor
         if 'cursor' in locals() and cursor is not None:
@@ -78,3 +120,5 @@ def insertToDatabase(products):
         # Close the connection
         if 'connection' in locals() and connection is not None:
             connection.close()
+
+    return duplicate_count, updated_count, new_inserted_count

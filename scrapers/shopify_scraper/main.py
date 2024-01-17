@@ -117,8 +117,9 @@ def main(site, product, test_limit, db_save=0):
         page += 1
         if len(product_items) == test_limit and test_limit != 0:
             break
-    if db_save == 1: database.insertToDatabase(product_items)
-    return product_items
+    if db_save == 1: 
+        duplicate_count, updated_count, new_inserted_count = database.insertToDatabase(product_items)
+    return {'items': product_items, 'duplicates': duplicate_count, 'updated': updated_count, 'new_items': new_inserted_count }
 
     # jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
     # jsonFile = open(f'{config["filename_prefix"]}_{product}.json', "w")

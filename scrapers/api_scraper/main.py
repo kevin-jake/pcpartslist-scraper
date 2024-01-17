@@ -118,7 +118,9 @@ def main(site, category,test_limit, db_save=0):
     config = api_scraper_config[site]
     if site == 'pcworth':
         product_items = pcworth_scraper(category, config, int(test_limit))
-        if db_save == 1: database.insertToDatabase(product_items)
+        if db_save == 1: 
+            duplicate_count, updated_count, new_inserted_count = database.insertToDatabase(product_items)
+            return {'items': product_items, 'duplicates': duplicate_count, 'updated': updated_count, 'new_items': new_inserted_count }
         return product_items
 
 # if __name__ == "__main__":
