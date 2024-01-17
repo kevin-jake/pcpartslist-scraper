@@ -34,8 +34,8 @@ def scrape(scraper):
     time.sleep(1)
     res = celery.AsyncResult(running.id)
     if res.status != 'PENDING':
-        if res.result.skipped:
-            task_id = res.result.task_id
+        if res.skipped:
+            task_id = res.task_id
             realTask = celery.AsyncResult(task_id)
             return jsonify({"task_id": task_id, "status": realTask.status})
         return jsonify({"task_id": running.id, "status": res.status, "result": res.result})
