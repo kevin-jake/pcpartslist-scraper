@@ -33,8 +33,8 @@ def scrape(scraper):
     running = celery.send_task('scrape', kwargs={'scraper': scraper, "args": request.args})
     time.sleep(1)
     res = celery.AsyncResult(running.id)
-    if res.result['skipped']:
-        task_id = res.result['task_id']
+    if res.result.skipped:
+        task_id = res.result.task_id
         realTask = celery.AsyncResult(task_id)
         return jsonify({"task_id": task_id, "status": realTask.status})
     elif res.status != 'PENDING':
