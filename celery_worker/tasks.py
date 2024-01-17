@@ -73,6 +73,7 @@ def task_lock(func=None, main_key="", timeout=DEFAULT_CACHE_EXPIRATION):
                     return {
                         "message": "Task execution skipped -- another task already has the lock",
                         "task_id": rds.get(lock_id),
+                        "skipped": True,
                     }
                 return run_func(*args, **kwargs)
         return _caller
