@@ -4,6 +4,7 @@ import requests
 from datetime import datetime
 from config import shopify_scraper_config
 import scrapers.modules.save_to_db as database
+import time
 
 
 
@@ -36,15 +37,19 @@ def get_json(url, page):
 
     except requests.exceptions.HTTPError as error_http:
         print("HTTP Error:", error_http)
+        return "HTTP Error"
 
     except requests.exceptions.ConnectionError as error_connection:
         print("Connection Error:", error_connection)
+        return "ERROR"
 
     except requests.exceptions.Timeout as error_timeout:
         print("Timeout Error:", error_timeout)
+        return "ERROR"
 
     except requests.exceptions.RequestException as error:
         print("Error: ", error)
+        return "ERROR"
 
 
 def parse_product(url, product, item, config):
@@ -96,14 +101,20 @@ def main(site, product, test_limit, db_save=0):
     config = shopify_scraper_config[site]
     result = ['init']
     page = 1
+    retry_attempt = 0
     url = config['site_url'] + '/collections/' + config['slug'][product]
     while len(result) != 0:
         try:
             data = get_json(url,page)
         except Exception as e:
             print(e)
-            pass
-        if data:
+        if data == "HTTP Error":
+            time.sleep(60)
+            retry_attempt += 1
+            page -= 1
+            if retry_attempt == 10:
+                return {'items': product_items, 'error': f'Max retries reached for {url}/products.json?limit=250&page={page}'}
+        elif data:
             result = json.loads(data)['products']
             for item in result:
                 if site == 'datablitz':
@@ -119,8 +130,8 @@ def main(site, product, test_limit, db_save=0):
             break
     if db_save == 1: 
         duplicate_count, updated_count, new_inserted_count = database.insertToDatabase(product_items)
-    return {'items': product_items, 'duplicates': duplicate_count, 'updated': updated_count, 'new_items': new_inserted_count }
-
+        return {'items': product_items, 'duplicates': duplicate_count, 'updated': updated_count, 'new_items': new_inserted_count }
+    return product_items
     # jsonString = json.dumps(product_items, indent=2, separators=(',', ': '), ensure_ascii=False)
     # jsonFile = open(f'{config["filename_prefix"]}_{product}.json', "w")
     # jsonFile.write(jsonString)
