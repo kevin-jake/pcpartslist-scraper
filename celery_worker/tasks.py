@@ -11,6 +11,7 @@ import base64
 from contextlib import contextmanager
 import pickle as pkl
 import uuid
+from mysql.connector import Error
 
 from redis import StrictRedis
 from redis_cache import Cache
@@ -111,7 +112,6 @@ def scrape(**kwargs):
         }
         response = requests.get(f'{os.environ.get("SCRAPY_SCRAPER", "http://localhost:9080/")}crawl.json', params)
         data = json.loads(response.text)
-        # app.logger.info('Scraped: %s of %s product from %s', data['stats']['item_scraped_count'], product, site)
         if format == 'simple':
             return {'shop': site, 'product': product, 'items_scraped_count': data['stats']['item_scraped_count'], 'duplicates': data['stats']['duplicates'], 'updated': data['stats']['updated'], 'new_items': data['stats']['new_items']}
         return data
@@ -121,11 +121,12 @@ def scrape(**kwargs):
             product_items = scraper_module.main(site, product, int(test_limit or 0), int(db_save))
             if format == 'simple':
                 product_items = {'shop': site, 'product': product, 'items_scraped_count': len(product_items), 'duplicates': product_items['duplicates'], 'updated': product_items['updated'], 'new_items': product_items['new_items']}
-            # app.logger.info('Scraped: %s of %s from %s', len(product_items), product, site)
         except KeyError as e:
             product_items = f'{site} not found on {scraper}'
         except ModuleNotFoundError as e:
             product_items = f'{scraper} not found on this project'
+        except Error as e:
+            product_items = f'MySQL error: {e}'
         finally:
             return product_items
                         

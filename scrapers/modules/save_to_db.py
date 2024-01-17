@@ -30,6 +30,7 @@ def insertToDatabase(products):
             d["stocks"],
             d["image"],
             d["createdAt"],
+            d["price"]
         )
         for d in products
         if d
@@ -98,14 +99,26 @@ def insertToDatabase(products):
                            (SELECT id FROM Category WHERE name = %s LIMIT 1),
                            %s, %s, %s, %s, %s, %s, %s, %s
                         )""",
-                    product,
+                (   product[0],        
+                    product[1],
+                    product[2],
+                    product[3],
+                    product[4],
+                    product[5],
+                    product[6],
+                    product[7],
+                    product[8],
+                    product[9],
+                    product[10],
+                    product[11],
+                            ),
                 )
                 new_inserted_count += 1
 
             # Insert price
             cursor.execute(
                 "INSERT INTO Price (pc_parts_id, price, createdAt) VALUES (%s, %s, %s)",
-                (product[0], product[3], product[11]),
+                (product[0], product[12], product[11]),
             )
 
         connection.commit()
