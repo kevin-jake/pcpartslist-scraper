@@ -11,7 +11,6 @@ import base64
 from contextlib import contextmanager
 import pickle as pkl
 import uuid
-from mysql.connector import Error
 
 from redis import StrictRedis
 from redis_cache import Cache
@@ -125,8 +124,6 @@ def scrape(**kwargs):
             product_items = f'{site} not found on {scraper}'
         except ModuleNotFoundError as e:
             product_items = f'{scraper} not found on this project'
-        except Error as e:
-            product_items = f'MySQL error: {e}'
         finally:
             return product_items
                         
