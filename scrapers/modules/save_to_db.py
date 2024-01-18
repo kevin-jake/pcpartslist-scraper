@@ -46,12 +46,24 @@ def insertToDatabase(products):
             )  # Check if product exists
 
             existing_product = cursor.fetchone()
+            # print(f"url {existing_product[1] == product[1]}")
+            # print(f"name {existing_product[2] == product[2]}")
+            # print(f"description {existing_product[12] == product[4]}")
+            # print(f"promo {existing_product[5] == product[7]}")
+            # print(f"warranty {existing_product[6] == product[8]}")
+            # print(f"stocks {existing_product[7] == product[9]}")
+            # print(f"img_url {existing_product[8] == product[10]}")
 
             if existing_product:
-                # Check if properties match except id and createdAt
                 if (
-                    existing_product[1:-1] == product[1:-1]
-                ):  # Skipping id and createdAt for comparison
+                    existing_product[1] == product[1] and
+                    existing_product[2] == product[2] and
+                    existing_product[12] == product[4] and
+                    existing_product[5] == product[7] and
+                    existing_product[6] == product[8] and
+                    existing_product[7] == product[9] and
+                    existing_product[8] == product[10]
+                ):  
                     duplicate_count += 1
                 else:
                     # Update existing product
@@ -145,7 +157,6 @@ def insertToScrapeHistory(task_id, category, shop, status, scrape_start=None, sc
             )  # Check if product exists
 
         existing_record = cursor.fetchone()
-
         if existing_record:
             # Update existing product
             cursor.execute(

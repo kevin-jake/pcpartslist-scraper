@@ -166,7 +166,7 @@ def scrape(**kwargs):
                 results = {'shop': site, 'product': product, 'items_scraped_count': product_items['count'], 'duplicates': product_items['duplicates'], 'updated': product_items['updated'], 'new_items': product_items['new_items']}
                 database.insertToScrapeHistory(task_id,product,site,"SUCCESS",start_time,end_time,elapsed_time(start_time_utc, end_time_utc), json.dumps(results))
             elif format == 'simple':
-                return {'shop': site, 'product': product, 'items_scraped_count': product_items['count'], 'start_time': start_time, 'end_time': end_time, 'elapsed_time': elapsed_time(start_time_utc, end_time_utc)}
+                return {'shop': site, 'product': product, 'items_scraped_count': len(product_items), 'start_time': start_time, 'end_time': end_time, 'elapsed_time': elapsed_time(start_time_utc, end_time_utc)}
             return product_items
         except KeyError as e:
             end_time_utc = datetime.utcnow().replace(tzinfo=timezone.utc)

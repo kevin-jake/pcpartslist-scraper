@@ -118,8 +118,9 @@ def main(site, category,test_limit, db_save=0):
     if site == 'pcworth':
         product_items = pcworth_scraper(category, config, int(test_limit))
         if db_save == 1: 
+            list_of_ids = [d['id'] for d in product_items]
             duplicate_count, updated_count, new_inserted_count, item_count = database.insertToDatabase(product_items)
-            return {'items': product_items, 'duplicates': duplicate_count, 'updated': updated_count, 'new_items': new_inserted_count, 'count': item_count }
+            return {'items': list_of_ids, 'duplicates': duplicate_count, 'updated': updated_count, 'new_items': new_inserted_count, 'count': item_count }
         return product_items
 
 # if __name__ == "__main__":

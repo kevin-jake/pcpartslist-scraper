@@ -49,6 +49,10 @@ def getStatus(task_id):
         return jsonify({"task_id": task_id, "status": res.status, "result": res.result})
     return jsonify({"task_id": task_id, "status": res.status})
 
+@app.route('/favicon.ico')
+def favicon():
+    return '', 204
+
 @app.errorhandler(Exception)
 def handle_exception(e):
     app.logger.error(repr(e))
