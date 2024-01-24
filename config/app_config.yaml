@@ -1,0 +1,23 @@
+scrapers:
+  shopify_scraper:
+    - dynaquest
+    - easypc
+    - pcx
+    - datablitz
+  api_scraper:
+    - pcworth
+  scrapy_scraper:
+    - pchub
+    - shopee-itworld
+    - shopee-pcworx
+
+products:
+  - GPU
+  - CPU
+  - MOBO
+  - RAM
+  - SSD
+  - HDD
+  - PSU
+  - CASE
+  - COOLER

@@ -1,28 +1,12 @@
 from flask import Flask, request, jsonify
 from .worker import celery
 import time
+from config import app_scraper_config
 
 app = Flask(__name__)
 
 
 
-# def scrape_all(scraper, site, products, db_save):
-#     results = {}
-#     for product in products:
-#         results[product] = {}
-#         try:
-#             response = scrape(scraper, site=site, product=product, db_save=int(db_save))
-#             if scraper == 'pchub_scraper' or scraper == 'shopee_scraper':
-#                 if db_save == 0: results[product]['products'] = response['items']
-#                 results[product]['scraped'] = response['stats']['item_scraped_count']
-#             else:
-#                 if db_save == 0: results[product]['products'] = response
-#                 results[product]['scraped'] = len(response)
-#         except Exception as e:
-#             results[product]['error'] = repr(e)
-#             app.logger.error(repr(e))
-#             pass 
-#     return results
 
 @app.route('/', methods=['GET'])
 def health_check():
@@ -61,28 +45,41 @@ def handle_exception(e):
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
-# @app.route("/scrape/all")
-# def scraping_all():
-#     scrapers_list = [".".join(f.split(".")[:-1]) for f in os.listdir("../config")]
-#     results = {}
-#     db_save = request.args.get('db_save', 0)
-#     for scraper in scrapers_list:
-#         with open(f"../config/{scraper}.yaml", "r") as f:
-#             configuration = yaml.load(f, Loader=yaml.FullLoader)
-#         if scraper == 'pchub_scraper':
-#             site = 'pchub'
-#             products = configuration[site]['category']
-#             results[scraper] = scrape_all(scraper, site, products, db_save)
-#         elif scraper == 'shopee_scraper':
-#             for site in configuration['shops']:
-#                 products = configuration['facets']
-#                 results[scraper] = scrape_all(scraper, site, products, db_save)
-#         elif scraper == 'api_scraper':
-#             for site in configuration.keys():
-#                 products = configuration[site]['category']
-#                 results[scraper] = scrape_all(scraper, site, products, db_save)
-#         elif scraper == 'shopify_scraper':
-#             for site in configuration.keys():
-#                 products = configuration[site]['slug']
-#                 results[scraper] = scrape_all(scraper, site, products, db_save)
-#     return jsonify(results)
+@app.route("/scrape/all")
+def scraping_all():
+    scrapers = app_scraper_config['scrapers']
+    products = app_scraper_config['products']
+    db_save = request.args.get("db_save", 0)
+    # args
+    # scraper = kwargs.get('scraper')
+    # args = kwargs.get('args')
+    # site = args.get('site', [])
+    # product = args.get('product', [])
+    # db_save = args.get('db_save', 0)
+    # test_limit = args.get('test_limit', None)
+    # format = args.get('format', 'simple')
+    ret = []
+    response = {}
+    for scraper in scrapers:
+        shops = scrapers[scraper]
+        app.logger.info('------------ SCRAPING USING %s --------------', scraper)
+        for shop in shops:
+            app.logger.info('------------ SCRAPING %s --------------', shop.upper())
+            for product in products:
+                app.logger.info('------------ SCRAPING %s product: %s--------------', shop.upper(), product)
+                args = {"site": shop, "product": product, "db_save": db_save  }
+                running = celery.send_task('scrape', kwargs={'scraper': scraper, "args": args})
+                time.sleep(1)
+                res = celery.AsyncResult(running.id)
+                if res.status != 'PENDING':
+                    print(res.result.get('task_id', False))
+                    if isinstance(res.result, dict) and res.result.get('task_id', False):
+                            task_id = res.result['task_id']
+                            realTask = celery.AsyncResult(task_id)
+                            response = {"site": shop, "product": product, "task_id": task_id, "status": realTask.status}
+                    response = {"site": shop, "product": product, "task_id": running.id, "status": res.status, "result": res.result}
+                else:
+                    response = {"site": shop, "product": product, "task_id": running.id, "status": res.status}
+                app.logger.info('Result: %s', response)
+                ret.append(response)
+    return jsonify(ret)

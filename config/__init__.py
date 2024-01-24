@@ -11,3 +11,6 @@ with open(os.path.join(current_directory, 'api_scraper.yaml'), 'r') as f:
 
 with open(os.path.join(current_directory, 'shopify_scraper.yaml'), 'r') as f:
     shopify_scraper_config = yaml.load(f, Loader=yaml.FullLoader)
+
+with open(os.path.join(current_directory, 'app_config.yaml'), 'r') as f:
+    app_scraper_config = yaml.load(f, Loader=yaml.FullLoader)

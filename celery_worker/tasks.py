@@ -130,7 +130,7 @@ def scrape(**kwargs):
         
         shop = site
         spider = site
-        fullsite = site.split('-')
+        fullsite = site.split('-') # sample query: shopee-itworld
         if len(fullsite) > 1:
             spider = fullsite[0]
             shop = fullsite[1]
