@@ -97,7 +97,16 @@ def elapsed_time(start_time, end_time):
     days, seconds = divmod(elapsed_time.total_seconds(), 24 * 3600)
     hours, seconds = divmod(seconds, 3600)
     minutes, seconds = divmod(seconds, 60)
-    return f"{int(days)} days, {int(hours)} hours, {int(minutes)} minutes, {int(seconds)} seconds"
+
+    # if int(days) != 0:
+    #     return f"{int(days)}d"
+    # elif int(hours) != 0:
+    #     return f"{int(hours)}h"
+    # elif int(minutes) != 0:
+    #     return f"{int(minutes)}m"
+    # else:
+    #     return f"{int(seconds)}s"
+    return f"{int(days):02d}:{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
 
 
 @task_failure.connect
