@@ -10,7 +10,9 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def health_check():
-    return jsonify({'scraper-status': 'OK'})
+    response = jsonify({'scraper-status': 'OK'})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 @app.route('/scrape/<scraper>', methods=['GET'])
 def scrape(scraper):
@@ -21,17 +23,27 @@ def scrape(scraper):
         if isinstance(res.result, dict) and res.result['task_id']:
                 task_id = res.result['task_id']
                 realTask = celery.AsyncResult(task_id)
-                return jsonify({"task_id": task_id, "status": realTask.status})
-        return jsonify({"task_id": running.id, "status": res.status, "result": res.result})
-    return jsonify({"task_id": running.id, "status": res.status})
+                response = jsonify({"task_id": task_id, "status": realTask.status})
+                response.headers.add('Access-Control-Allow-Origin', '*')
+                return response
+        response = jsonify({"task_id": running.id, "status": res.status, "result": res.result})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
+    response = jsonify({"task_id": running.id, "status": res.status})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 @app.route('/status/<task_id>', methods=['GET'])
 def getStatus(task_id):
     res = celery.AsyncResult(task_id)
     if res.status != 'PENDING':
         print(res.result)
-        return jsonify({"task_id": task_id, "status": res.status, "result": res.result})
-    return jsonify({"task_id": task_id, "status": res.status})
+        response = jsonify({"task_id": task_id, "status": res.status, "result": res.result})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
+    response = jsonify({"task_id": task_id, "status": res.status})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 @app.route('/favicon.ico')
 def favicon():
@@ -40,7 +52,9 @@ def favicon():
 @app.errorhandler(Exception)
 def handle_exception(e):
     app.logger.error(repr(e))
-    return jsonify(error=str(e)), 500
+    response = jsonify(error=str(e)), 500
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
@@ -82,4 +96,6 @@ def scraping_all():
                     response = {"site": shop, "product": product, "task_id": running.id, "status": res.status}
                 app.logger.info('Result: %s', response)
                 ret.append(response)
-    return jsonify(ret)
+    response = jsonify(ret)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
