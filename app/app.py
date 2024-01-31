@@ -53,7 +53,6 @@ def favicon():
 def handle_exception(e):
     app.logger.error(repr(e))
     response = jsonify(error=str(e)), 500
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 if __name__ == '__main__':
